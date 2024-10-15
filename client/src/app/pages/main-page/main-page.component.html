@@ -83,6 +83,7 @@
 
 <app-button
   class="logout-button"
+  appearance="subtle"
   [disabled]="this.authService.isWaitingForLogout()"
   (click)="this.authService.logout()"
   >Wyloguj</app-button

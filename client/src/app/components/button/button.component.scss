@@ -1,6 +1,6 @@
 @import "./../../../design-system/typography/typography_mixins";
 
-.button {
+button {
   cursor: pointer;
   display: flex;
   position: relative;
@@ -8,8 +8,6 @@
   box-sizing: border-box;
   padding: 0.625rem 1.5rem;
   transition: background-color 0.08s ease-in-out;
-  border-radius: var(--m3-corner-full);
-  background-color: var(--sys-primary);
 
   .button-content {
     z-index: 1;
@@ -18,20 +16,74 @@
     letter-spacing: 0.03125rem;
   }
 
+  .button-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    opacity: 0;
+    // background-color: red;
+    transition: opacity 0.08s ease-in-out;
+    pointer-events: none;
+  }
+
   // MY SPEC
   &:hover {
     box-shadow: 0rem 0.0625rem 0.125rem 0rem rgba(0, 0, 0, 0.3),
       0rem 0.0625rem 0.1875rem 0.0625rem rgba(0, 0, 0, 0.15);
-    background-color: rgb(87, 72, 124);
+
+    .button-overlay {
+      opacity: 0.25;
+    }
   }
   &:active {
     box-shadow: none;
-    background-color: rgb(70, 56, 106);
+
+    .button-overlay {
+      opacity: 0.45;
+    }
   }
+
+  // Appearance specific styles
+  &.FAB {
+    border-radius: var(--m3-corner-full);
+    background-color: var(--sys-primary);
+
+    .button-content {
+      color: var(--sys-on-primary);
+    }
+
+    .button-overlay {
+      background-color: var(--sys-on-surface);
+    }
+  }
+  &.subtle {
+    border-radius: var(--m3-corner-extra-small);
+    background-color: var(--sys-secondary-container);
+
+    .button-content {
+      color: var(--sys-on-secondary-container);
+    }
+
+    .button-overlay {
+      background-color: var(--sys-surface);
+    }
+  }
+
   &:disabled {
     cursor: auto;
     box-shadow: none;
     background-color: rgb(170, 165, 165);
+
+    .button-content {
+      color: var(--sys-on-primary);
+    }
+
+    .button-overlay {
+      opacity: 0;
+    }
   }
 
   // MATERIAL DESIGN SPEC

@@ -1,0 +1,12 @@
+{
+  "name": "sql-translator",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node server/index.js",
+    "build": "cd client && npm install && npm run build && cd ../server && npm install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

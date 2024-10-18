@@ -1,0 +1,13 @@
+:host {
+  display: flex;
+}
+
+.custom-spinner {
+  height: 100%;
+  width: 100%;
+  border: 0.35rem solid rgba(0, 0, 0, 0.1);
+  border-top: 0.35rem solid var(--sys-primary);
+  border-radius: 50%;
+  animation: spin 1s ease-in infinite;
+  box-sizing: border-box;
+}

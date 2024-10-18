@@ -1,0 +1,22 @@
+// Custom Theming for Angular Material
+@use "@angular/material" as mat;
+
+@include mat.core();
+
+// Define the theme object.
+$custom-theme: mat.define-theme(
+  (
+    color: (
+      use-system-variables: true,
+    ),
+    typography: (
+      use-system-variables: true,
+    ),
+  )
+);
+
+:root {
+  @include mat.all-component-themes($custom-theme);
+  @include mat.system-level-colors($custom-theme);
+  @include mat.system-level-typography($custom-theme);
+}

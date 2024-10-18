@@ -1,7 +1,7 @@
 import { loadDbInformation } from "../Database/mongoDB.js";
 
 // OpenAI prompt for natural language to SQL translation
-const { dbSchemaWithExamples, examplesForSQL } = await loadDbInformation();
+const { dbSchema, examplesForSQL } = await loadDbInformation();
 
 export function promptForSQL(userQuery) {
   return [
@@ -28,7 +28,7 @@ export function promptForSQL(userQuery) {
     {
       role: "system",
       content: `Here is the comprehensive JSON formatted schema of our database:
-      ${JSON.stringify(dbSchemaWithExamples, null, 2)}`,
+      ${JSON.stringify(dbSchema, null, 2)}`,
     },
     {
       role: "system",
@@ -39,10 +39,6 @@ export function promptForSQL(userQuery) {
     { role: "user", content: userQuery },
   ];
 }
-
-// Apart from the table definitions the schema also includes: example rows, column descriptions, distinct column values and format of those values.
-
-// When generating SQL, make sure to account for structured data by using 'LIKE' when the column values include prefixes or additional formatting. Consider distinct values and examples to guide your translation.
 
 // OpenAI prompt for structuring retrieved database results into a desired output format (full sentence)
 export function promptForAnswer(userQuery, sqlStatement, rowData) {
@@ -59,13 +55,16 @@ export function promptForAnswer(userQuery, sqlStatement, rowData) {
       Your task is to answer the question asked by the employee using data retrieved from the database. Answer in JSON format. Your JSON answer should have only one property:
 
         "formattedAnswer" - String containing your answer to the employee question. Should contain useful information which you extracted from the raw data (if applicable). Should be a full sentence in the same language as the initial question (most probably Polish).
+        Please wrap the most important part of the answer (e.g. a numeric value like total profit or a text like client company name) with the HTML <span class="bold"></span> tags, so that I can later display it on frontend in a user friendly way.
+        In numeric values separate thousands with a comma and decimal places with a dot.
+        If there are multiple raws retrieved from the database and you want to enumerate some values, please do it in a form of an ordered or unordered list. Each point should start from a new line and be preceded by tabulation character. 
         `,
     },
     {
       role: "system",
       content: `
       The comprehensive JSON formatted schema of our database:
-      ${JSON.stringify(dbSchemaWithExamples, null, 2)}
+      ${JSON.stringify(dbSchema, null, 2)}
 
       SQL statement which corresponds to the employee query:
       ${sqlStatement}
@@ -77,7 +76,5 @@ export function promptForAnswer(userQuery, sqlStatement, rowData) {
     { role: "user", content: userQuery },
   ];
 }
-
-// If data obtained from the database is an empty list while the SQL query is valid it might mean that e.g. there are simply no products about which the user asks.
 
 // TODO: add examples to propmptForAnswer

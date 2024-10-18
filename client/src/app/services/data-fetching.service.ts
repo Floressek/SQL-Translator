@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { apiUrl } from '../utils/apiUrl';
-import { ReqeustPayload } from '../interfaces/reqeust-payload';
+import { QueryPayload } from '../interfaces/reqeust-payloads';
 import {
   EXAMPLE_FORMATTED_ANSWER,
   EXAMPLE_SQL_STATEMENT,
@@ -9,77 +9,39 @@ import {
   EXAMPLE_USER_QUERY,
 } from '../utils/exampleValues';
 import { RowMYSQL } from '../interfaces/row-mysql';
+import { AuthService } from './auth.service';
+import { finalize } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataFetchingService {
   private readonly http = inject(HttpClient);
+  readonly authService = inject(AuthService);
   readonly isLoading = signal<boolean>(false);
-  readonly userInput = signal<string>(EXAMPLE_USER_QUERY);
+  readonly isFirstAppOpen = signal<boolean>(true);
+  readonly query = signal<string>(EXAMPLE_USER_QUERY);
   readonly rowData = signal<RowMYSQL[]>(EXAMPLE_ROW_DATA_ARRAY);
   readonly sqlStatement = signal<string>(EXAMPLE_SQL_STATEMENT);
   readonly formattedAnswer = signal<string>(EXAMPLE_FORMATTED_ANSWER);
-  readonly errorMessage = signal<string>('');
 
   fetchAiAnswers(userQuery: string): void {
-    this.userInput.set(userQuery);
+    this.query.set(userQuery);
     this.isLoading.set(true);
-    this.errorMessage.set('');
 
-    console.log('⚙️ Fetching data from backend...');
-
-    const payload: ReqeustPayload = { query: userQuery };
-    const sub = this.http
+    const payload: QueryPayload = { query: userQuery };
+    this.http
       .post<any>(apiUrl('/language-to-sql'), payload, {
-        headers: {
-          'x-api-key': 'our-api-key',
-        },
+        withCredentials: true, // Has to be true if the request should be sent with outgoing credentials (cookies).
       })
+      .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe({
         next: (res) => {
-          // console.log('✅ Response received sucessfully, response body: ', res);
-          console.log('✅ HTTP response received sucessfully!');
-          try {
-            // console.log(`🫃 Response content:`, JSON.stringify(res, null, 2));
-            const receivedMessage = res.message || '';
-            const receivedSqlStatement = res.sqlStatement || '';
-            const receivedFormattedAnswer = res.formattedAnswer || '';
-            const receivedRawData = res.rawData || [];
-
-            console.log(`💠 Message: ${receivedMessage}`);
-            console.log(`💠 SQL Statement: ${receivedSqlStatement}`);
-            console.log(`💠 Formatted Answer: ${receivedFormattedAnswer}`);
-            console.log(
-              `💠 Row Data: ${JSON.stringify(receivedRawData, null, 2)}`
-            );
-
-            this.errorMessage.set(receivedMessage);
-            this.rowData.set(receivedRawData);
-            this.sqlStatement.set(receivedSqlStatement);
-            this.formattedAnswer.set(receivedFormattedAnswer);
-          } catch (err) {
-            console.log(
-              '❌📖 Error reading response body, error message:',
-              err
-            );
-            this.errorMessage.set('Nie udało się odczytać danych z serwera.');
-          }
-        },
-        error: (err) => {
-          console.log(
-            '❌ Error performing the http request, error message:',
-            err
-          );
-          sub.unsubscribe();
+          this.rowData.set(res.rawData || []);
+          this.sqlStatement.set(res.sqlStatement || '');
+          this.formattedAnswer.set(res.formattedAnswer || '');
+          this.isFirstAppOpen.set(false);
           this.isLoading.set(false);
-          this.errorMessage.set('Nie udało się połączyć z serwerem.');
-          console.log('⚙️ Subscription terminanated by unsubscribing.');
-        },
-        complete: () => {
-          sub.unsubscribe();
-          this.isLoading.set(false);
-          console.log('⚙️ Subscription terminanated by unsubscribing.');
         },
       });
   }

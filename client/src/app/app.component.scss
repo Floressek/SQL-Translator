@@ -1,139 +1,23 @@
-@import "./../design-system/typography/typography.scss";
+@import "./../design-system/typography/typography_mixins";
 
 :host {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 1.375rem;
-
-  // background-color: var(--md-sys-color-surface-container-highest);
-  border-radius: var(--md-corner-large, 1rem);
+  gap: 1.2rem;
 }
 
 .titles-container {
-  min-width: 15rem;
-  width: 42vw;
-  max-width: 43.75rem;
   display: flex;
-  padding: 0 1rem;
+  padding: 0 0.7rem;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  // align-self: stretch;
 }
 
 .title-main {
   @include m3-headline-small;
-  color: var(--md-sys-color-on-surface);
+  color: var(--sys-on-surface);
 }
 
 .subtitle {
   @include m3-title-medium;
-  color: var(--md-sys-color-on-surface);
+  color: var(--sys-on-surface);
 }
-
-.main-container {
-  display: flex;
-  padding: 1rem;
-  box-sizing: border-box;
-  flex-direction: column;
-  gap: 2rem;
-
-  border-radius: inherit;
-  background: var(--md-sys-color-surface-container-high, #ece6f0);
-}
-
-.cards-container {
-  display: flex;
-  min-width: 15rem;
-  width: 42vw;
-  max-width: 43.75rem;
-  box-sizing: border-box;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.button-container {
-  display: flex;
-  align-self: stretch;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-// CARD
-
-// .card {
-//   box-sizing: border-box;
-//   flex: 1;
-//   display: flex;
-//   padding: 10px 14px;
-//   flex-direction: column;
-//   align-items: flex-start;
-//   gap: 10px;
-
-//   border-radius: var(----md-corner-medium, 12px);
-//   background: var(--md-sys-color-surface-bright, #fef7ff);
-// }
-
-// .card-body,
-// .form {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: flex-start;
-//   align-self: stretch;
-//   gap: 12px;
-//   flex: 1 0 0;
-// }
-
-// .card-title {
-//   @include m3-title-medium;
-//   color: var(--md-sys-on-surface);
-// }
-
-// .card-content {
-//   display: flex;
-//   padding: 8px 10px;
-//   align-items: flex-start;
-//   align-self: stretch;
-//   flex: 1 0 0;
-
-//   @include m3-body-large;
-//   color: var(--md-sys-on-surface);
-//   border: none;
-//   border-radius: var(--md-corner-small, 8px);
-//   background: var(--md-sys-color-surface-container-high, #ece6f0);
-// }
-
-// .button-container {
-//   display: flex;
-//   align-self: stretch;
-//   justify-content: flex-end;
-//   align-items: center;
-// }
-
-// BUTTON
-
-// .button {
-//   cursor: pointer;
-//   border: none;
-//   box-sizing: border-box;
-//   padding: 10px 24px;
-
-//   @include m3-label-large;
-//   letter-spacing: 0.5px;
-//   color: var(--md-sys-color-on-primary);
-//   border-radius: var(--md-corner-full);
-//   background-color: var(--md-sys-color-primary);
-// }
-
-// .button:hover {
-//   background-color: rgb(87, 72, 124);
-//   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3),
-//     0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-// }
-
-// .button:active {
-//   background-color: rgb(70, 56, 106);
-//   box-shadow: none;
-// }

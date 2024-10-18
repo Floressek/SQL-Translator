@@ -1,0 +1,78 @@
+@import "./../../../design-system/typography/typography_mixins";
+
+.main-container {
+  min-width: 15rem;
+  width: 42vw;
+  max-width: 43rem;
+
+  display: flex;
+  padding: 0.7rem;
+  box-sizing: border-box;
+  flex-direction: column;
+  gap: 1.2rem;
+
+  border-radius: var(--m3-corner-large);
+  background: var(--sys-surface-container-high);
+}
+
+.cards-container {
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+textarea {
+  height: 6rem;
+
+  &.expanded-on-init {
+    height: 7.5rem;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.bottom-row-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.7rem;
+
+  app-spinner {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .error-container {
+    flex: 1;
+    @include m3-label-medium;
+    padding: 0.26rem 0.5rem;
+    color: var(--sys-error);
+    border-radius: var(--m3-corner-small);
+    background-color: var(--sys-error-container);
+  }
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.logout-button {
+  position: fixed;
+  top: 0.4rem;
+  right: 0.4rem;
+}

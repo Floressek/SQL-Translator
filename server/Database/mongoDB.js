@@ -1,43 +1,43 @@
 import { MongoClient } from "mongodb";
 import { loggerMongoDB } from "../Utils/logger.js";
-import dotenv from "dotenv";
-
-dotenv.config();
+import { AppError } from "../Utils/AppError.js";
 
 const MONGO_CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING;
-const MONGO_DATABASE = process.env.MONGO_DATABASE;
 const MONGO_COLLECTION_EXAMPLES = process.env.MONGO_COLLECTION_EXAMPLES;
 const MONGO_COLLECTION_SCHEMAS = process.env.MONGO_COLLECTION_SCHEMAS;
 
-async function mongoRetrieveOne(database, collection, client) {
+const mongoClient = new MongoClient(MONGO_CONNECTION_STRING);
+
+async function retrieveDbSchema() {
   try {
-    const db = client.db(database);
-    const coll = db.collection(collection);
+    const db = mongoClient.db("budmat");
+    const coll = db.collection(MONGO_COLLECTION_SCHEMAS);
 
     const filter = {
-      schemaVersion:
-        "withExampleDistinctValuesProperColumnDescriptions",
+      schemaVersion: "withExampleDistinctValuesProperColumnDescriptions",
     };
     const options = {
       // Exclude _id and schemaVersion fields from the returned document
-      // projection: { _id: 0, schemaVersion: 0 },
-      projection: { _id: 0 },
+      projection: { _id: 0, schemaVersion: 0 },
     };
     const document = await coll.findOne(filter, options);
-    loggerMongoDB.info(`📄 Retrieved a single document.`);
-    loggerMongoDB.info(`Schema version: ${document.schemaVersion}`);
 
+    if (!document) {
+      throw new AppError("No db schema found in the database.");
+    }
+
+    loggerMongoDB.info(`📄 Retrieved a db schema.`);
     return document;
   } catch (error) {
-    loggerMongoDB.error("❌ An error occurred during mongoRetrieveOne call.");
+    loggerMongoDB.error("❌ Failed to fetch the db schema.");
     throw error;
   }
 }
 
-async function mongoRetrieveMany(database, collection, client) {
+async function retrievePromptExamples() {
   try {
-    const db = client.db(database);
-    const coll = db.collection(collection);
+    const db = mongoClient.db("budmat");
+    const coll = db.collection(MONGO_COLLECTION_EXAMPLES);
 
     const options = {
       // Exclude _id field from the returned document
@@ -45,51 +45,28 @@ async function mongoRetrieveMany(database, collection, client) {
     };
 
     const documents = await coll.find({}, options).toArray();
-    loggerMongoDB.info(
-      `📄 Retrieved a total of ${documents.length} documents.`
-    );
 
+    if (documents.length === 0) {
+      throw new AppError("No prompt examples found in the database.");
+    }
+
+    loggerMongoDB.info(
+      `📄 Retrieved a total of ${documents.length} prompt examples.`
+    );
     return documents;
   } catch (error) {
-    loggerMongoDB.error("❌ An error occurred during mongoRetrieveMany call.");
+    loggerMongoDB.error("❌ Failed to fetch the prompt examples.");
     throw error;
   }
 }
 
 export async function loadDbInformation() {
-  let client;
-  try {
-    client = new MongoClient(MONGO_CONNECTION_STRING);
+  const dbInfo = {
+    dbSchema: await retrieveDbSchema(),
+    examplesForSQL: await retrievePromptExamples(),
+  };
 
-    const dbSchemaWithExamples = await mongoRetrieveOne(
-      MONGO_DATABASE,
-      MONGO_COLLECTION_SCHEMAS,
-      client
-    );
-    const examplesForSQL = await mongoRetrieveMany(
-      MONGO_DATABASE,
-      MONGO_COLLECTION_EXAMPLES,
-      client
-    );
-
-    loggerMongoDB.info("Successfully loaded database information! ✅");
-    return {
-      dbSchemaWithExamples: dbSchemaWithExamples,
-      examplesForSQL: examplesForSQL,
-    };
-  } catch (error) {
-    loggerMongoDB.error(
-      "❌ An error occurred while loading database information."
-    );
-    loggerMongoDB.error(error);
-
-    return {
-      dbSchemaWithExamples: null,
-      examplesForSQL: [],
-    };
-  } finally {
-    if (client) {
-      client.close();
-    }
-  }
+  mongoClient.close();
+  loggerMongoDB.info("Successfully loaded database information! ✅");
+  return dbInfo;
 }

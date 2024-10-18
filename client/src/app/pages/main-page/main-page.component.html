@@ -1,0 +1,90 @@
+<div class="main-container">
+  <div class="cards-container">
+    @if (displayGrid()) {
+
+    <!-- Dane z bazy -->
+    <app-card cardTitle="Dane z bazy">
+      <app-results-grid />
+      <div class="button-container">
+        <app-button (click)="this.displayGrid.set(false)">Powrót</app-button>
+      </div>
+    </app-card>
+
+    } @else {
+
+    <!-- Zapytanie do bazy danych -->
+    <app-card cardTitle="Zapytanie do bazy danych">
+      <form class="form" [formGroup]="zapytanieForm" (ngSubmit)="submitQuery()">
+        <textarea
+          type="text"
+          formControlName="query"
+          [ngClass]="{
+            error: this.messageService.errorMessage(),
+            'expanded-on-init': this.dataFetchingService.isFirstAppOpen()
+          }"
+        ></textarea>
+
+        <div class="bottom-row-container">
+          @if (this.messageService.errorMessage()) {
+          <div class="error-container">
+            <b>Błąd:</b> {{ this.messageService.errorMessage() }}
+          </div>
+          } @if (this.dataFetchingService.isLoading()) {
+          <app-spinner />
+          }
+
+          <div class="button-container">
+            <app-button
+              [disabled]="
+                this.dataFetchingService.isLoading() ||
+                this.authService.isWaitingForLogout() ||
+                this.authService.isSessionExpired()
+              "
+              type="submit"
+              >Zatwierdź</app-button
+            >
+          </div>
+        </div>
+      </form>
+    </app-card>
+
+    @if (!this.dataFetchingService.isFirstAppOpen()) {
+    <!-- Odpowiedź Asystenta -->
+    <app-card cardTitle="Odpowiedź Asystenta"
+      ><app-card-text-content
+        [innerHTML]="this.dataFetchingService.formattedAnswer()"
+      />
+    </app-card>
+
+    <!-- Tłumaczenie SQL -->
+    <app-card cardTitle="Tłumaczenie SQL"
+      ><app-card-text-content
+        [innerHTML]="this.dataFetchingService.sqlStatement()"
+      />
+    </app-card>
+
+    } }
+  </div>
+
+  @if (this.dataFetchingService.rowData().length > 1 && !displayGrid() &&
+  !this.dataFetchingService.isFirstAppOpen()) {
+  <div class="button-container">
+    <app-button
+      [disabled]="
+        this.dataFetchingService.isLoading() ||
+        this.authService.isWaitingForLogout()
+      "
+      (click)="this.displayGrid.set(true)"
+      >Przejdź do tabeli rezultatów</app-button
+    >
+  </div>
+  }
+</div>
+
+<app-button
+  class="logout-button"
+  appearance="subtle"
+  [disabled]="this.authService.isWaitingForLogout()"
+  (click)="this.authService.logout()"
+  >Wyloguj</app-button
+>

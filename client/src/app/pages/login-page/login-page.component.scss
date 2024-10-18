@@ -1,0 +1,57 @@
+@import "./../../../design-system/typography/typography_mixins";
+
+.main-container {
+  min-width: 15rem;
+  width: 33vw;
+  max-width: 32rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.welcome-message {
+  padding: 0 0.7rem;
+  @include m3-label-large;
+  color: var(--sys-on-surface-variant);
+}
+
+.cards-container {
+  display: flex;
+  padding: 0.7rem;
+  box-sizing: border-box;
+  flex-direction: column;
+
+  border-radius: var(--m3-corner-large);
+  background: var(--sys-surface-container-high);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+input {
+  height: 2.5rem;
+}
+
+.bottom-row-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.7rem;
+
+  app-spinner {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .error-container {
+    flex: 1;
+    @include m3-label-medium;
+    padding: 0.26rem 0.5rem;
+    color: var(--sys-error);
+    border-radius: var(--m3-corner-small);
+    background-color: var(--sys-error-container);
+  }
+}

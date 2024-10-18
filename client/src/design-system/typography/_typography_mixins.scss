@@ -1,0 +1,142 @@
+// Typography Mixins
+
+// Body
+@mixin m3-body-large {
+  font-family: var(--sys-body-large-font);
+  line-height: var(--sys-body-large-line-height);
+  font-size: var(--sys-body-large-size);
+  letter-spacing: var(--sys-body-large-tracking);
+  font-weight: var(--sys-body-large-weight);
+}
+
+@mixin m3-body-medium {
+  font-family: var(--sys-body-medium-font);
+  line-height: var(--sys-body-medium-line-height);
+  font-size: var(--sys-body-medium-size);
+  letter-spacing: var(--sys-body-medium-tracking);
+  font-weight: var(--sys-body-medium-weight);
+}
+
+@mixin m3-body-small {
+  font-family: var(--sys-body-small-font);
+  line-height: var(--sys-body-small-line-height);
+  font-size: var(--sys-body-small-size);
+  letter-spacing: var(--sys-body-small-tracking);
+  font-weight: var(--sys-body-small-weight);
+}
+
+// Display
+@mixin m3-display-large {
+  font-family: var(--sys-display-large-font);
+  line-height: var(--sys-display-large-line-height);
+  font-size: var(--sys-display-large-size);
+  letter-spacing: var(--sys-display-large-tracking);
+  font-weight: var(--sys-display-large-weight);
+}
+
+@mixin m3-display-medium {
+  font-family: var(--sys-display-medium-font);
+  line-height: var(--sys-display-medium-line-height);
+  font-size: var(--sys-display-medium-size);
+  letter-spacing: var(--sys-display-medium-tracking);
+  font-weight: var(--sys-display-medium-weight);
+}
+
+@mixin m3-display-small {
+  font-family: var(--sys-display-small-font);
+  line-height: var(--sys-display-small-line-height);
+  font-size: var(--sys-display-small-size);
+  letter-spacing: var(--sys-display-small-tracking);
+  font-weight: var(--sys-display-small-weight);
+}
+
+// Headline
+@mixin m3-headline-large {
+  font-family: var(--sys-headline-large-font);
+  line-height: var(--sys-headline-large-line-height);
+  font-size: var(--sys-headline-large-size);
+  letter-spacing: var(--sys-headline-large-tracking);
+  font-weight: var(--sys-headline-large-weight);
+}
+
+@mixin m3-headline-medium {
+  font-family: var(--sys-headline-medium-font);
+  line-height: var(--sys-headline-medium-line-height);
+  font-size: var(--sys-headline-medium-size);
+  letter-spacing: var(--sys-headline-medium-tracking);
+  font-weight: var(--sys-headline-medium-weight);
+}
+
+@mixin m3-headline-small {
+  font-family: var(--sys-headline-small-font);
+  line-height: var(--sys-headline-small-line-height);
+  font-size: var(--sys-headline-small-size);
+  letter-spacing: var(--sys-headline-small-tracking);
+  font-weight: var(--sys-headline-small-weight);
+}
+
+// Label
+@mixin m3-label-large {
+  font-family: var(--sys-label-large-font);
+  line-height: var(--sys-label-large-line-height);
+  font-size: var(--sys-label-large-size);
+  letter-spacing: var(--sys-label-large-tracking);
+  font-weight: var(--sys-label-large-weight);
+}
+
+@mixin m3-label-large-prominent {
+  font-family: var(--sys-label-large-font);
+  line-height: var(--sys-label-large-line-height);
+  font-size: var(--sys-label-large-size);
+  letter-spacing: var(--sys-label-large-tracking);
+  font-weight: var(--sys-label-large-weight-prominent);
+}
+
+@mixin m3-label-medium {
+  font-family: var(--sys-label-medium-font);
+  line-height: var(--sys-label-medium-line-height);
+  font-size: var(--sys-label-medium-size);
+  letter-spacing: var(--sys-label-medium-tracking);
+  font-weight: var(--sys-label-medium-weight);
+}
+
+@mixin m3-label-medium-prominent {
+  font-family: var(--sys-label-medium-font);
+  line-height: var(--sys-label-medium-line-height);
+  font-size: var(--sys-label-medium-size);
+  letter-spacing: var(--sys-label-medium-tracking);
+  font-weight: var(--sys-label-medium-weight-prominent);
+}
+
+@mixin m3-label-small {
+  font-family: var(--sys-label-small-font);
+  line-height: var(--sys-label-small-line-height);
+  font-size: var(--sys-label-small-size);
+  letter-spacing: var(--sys-label-small-tracking);
+  font-weight: var(--sys-label-small-weight);
+}
+
+// Title
+@mixin m3-title-large {
+  font-family: var(--sys-title-large-font);
+  line-height: var(--sys-title-large-line-height);
+  font-size: var(--sys-title-large-size);
+  letter-spacing: var(--sys-title-large-tracking);
+  font-weight: var(--sys-title-large-weight);
+}
+
+@mixin m3-title-medium {
+  font-family: var(--sys-title-medium-font);
+  line-height: var(--sys-title-medium-line-height);
+  font-size: var(--sys-title-medium-size);
+  letter-spacing: var(--sys-title-medium-tracking);
+  font-weight: var(--sys-title-medium-weight);
+}
+
+@mixin m3-title-small {
+  font-family: var(--sys-title-small-font);
+  line-height: var(--sys-title-small-line-height);
+  font-size: var(--sys-title-small-size);
+  letter-spacing: var(--sys-title-small-tracking);
+  font-weight: var(--sys-title-small-weight);
+}

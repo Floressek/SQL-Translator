@@ -1,0 +1,63 @@
+:root {
+  --sys-primary: rgb(101 85 143);
+  --sys-surface-tint: rgb(103 80 164);
+  --sys-on-primary: rgb(255 255 255);
+  --sys-primary-container: rgb(234 221 255);
+  --sys-on-primary-container: rgb(33 0 93);
+  --sys-secondary: rgb(98 91 113);
+  --sys-on-secondary: rgb(255 255 255);
+  --sys-secondary-container: rgb(232 222 248);
+  --sys-on-secondary-container: rgb(29 25 43);
+  --sys-tertiary: rgb(125 82 96);
+  --sys-on-tertiary: rgb(255 255 255);
+  --sys-tertiary-container: rgb(255 216 228);
+  --sys-on-tertiary-container: rgb(49 17 29);
+  --sys-error: rgb(179 38 30);
+  --sys-on-error: rgb(255 255 255);
+  --sys-error-container: rgb(249 222 220);
+  --sys-on-error-container: rgb(65 14 11);
+  --sys-background: rgb(254 247 255);
+  --sys-on-background: rgb(29 27 32);
+  --sys-surface: rgb(254 247 255);
+  --sys-on-surface: rgb(29 27 32);
+  --sys-surface-variant: rgb(231 224 236);
+  --sys-on-surface-variant: rgb(73 69 79);
+  --sys-outline: rgb(121 116 126);
+  --sys-outline-variant: rgb(202 196 208);
+  --sys-shadow: rgb(0 0 0);
+  --sys-scrim: rgb(0 0 0);
+  --sys-inverse-surface: rgb(50 47 53);
+  --sys-inverse-on-surface: rgb(245 239 247);
+  --sys-inverse-primary: rgb(208 188 255);
+  --sys-primary-fixed: rgb(234 221 255);
+  --sys-on-primary-fixed: rgb(33 0 93);
+  --sys-primary-fixed-dim: rgb(208 188 255);
+  --sys-on-primary-fixed-variant: rgb(79 55 139);
+  --sys-secondary-fixed: rgb(232 222 248);
+  --sys-on-secondary-fixed: rgb(29 25 43);
+  --sys-secondary-fixed-dim: rgb(204 194 220);
+  --sys-on-secondary-fixed-variant: rgb(74 68 88);
+  --sys-tertiary-fixed: rgb(255 216 228);
+  --sys-on-tertiary-fixed: rgb(49 17 29);
+  --sys-tertiary-fixed-dim: rgb(239 184 200);
+  --sys-on-tertiary-fixed-variant: rgb(99 59 72);
+  --sys-surface-dim: rgb(222 216 225);
+  --sys-surface-bright: rgb(254 247 255);
+  --sys-surface-container-lowest: rgb(255 255 255);
+  --sys-surface-container-low: rgb(247 242 250);
+  --sys-surface-container: rgb(243 237 247);
+  --sys-surface-container-high: rgb(236 230 240);
+  --sys-surface-container-highest: rgb(230 224 233);
+  
+
+  // Colors below aren't specified in Material Design spec https://m3.material.io/styles/color/roles but are used by Angular Material components
+  --sys-neutral: rgb(122 118 125); // No match
+  --sys-neutral-variant: rgb(122 117 127); // No match
+  --sys-inverse-secondary: rgb(209 188 253); // No match
+  --sys-inverse-tertiary: rgb(255 176 201); // No match
+  --sys-inverse-error: rgb(255 180 171); // No match
+  --sys-error-fixed: rgb(255 218 213); // No match
+  --sys-error-fixed-dim: rgb(255 180 171); // No match
+  --sys-on-error-fixed: rgb(59 9 7); // No match
+  --sys-on-error-fixed-variant: rgb(115 52 45); // No match
+}

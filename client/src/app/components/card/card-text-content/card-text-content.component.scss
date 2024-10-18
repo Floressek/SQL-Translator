@@ -1,0 +1,16 @@
+@import "./../../../../design-system/typography/typography_mixins";
+
+:host {
+  box-sizing: border-box;
+  display: block;
+  white-space: pre-wrap;
+  min-height: 6rem;
+  max-height: 8.2rem;
+  overflow: auto;
+  padding: 0.5rem 0.625rem;
+  @include m3-body-large;
+  color: var(--sys-on-surface);
+  border: none;
+  border-radius: var(--m3-corner-small);
+  background: var(--sys-surface-container-high);
+}

@@ -1,9 +1,0 @@
-<button
-  class="button"
-  [type]="config.type"
-  [disabled]="this.dataFetchingService.isLoading()"
-  (click)="config.onClick ? config.onClick() : null"
->
-  <div class="button-content">{{ config.text }}</div>
-  <div class="button-overlay"></div>
-</button>

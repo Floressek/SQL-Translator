@@ -1,0 +1,25 @@
+@import "./../../../design-system/typography/typography_mixins";
+
+.card {
+  box-sizing: border-box;
+  flex: 1;
+  display: flex;
+  padding: 0.7rem;
+  padding-top: 0.5rem;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  border-radius: var(--m3-corner-medium);
+  background: var(--sys-surface-bright);
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.card-title {
+  @include m3-title-medium;
+  color: var(--sys-on-surface);
+}

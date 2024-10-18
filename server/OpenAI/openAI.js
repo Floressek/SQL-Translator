@@ -2,6 +2,7 @@ import OpenAI from "openai";
 import { z } from "zod";
 import { zodResponseFormat } from "openai/helpers/zod";
 import { loggerOpenAI } from "../Utils/logger.js";
+import { AppError } from "../Utils/AppError.js";
 
 const openai = new OpenAI();
 
@@ -23,18 +24,21 @@ export async function generateGPTAnswer(prompt, responseFormat, responseName) {
     });
 
     const response = completion.choices[0].message;
+
     if (response.refusal) {
       // Custom feedback after disturbing user input
-      return null;
+      throw new AppError(
+        "GPT model refused to answer due to disturbing user input."
+      );
     }
+    if (!response.parsed) {
+      throw new AppError(`Generated GPT answer is null or undefined.`);
+    }
+
     loggerOpenAI.info("Successfully generated an AI response! ✅");
     return response.parsed;
   } catch (error) {
-    if (error.constructor.name == "LengthFinishReasonError") {
-      // Retry with a higher max tokens
-    } else {
-      // Handle other exceptions
-    }
-    loggerOpenAI.error(error);
+    loggerOpenAI.error("❌ Error generating GPT answer.");
+    throw error;
   }
 }

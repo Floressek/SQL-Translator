@@ -50,17 +50,19 @@
 
     @if (!this.dataFetchingService.isFirstAppOpen()) {
     <!-- Odpowiedź Asystenta -->
-    <app-card cardTitle="Odpowiedź Asystenta"
-      ><app-card-text-content
+    <app-card cardTitle="Odpowiedź Asystenta">
+      <div
+        class="card-content"
         [innerHTML]="this.dataFetchingService.formattedAnswer()"
-      />
+      ></div>
     </app-card>
 
     <!-- Tłumaczenie SQL -->
-    <app-card cardTitle="Tłumaczenie SQL"
-      ><app-card-text-content
+    <app-card cardTitle="Tłumaczenie SQL">
+      <div
+        class="card-content"
         [innerHTML]="this.dataFetchingService.sqlStatement()"
-      />
+      ></div>
     </app-card>
 
     } }

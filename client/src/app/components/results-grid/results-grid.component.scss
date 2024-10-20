@@ -5,3 +5,9 @@
         max-height: 22rem;
     }
 }
+
+.ag-theme-quartz,
+.ag-theme-quartz-dark {
+  --ag-background-color: var(--sys-surface-container-lowest);
+  --ag-font-size: var(--sys-body-large-size);
+}

@@ -22,6 +22,11 @@
   gap: 1.2rem;
 }
 
+.card-content {
+  min-height: 6rem;
+  max-height: 8.2rem;
+}
+
 .form {
   display: flex;
   flex-direction: column;

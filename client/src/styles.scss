@@ -2,12 +2,11 @@
 @import "design-system/angular-material-theme-reset";
 @import "design-system/shape/shape";
 @import "design-system/themes/light";
+@import "design-system/themes/dark";
 @import "design-system/typography/typography";
 @import "design-system/typography/typography_mixins";
 // AG Grid theme imports
 @import "ag-grid-community/styles/ag-grid.css";
-@import "ag-grid-community/styles/ag-theme-material.css";
-@import "ag-grid-community/styles/ag-theme-alpine.css";
 @import "ag-grid-community/styles/ag-theme-quartz.css";
 
 html,
@@ -36,7 +35,8 @@ h4 {
 }
 
 input,
-textarea {
+textarea,
+.card-content {
   box-sizing: border-box;
   white-space: pre-wrap;
   overflow: auto;

@@ -1,0 +1,5 @@
+<button (click)="this.themeService.switchTheme()" class="icon-button">
+  <span class="material-symbols-outlined">{{
+    this.themeService.isDarkTheme() ? "light_mode" : "dark_mode"
+  }}</span>
+</button>

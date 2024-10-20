@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+  // background-color: red;
 }
 
 .titles-container {
@@ -20,4 +21,11 @@
 .subtitle {
   @include m3-title-medium;
   color: var(--sys-on-surface);
+}
+
+app-theme-switch {
+  position: fixed;
+
+  top: 0.4rem;
+  left: 0.4rem;
 }

@@ -1,9 +1,7 @@
 <ag-grid-angular
-  class="ag-theme-quartz"
+  [ngClass]="
+    this.themeService.isDarkTheme() ? 'ag-theme-quartz-dark' : 'ag-theme-quartz'
+  "
   [rowData]="rowData()"
   [columnDefs]="colDefs()"
 />
-
-<!-- @for (name of colDefs(); track $index) {
-    {{name.field}}
-} -->

@@ -1,13 +1,10 @@
 ::ng-deep {
     ag-grid-angular {
-        min-height: 14rem;
-        height: 40vh;
-        max-height: 22rem;
+        height: 16rem;
     }
 }
 
 .ag-theme-quartz,
 .ag-theme-quartz-dark {
   --ag-background-color: var(--sys-surface-container-lowest);
-  --ag-font-size: var(--sys-body-large-size);
 }

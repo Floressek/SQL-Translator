@@ -29,7 +29,6 @@ export class MainPageComponent {
   readonly dataFetchingService = inject(DataFetchingService);
   readonly authService = inject(AuthService);
   readonly messageService = inject(MessageService);
-  readonly displayGrid = signal(false);
   readonly zapytanieForm = new FormGroup({
     query: new FormControl(this.dataFetchingService.query()),
   });

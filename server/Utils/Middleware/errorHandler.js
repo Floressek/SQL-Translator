@@ -18,6 +18,6 @@ export function errorHandler(err, req, res, next) {
 
   res.status(500).json({
     status: "error",
-    errorCode: "INTERNAL_SERVER_ERROR",
+    errorCode: "INTERNAL_SERVER_ERR",
   });
 }

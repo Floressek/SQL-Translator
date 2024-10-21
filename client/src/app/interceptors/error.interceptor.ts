@@ -84,14 +84,8 @@ readonly APIErrorCodeMapping: APIErrorCodeMapping = {
   'INTERNAL_SERVER_ERR': {
     message: 'Wystąpił błąd serwera. Spróbuj ponownie później.',
   },
-  'PROCESSING_ERR': {
-    message: 'Wystąpił błąd podczas przetwarzania żądania. Spróbuj ponownie.',
-  },
   'UNSUPPORTED_QUERY_ERR': {
     message: 'Wygląda na to, że chcesz wykonać zapytanie inne niż SELECT, co nie jest obsługiwane.',
-  },
-  'DATABASE_ERR': {
-    message: 'Błąd bazy danych. Nie udało się wykonać zapytania SQL.',
   },
 };
 }

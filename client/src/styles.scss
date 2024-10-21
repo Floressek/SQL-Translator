@@ -14,7 +14,6 @@ body {
   font-size: 16px;
   overflow-x: hidden;
   margin: 0;
-  padding: 0;
   min-height: 100vh;
   min-width: 100vw;
   background: var(--sys-surface);
@@ -25,6 +24,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-top: 3.3rem;
+  padding-bottom: 2rem;
+  box-sizing: border-box;
 }
 
 h1,

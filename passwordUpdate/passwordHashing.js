@@ -1,5 +1,5 @@
-import bcrypt from "bcrypt";
 import "dotenv/config";
+import bcrypt from "bcrypt";
 import { loggerMain } from "./logger.js";
 import { insertPassword } from "./Database/mysql.js";
 

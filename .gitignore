@@ -2,6 +2,7 @@ questionExamples.js
 index_copy.js
 scratchpad.js
 server/client
+server/OpenAi/Prompts
 
 # Dependencje
 node_modules

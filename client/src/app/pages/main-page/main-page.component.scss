@@ -52,12 +52,18 @@
   }
 
   &.sql-translation {
+    height: 7rem;
     background-color: unset;
-    padding: 0.5rem 1rem 0 1rem;
+    padding: 0.5rem 1rem;
     font-family: "Consolas";
     line-height: 1.3;
     letter-spacing: unset;
+    background-color: var(--sys-surface-container-lowest);
   }
+}
+
+.sql-translation-container {
+  border: 0.0625rem solid var(--sys-surface-container-highest);
 }
 
 .bottom-row-container {

@@ -1,21 +1,27 @@
 <div class="main-container">
   <div class="welcome-message">
     <h4>
-      Welcome! This application allows you to search for information in the Sakila database using natural language queries. Enter your access key to get started.
+      Welcome! This application allows you to search for information in the
+      Sakila database using natural language queries. Enter your access key to
+      get started.
     </h4>
   </div>
 
   <div class="cards-container">
     <app-card cardTitle="Access key">
       <form class="form" [formGroup]="loginForm" (ngSubmit)="submitPassword()">
-        <input
-          type="password"
-          formControlName="password"
-          [ngClass]="{
+        <div
+          class="card-content-container"
+          [ngClass]="this.messageService.errorMessage() ? 'error' : ''"
+        >
+          <input
+            type="password"
+            formControlName="password"
+            [ngClass]="{
             error: this.messageService.errorMessage(),
           }"
-        />
-
+          />
+        </div>
         <div class="bottom-row-container">
           @if (this.messageService.errorMessage()) {
           <div class="error-container">

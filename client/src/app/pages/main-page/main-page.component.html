@@ -10,15 +10,19 @@
         [formGroup]="dbQuestionForm"
         (ngSubmit)="submitQuery()"
       >
-        <textarea
-          type="text"
-          formControlName="query"
-          class="card-content user-question"
-          [ngClass]="{
-            error: this.messageService.errorMessage(),
-            'first-app-open': this.dataFetchingService.isFirstAppOpen()
-          }"
-        ></textarea>
+        <div
+          class="card-content-container user-question-container"
+          [ngClass]="this.messageService.errorMessage() ? 'error' : ''"
+        >
+          <textarea
+            type="text"
+            formControlName="query"
+            class="card-content user-question"
+            [ngClass]="
+              this.dataFetchingService.isFirstAppOpen() ? 'first-app-open' : ''
+            "
+          ></textarea>
+        </div>
 
         <div class="bottom-row-container">
           @if (this.messageService.errorMessage()) {
@@ -47,10 +51,12 @@
     @if (!this.dataFetchingService.isFirstAppOpen()) {
     <!-- Assistant Answer -->
     <app-card cardTitle="Assistant Answer">
-      <div
-        class="card-content assistant-answer"
-        [innerHTML]="this.dataFetchingService.formattedAnswer()"
-      ></div>
+      <div class="card-content-container assistant-answer-container">
+        <div
+          class="card-content assistant-answer"
+          [innerHTML]="this.dataFetchingService.formattedAnswer()"
+        ></div>
+      </div>
     </app-card>
     }
   </div>
@@ -60,10 +66,12 @@
     <div class="col-right-centered-holder">
       <!-- SQL Translation -->
       <app-card cardTitle="SQL Translation" class="card-sql">
-        <div
-          class="card-content sql-translation"
-          [innerHTML]="this.dataFetchingService.sqlStatement()"
-        ></div>
+        <div class="card-content-container sql-translation-container">
+          <div
+            class="card-content sql-translation"
+            [innerHTML]="this.dataFetchingService.sqlStatement()"
+          ></div>
+        </div>
       </app-card>
 
       <!-- Retrieved Records -->

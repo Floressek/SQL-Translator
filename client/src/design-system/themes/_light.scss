@@ -48,7 +48,6 @@
   --sys-surface-container: rgb(243 237 247);
   --sys-surface-container-high: rgb(236 230 240);
   --sys-surface-container-highest: rgb(230 224 233);
-  
 
   // Colors below aren't specified in Material Design spec https://m3.material.io/styles/color/roles but are used by Angular Material components
   --sys-neutral: rgb(122 118 125); // No match
@@ -60,4 +59,10 @@
   --sys-error-fixed-dim: rgb(255 180 171); // No match
   --sys-on-error-fixed: rgb(59 9 7); // No match
   --sys-on-error-fixed-variant: rgb(115 52 45); // No match
+
+  // Other non-Material colors
+  --grey-scroll-track: #f1f1f1;
+  --grey-scroll-thumb: #c1c1c1;
+  --grey-scroll-thumb-hover: #a8a8a8;
+  --grey-scroll-thumb-active: #787878;
 }

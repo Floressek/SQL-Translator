@@ -5,6 +5,7 @@
 @import "design-system/themes/dark";
 @import "design-system/typography/typography";
 @import "design-system/typography/typography_mixins";
+@import "design-system/scrollbars";
 // AG Grid theme imports
 @import "ag-grid-community/styles/ag-grid.css";
 @import "ag-grid-community/styles/ag-theme-quartz.css";
@@ -47,14 +48,22 @@ textarea,
   @include m3-body-large;
   color: var(--sys-on-surface);
   border: none;
-  border-radius: var(--m3-corner-small);
-  background: var(--sys-surface-container-high);
+  outline: none;
+  border-radius: inherit;
+  background-color: var(--sys-surface-container-high);
+}
 
-  &:focus {
+.card-content-container {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--m3-corner-small);
+
+  &:focus-within {
     outline: 0.125rem solid var(--sys-on-surface);
   }
 
-  &:not(:focus).error {
+  &:not(:focus-within).error {
     outline: 0.125rem solid var(--sys-error);
   }
 }

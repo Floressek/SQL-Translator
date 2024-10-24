@@ -1,14 +1,12 @@
 <div class="main-container">
   <div class="welcome-message">
     <h4>
-      Witaj! Niniejsza aplikacja umożliwia wyszukiwanie informacji w bazie
-      danych BUDMAT za pomocą zapytań w języku naturalnym. Wprowadź klucz
-      dostępu, aby rozpocząć.
+      Welcome! This application allows you to search for information in the Sakila database using natural language queries. Enter your access key to get started.
     </h4>
   </div>
 
   <div class="cards-container">
-    <app-card cardTitle="Klucz dostępu">
+    <app-card cardTitle="Access key">
       <form class="form" [formGroup]="loginForm" (ngSubmit)="submitPassword()">
         <input
           type="password"
@@ -21,14 +19,14 @@
         <div class="bottom-row-container">
           @if (this.messageService.errorMessage()) {
           <div class="error-container">
-            <b>Błąd:</b> {{ this.messageService.errorMessage() }}
+            <b>Error:</b> {{ this.messageService.errorMessage() }}
           </div>
           } @if (this.authService.isLoading()) {
           <app-spinner />
           }
 
           <div class="button-container">
-            <app-button type="submit">Zatwierdź</app-button>
+            <app-button type="submit">Submit</app-button>
           </div>
         </div>
       </form>

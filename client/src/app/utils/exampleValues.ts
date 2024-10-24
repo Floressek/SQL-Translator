@@ -1,29 +1,29 @@
-export const EXAMPLE_USER_QUERY =
-  'Ile sztuk listwy startowej wentylacyjnej D-MATT 9005 sprzedano w roku 2024?';
+export const EXAMPLE_USER_QUERY = `Which customers have not rented a film in the last 6 months? List 3.`;
 
-export const EXAMPLE_FORMATTED_ANSWER =
-  'W roku 2024 sprzedano 4281 sztuk listwy startowej wentylacyjnej D-MATT 9005.';
+export const EXAMPLE_FORMATTED_ANSWER = `Here are 3 customers who have not rented a film in the last 6 months: \n\t- <span class=\"bold\">MARY SMITH</span> (email: MARY.SMITH@sakilacustomer.org) \n\t- <span class=\"bold\">PATRICIA JOHNSON</span> (email: PATRICIA.JOHNSON@sakilacustomer.org) \n\t- <span class=\"bold\">LINDA WILLIAMS</span> (email: LINDA.WILLIAMS@sakilacustomer.org)`;
 
-export const EXAMPLE_SQL_STATEMENT =
-  "SELECT SUM(ilosc) FROM zyskownosc WHERE opis_towaru LIKE '%listwa startowa wentylacyjna D-MATT 9005%' AND rok = 2024;";
+export const EXAMPLE_SQL_STATEMENT = `SELECT customer.first_name, customer.last_name, customer.email \nFROM customer \nLEFT JOIN rental ON customer.customer_id = rental.customer_id \nWHERE rental.rental_date IS NULL \nOR rental.rental_date < DATE_SUB(CURDATE(), INTERVAL 6 MONTH) \nGROUP BY customer.customer_id \nLIMIT 3;`;
 
 export const EXAMPLE_ROW_DATA_SINGLE = [
   {
-    'SUM(ilosc)': '45989.00000',
+    'SUM(ilosc)': '45989.00',
   },
 ];
 
 export const EXAMPLE_ROW_DATA_ARRAY = [
   {
-    handlowiec: 'Nowak Mciej (563)',
-    total_profit: '125443.9240700',
+    first_name: 'MARY',
+    last_name: 'SMITH',
+    email: 'MARY.SMITH@sakilacustomer.org',
   },
   {
-    handlowiec: 'Roman Kot (456)',
-    total_profit: '5523441854.8967300',
+    first_name: 'PATRICIA',
+    last_name: 'JOHNSON',
+    email: 'PATRICIA.JOHNSON@sakilacustomer.org',
   },
   {
-    handlowiec: 'Kowalski Piotr (453)',
-    total_profit: '480234345.9563100',
+    first_name: 'LINDA',
+    last_name: 'WILLIAMS',
+    email: 'LINDA.WILLIAMS@sakilacustomer.org',
   },
 ];

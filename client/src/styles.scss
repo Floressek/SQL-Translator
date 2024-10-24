@@ -59,7 +59,7 @@ textarea,
   }
 }
 
-// Strings being the part of the response have crucial information wrapped in <div class="bold"></div>
+// Strings being the part of the response have crucial information wrapped in <span class="bold"></span>
 .bold {
   @include m3-title-medium;
 }

@@ -39,7 +39,7 @@
 }
 
 .card-content {
-  &.zapytanie {
+  &.user-question {
     height: 7rem;
 
     &.first-app-open {
@@ -47,11 +47,11 @@
     }
   }
 
-  &.odpowiedz-asystenta {
+  &.assistant-answer {
     height: 16rem;
   }
 
-  &.tlumaczenie-sql {
+  &.sql-translation {
     background-color: unset;
     padding: 0.5rem 1rem 0 1rem;
     font-family: "Consolas";
@@ -98,8 +98,8 @@
   }
 
   .card-content {
-    &.zapytanie,
-    &.odpowiedz-asystenta {
+    &.user-question,
+    &.assistant-answer {
       min-height: 7rem;
       height: unset;
       max-height: 50rem;

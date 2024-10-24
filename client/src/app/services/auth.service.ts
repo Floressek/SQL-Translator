@@ -19,7 +19,7 @@ export class AuthService {
 
   login(userPassword: string): void {
     if (!userPassword) {
-      this.messageService.errorMessage.set('Proszę podać klucz dostępu.');
+      this.messageService.errorMessage.set('Please enter the access key.');
       return;
     }
 

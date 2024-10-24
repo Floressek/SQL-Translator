@@ -5,16 +5,18 @@ import { AppError } from "../Utils/AppError.js";
 const MONGO_CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING;
 const MONGO_COLLECTION_EXAMPLES = process.env.MONGO_COLLECTION_EXAMPLES;
 const MONGO_COLLECTION_SCHEMAS = process.env.MONGO_COLLECTION_SCHEMAS;
+const MONGO_DATABASE = process.env.MONGO_DATABASE;
+const DB_SCHEMA_VERSION = process.env.DB_SCHEMA_VERSION;
 
 const mongoClient = new MongoClient(MONGO_CONNECTION_STRING);
 
 async function retrieveDbSchema() {
   try {
-    const db = mongoClient.db("budmat");
+    const db = mongoClient.db(MONGO_DATABASE);
     const coll = db.collection(MONGO_COLLECTION_SCHEMAS);
 
     const filter = {
-      schemaVersion: "withExampleDistinctValuesProperColumnDescriptions",
+      "schemaVersion.version": DB_SCHEMA_VERSION,
     };
     const options = {
       // Exclude _id and schemaVersion fields from the returned document
@@ -26,7 +28,9 @@ async function retrieveDbSchema() {
       throw new AppError("No db schema found in the database.");
     }
 
-    loggerMongoDB.info(`📄 Retrieved a db schema.`);
+    loggerMongoDB.info(
+      `📄 Retrieved a db schema. Schema version: ${DB_SCHEMA_VERSION}`
+    );
     return document;
   } catch (error) {
     loggerMongoDB.error("❌ Failed to fetch the db schema.");
@@ -36,7 +40,7 @@ async function retrieveDbSchema() {
 
 async function retrievePromptExamples() {
   try {
-    const db = mongoClient.db("budmat");
+    const db = mongoClient.db(MONGO_DATABASE);
     const coll = db.collection(MONGO_COLLECTION_EXAMPLES);
 
     const options = {
@@ -51,7 +55,7 @@ async function retrievePromptExamples() {
     }
 
     loggerMongoDB.info(
-      `📄 Retrieved a total of ${documents.length} prompt examples.`
+      `📄 Retrieved a total of ${documents.length} prompt examples from collection: ${MONGO_COLLECTION_EXAMPLES}.`
     );
     return documents;
   } catch (error) {

@@ -19,7 +19,7 @@ export class DataFetchingService {
   private readonly http = inject(HttpClient);
   readonly authService = inject(AuthService);
   readonly isLoading = signal<boolean>(false);
-  readonly isFirstAppOpen = signal<boolean>(true);
+  readonly isFirstAppOpen = signal<boolean>(false);
   readonly query = signal<string>(EXAMPLE_USER_QUERY);
   readonly rowData = signal<RowMYSQL[]>(EXAMPLE_ROW_DATA_ARRAY);
   readonly sqlStatement = signal<string>(EXAMPLE_SQL_STATEMENT);

@@ -3,15 +3,17 @@
   [ngClass]="this.dataFetchingService.isFirstAppOpen() ? 'first-app-open' : ''"
 >
   <div class="col col-left">
-    <!-- Zapytanie do bazy danych -->
-    <app-card
-      cardTitle="Zapytanie do bazy danych"
-    >
-      <form class="form" [formGroup]="zapytanieForm" (ngSubmit)="submitQuery()">
+    <!-- Ask the Database -->
+    <app-card cardTitle="Ask the Database">
+      <form
+        class="form"
+        [formGroup]="dbQuestionForm"
+        (ngSubmit)="submitQuery()"
+      >
         <textarea
           type="text"
           formControlName="query"
-          class="card-content zapytanie"
+          class="card-content user-question"
           [ngClass]="{
             error: this.messageService.errorMessage(),
             'first-app-open': this.dataFetchingService.isFirstAppOpen()
@@ -21,7 +23,7 @@
         <div class="bottom-row-container">
           @if (this.messageService.errorMessage()) {
           <div class="error-container">
-            <b>Błąd:</b> {{ this.messageService.errorMessage() }}
+            <b>Error:</b> {{ this.messageService.errorMessage() }}
           </div>
           } @if (this.dataFetchingService.isLoading()) {
           <app-spinner />
@@ -35,7 +37,7 @@
                 this.authService.isSessionExpired()
               "
               type="submit"
-              >Zatwierdź</app-button
+              >Submit</app-button
             >
           </div>
         </div>
@@ -43,10 +45,10 @@
     </app-card>
 
     @if (!this.dataFetchingService.isFirstAppOpen()) {
-    <!-- Odpowiedź Asystenta -->
-    <app-card cardTitle="Odpowiedź Asystenta">
+    <!-- Assistant Answer -->
+    <app-card cardTitle="Assistant Answer">
       <div
-        class="card-content odpowiedz-asystenta"
+        class="card-content assistant-answer"
         [innerHTML]="this.dataFetchingService.formattedAnswer()"
       ></div>
     </app-card>
@@ -56,16 +58,16 @@
   @if (!this.dataFetchingService.isFirstAppOpen()) {
   <div class="col col-right">
     <div class="col-right-centered-holder">
-      <!-- Tłumaczenie SQL -->
-      <app-card cardTitle="Tłumaczenie SQL" class="card-sql">
+      <!-- SQL Translation -->
+      <app-card cardTitle="SQL Translation" class="card-sql">
         <div
-          class="card-content tlumaczenie-sql"
+          class="card-content sql-translation"
           [innerHTML]="this.dataFetchingService.sqlStatement()"
         ></div>
       </app-card>
 
-      <!-- Dane z bazy -->
-      <app-card cardTitle="Dane z bazy" class="card-ag-grid">
+      <!-- Retrieved Records -->
+      <app-card cardTitle="Retrieved Records" class="card-ag-grid">
         <app-results-grid />
       </app-card>
     </div>
@@ -77,6 +79,6 @@
     appearance="subtle"
     [disabled]="this.authService.isWaitingForLogout()"
     (click)="this.authService.logout()"
-    >Wyloguj</app-button
+    >Log out</app-button
   >
 </div>

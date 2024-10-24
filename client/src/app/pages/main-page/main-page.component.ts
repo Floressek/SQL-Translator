@@ -29,12 +29,12 @@ export class MainPageComponent {
   readonly dataFetchingService = inject(DataFetchingService);
   readonly authService = inject(AuthService);
   readonly messageService = inject(MessageService);
-  readonly zapytanieForm = new FormGroup({
+  readonly dbQuestionForm = new FormGroup({
     query: new FormControl(this.dataFetchingService.query()),
   });
 
   submitQuery() {
-    const userInput = this.zapytanieForm.value.query || '';
+    const userInput = this.dbQuestionForm.value.query || '';
     this.dataFetchingService.fetchAiAnswers(userInput);
   }
 }

@@ -39,7 +39,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         } else {
           // Default generic error message if no mapping found
           this.messageService.errorMessage.set(
-            'Nie udało się połączyć z serwerem.'
+            'Failed to connect to the server.'
           );
         }
 
@@ -57,35 +57,37 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
   }
 
-readonly APIErrorCodeMapping: APIErrorCodeMapping = {
-  'NO_TOKEN_ERR': {
-    message: 'Twoja sesja wygasła. Zaloguj się ponownie aby kontynuować.',
-    action: () => {
-      this.authService.removeAuthenticatedFlag();
-      this.authService.isSessionExpired.set(true);
+  readonly APIErrorCodeMapping: APIErrorCodeMapping = {
+    NO_TOKEN_ERR: {
+      message: 'Your session has expired. Please log in again to continue.',
+      action: () => {
+        this.authService.removeAuthenticatedFlag();
+        this.authService.isSessionExpired.set(true);
+      },
     },
-  },
-  'INVALID_VERIFICATION_TOKEN_ERR': {
-    message: 'Twoja sesja wygasła. Zaloguj się ponownie aby kontynuować.',
-    action: () => {
-      this.authService.removeAuthenticatedFlag();
-      this.authService.isSessionExpired.set(true);
+    INVALID_VERIFICATION_TOKEN_ERR: {
+      message: 'Your session has expired. Please log in again to continue.',
+      action: () => {
+        this.authService.removeAuthenticatedFlag();
+        this.authService.isSessionExpired.set(true);
+      },
     },
-  },
-  'INVALID_PASSWORD_ERR': {
-    message: 'Podano nieprawidłowe hasło.',
-  },
-  'NO_QUERY_ERR': {
-    message: 'Nie wprowadzono zapytania. Proszę podać zapytanie, aby kontynuować.',
-  },
-  'NO_PASSWORD_ERR': {
-    message: 'Nie wprowadzono hasła. Proszę podać hasło, aby kontynuować.',
-  },
-  'INTERNAL_SERVER_ERR': {
-    message: 'Wystąpił błąd serwera. Spróbuj ponownie później.',
-  },
-  'UNSUPPORTED_QUERY_ERR': {
-    message: 'Wygląda na to, że chcesz wykonać zapytanie inne niż SELECT, co nie jest obsługiwane.',
-  },
-};
+    INVALID_PASSWORD_ERR: {
+      message: 'Invalid password provided.',
+    },
+    NO_QUERY_ERR: {
+      message: 'No query was entered. Please provide a query to continue.',
+    },
+    NO_PASSWORD_ERR: {
+      message:
+        'No password was entered. Please provide a password to continue.',
+    },
+    INTERNAL_SERVER_ERR: {
+      message: 'A server error occurred. Please try again later.',
+    },
+    UNSUPPORTED_QUERY_ERR: {
+      message:
+        'It seems that you are trying to perform a non-SELECT query, which is not supported.',
+    },
+  };
 }

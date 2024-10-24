@@ -33,7 +33,7 @@ mainRouter.post(
       sqlResponse,
       "sql_response"
     );
-    loggerLanguageToSQL.info(`🤖 Generated SQL: ${sqlAnswer.sqlStatement}`);
+    loggerLanguageToSQL.info(`🤖 Generated SQL: ${sqlAnswer.sqlQuery}`);
 
     if (!sqlAnswer.isSelect) {
       res.status(400).json({
@@ -45,11 +45,11 @@ mainRouter.post(
     }
 
     // Execute the generated SQL query
-    const rows = await executeSQL(sqlAnswer.sqlStatement);
+    const rows = await executeSQL(sqlAnswer.sqlQuery);
 
     // Call OpenAI to format the result
     const formattedAnswer = await generateGPTAnswer(
-      promptForAnswer(userQuery, sqlAnswer.sqlStatement, rows),
+      promptForAnswer(userQuery, sqlAnswer.sqlQuery, rows),
       finalResponse,
       "final_response"
     );
@@ -58,7 +58,7 @@ mainRouter.post(
     res.status(200).json({
       status: "success",
       question: userQuery,
-      sqlStatement: sqlAnswer.sqlStatement,
+      sqlStatement: sqlAnswer.sqlQueryFormatted,
       formattedAnswer: formattedAnswer.formattedAnswer,
       rawData: rows,
     });

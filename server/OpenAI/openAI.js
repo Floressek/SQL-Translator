@@ -8,7 +8,8 @@ const openai = new OpenAI();
 
 export const sqlResponse = z.object({
   isSelect: z.boolean(),
-  sqlStatement: z.string(),
+  sqlQuery: z.string(),
+  sqlQueryFormatted: z.string(),
 });
 
 export const finalResponse = z.object({

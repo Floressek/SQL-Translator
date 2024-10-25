@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { loggerAuth } from "../logger.js";
+import { ERR_CODES } from "../../Constants/StatusCodes/errorCodes.js";
 
 // Secret key for signing JWT
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -10,7 +11,7 @@ export function JWTverificator(req, res, next) {
 
   if (!JWTtoken) {
     loggerAuth.warn(`No token provided. Responding with 403 Forbidden.`);
-    return res.status(403).json({ status: "error", errorCode: "NO_TOKEN_ERR" });
+    return res.status(403).json({ status: "error", errorCode: ERR_CODES.NO_TOKEN_ERR });
   }
 
   jwt.verify(JWTtoken, JWT_SECRET, (err, decoded) => {
@@ -20,7 +21,7 @@ export function JWTverificator(req, res, next) {
       );
       return res
         .status(401)
-        .json({ status: "error", errorCode: "INVALID_VERIFICATION_TOKEN_ERR" });
+        .json({ status: "error", errorCode: ERR_CODES.INVALID_VERIFICATION_TOKEN_ERR });
     }
 
     // Proceed if token is valid

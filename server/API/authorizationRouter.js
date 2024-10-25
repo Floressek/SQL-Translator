@@ -4,6 +4,7 @@ import { loggerLogin, loggerLogout } from "../Utils/logger.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { asyncWrapper } from "../Utils/asyncWrapper.js";
+import { ERR_CODES } from "../Constants/StatusCodes/errorCodes.js";
 
 export const authRouter = express.Router();
 
@@ -22,7 +23,9 @@ authRouter.post(
       loggerLogin.warn(
         `❌ No password provided. Responding with 401 Unauthorized.`
       );
-      res.status(401).json({ status: "error", errorCode: "NO_PASSWORD_ERR" });
+      res
+        .status(401)
+        .json({ status: "error", errorCode: ERR_CODES.NO_PASSWORD_ERR });
       return;
     }
 
@@ -51,7 +54,7 @@ authRouter.post(
       );
       res
         .status(401)
-        .json({ status: "error", errorCode: "INVALID_PASSWORD_ERR" });
+        .json({ status: "error", errorCode: ERR_CODES.INVALID_PASSWORD_ERR });
     }
   })
 );

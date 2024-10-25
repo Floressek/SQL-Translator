@@ -1,4 +1,5 @@
 import { loggerError } from "../logger.js";
+import { ERR_CODES } from "../../Constants/StatusCodes/errorCodes.js";
 
 export function errorHandler(err, req, res, next) {
   loggerError.logWithLabel(
@@ -8,7 +9,7 @@ export function errorHandler(err, req, res, next) {
         "ERR.NAME": err.name,
         "ERR.MESSAGE": err.message,
         "ERR.STACK": err.stack,
-        "APP.ALIVE": true
+        "APP.ALIVE": true,
       },
       null,
       4
@@ -18,6 +19,6 @@ export function errorHandler(err, req, res, next) {
 
   res.status(500).json({
     status: "error",
-    errorCode: "INTERNAL_SERVER_ERR",
+    errorCode: ERR_CODES.INTERNAL_SERVER_ERR,
   });
 }

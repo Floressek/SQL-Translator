@@ -2,9 +2,9 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { loggerMain } from "./Utils/logger.js";
-import { clientRouter } from "./API/clientRouter.js";
-import { authRouter } from "./API/authorizationRouter.js";
-import { mainRouter } from "./API/mainRouter.js";
+import { clientRouter } from "./API/Routers/clientRouter.js";
+import { authRouter } from "./API/Routers/authorizationRouter.js";
+import { mainRouter } from "./API/Routers/mainRouter.js";
 import { errorHandler } from "./Utils/Middleware/errorHandler.js";
 import cookieParser from "cookie-parser";
 

@@ -1,10 +1,11 @@
 import express from "express";
-import { fetchPassword } from "../Database/mysql.js";
-import { loggerLogin, loggerLogout } from "../Utils/logger.js";
+import { fetchPassword } from "../../Database/mysql.js";
+import { loggerLogin, loggerLogout } from "../../Utils/logger.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { asyncWrapper } from "../Utils/asyncWrapper.js";
-import { ERR_CODES } from "../Constants/StatusCodes/errorCodes.js";
+import { asyncWrapper } from "../../Utils/asyncWrapper.js";
+import { ERR_CODES } from "../../Constants/StatusCodes/errorCodes.js";
+import { passwordSchema } from "../inputTypes.js";
 
 export const authRouter = express.Router();
 
@@ -15,22 +16,10 @@ authRouter.post(
   "/login",
   asyncWrapper(async (req, res) => {
     loggerLogin.info("↘️ Received a new login attempt.");
-
-    const userPassword = req.body?.password;
-
-    // Short-circuit if there is no user provided password
-    if (!userPassword) {
-      loggerLogin.warn(
-        `❌ No password provided. Responding with 401 Unauthorized.`
-      );
-      res
-        .status(401)
-        .json({ status: "error", errorCode: ERR_CODES.NO_PASSWORD_ERR });
-      return;
-    }
+    const reqParsed = passwordSchema.parse(req.body);
 
     const password = await fetchPassword();
-    const areMatching = await bcrypt.compare(userPassword, password);
+    const areMatching = await bcrypt.compare(reqParsed.password, password);
     if (areMatching) {
       loggerLogin.info(`✅ Password correct.`);
 

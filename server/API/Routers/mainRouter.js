@@ -3,82 +3,61 @@ import {
   generateGPTAnswer,
   sqlResponse,
   finalResponse,
-} from "../OpenAI/openAI.js";
-import { promptForSQL, promptForAnswer } from "../OpenAI/prompts.js";
-import { asyncWrapper } from "../Utils/asyncWrapper.js";
-import { executeSQL } from "../Database/mysql.js";
-import { loggerLanguageToSQL } from "../Utils/logger.js";
-import { JWTverificator } from "../Utils/Middleware/JWTverificator.js";
-import { DEFAULT_ROW_LIMIT } from "../Constants/constants.js";
-import { ERR_CODES } from "../Constants/StatusCodes/errorCodes.js";
-import { WRN_CODES } from "../Constants/StatusCodes/warningCodes.js";
+} from "../../OpenAI/openAI.js";
+import { promptForSQL, promptForAnswer } from "../../OpenAI/prompts.js";
+import { asyncWrapper } from "../../Utils/asyncWrapper.js";
+import { executeSQL } from "../../Database/mysql.js";
+import { loggerLanguageToSQL } from "../../Utils/logger.js";
+import { JWTverificator } from "../../Utils/Middleware/JWTverificator.js";
+import { MAX_ROWS_DEFAULT } from "../../Constants/constants.js";
+import { ERR_CODES } from "../../Constants/StatusCodes/errorCodes.js";
+import { WRN_CODES } from "../../Constants/StatusCodes/warningCodes.js";
+import { querySchema } from "../inputTypes.js";
 
 export const mainRouter = express.Router();
 
-// TODO: Add param verification middleware
-// TODO: Add implementations for: verifySelect(), checkRowCount(), appendLimitClause()
+// TODO: Add implementations for: cacheFailedQuery(), fetchCachedAnswer(), checkRowCount(), appendLimitClause()
 
 mainRouter.post(
   "/language-to-sql",
   JWTverificator,
   asyncWrapper(async (req, res) => {
     loggerLanguageToSQL.info("📩 Received a new POST request.");
-
-    let sqlQueryFinal;
-    let sqlQueryFormatted;
+    const reqParsed = querySchema.parse(req.body);
 
     // ===========================================================================
     // Initialize required variables
-    const userQuery = req.body?.userQuery;
-    const sqlAnswerPrevious = req.body?.sqlAnswerPrevious;
-    const rowLimit =
-      req.body?.rowLimit && typeof req.body?.rowLimit === "number"
-        ? req.body?.rowLimit
-        : DEFAULT_ROW_LIMIT;
-    const forceLimit = !!req.body?.forceLimit;
+    let sqlQueryFinal;
+    let sqlQueryFormatted;
+
+    const userQuery = reqParsed.userQuery;
+    const maxRows = reqParsed.limitStrategy?.maxRows || MAX_ROWS_DEFAULT;
+    const forceLimit = reqParsed.limitStrategy?.forceLimit || false;
     // console.log(promptForSQL(userQuery));
-
-    if (!userQuery) {
-      res.status(400).json({ status: "error", errorCode: ERR_CODES.NO_QUERY_ERR });
-
-      return;
-    }
-    if (sqlAnswerPrevious) {
-      // Check if sqlAnswerPrevious is a valid object with required properties
-      const isSqlAnswerPreviousValid =
-        typeof sqlAnswerPrevious === "object" &&
-        typeof sqlAnswerPrevious.sqlQuery === "string" &&
-        typeof sqlAnswerPrevious.sqlQueryFormatted === "string";
-
-      if (isSqlAnswerPreviousValid) {
-        sqlAnswerPrevious.isSelect = verifySelect(sqlAnswerPrevious?.sqlQuery);
-      } else {
-        return res.status(400).json({
-          status: "error",
-          errorCode: ERR_CODES.INVALID_PARAM_ERR,
-          errorDetails: {
-            invalidParam: "sqlAnswerPrevious",
-          },
-        });
-      }
-    }
 
     // ===========================================================================
     // Call OpenAI to translate natural language to SQL
-    const sqlAnswer = sqlAnswerPrevious
-      ? sqlAnswerPrevious
-      : await generateGPTAnswer(
-          promptForSQL(userQuery),
-          sqlResponse,
-          "sql_response"
-        );
-    loggerLanguageToSQL.info(
-      `${
-        sqlAnswerPrevious
-          ? "🤖 SQL received from the client in sqlAnswerPrevious"
-          : "🤖 Generated SQL"
-      }: ${sqlAnswer.sqlQuery}`
-    );
+    let expectedRowCount;
+    let sqlAnswer;
+    if (reqParsed.cacheStrategy?.useCached) {
+      ({ sqlAnswer, expectedRowCount } = fetchCachedAnswer());
+      loggerLanguageToSQL.info(
+        `🤖 Generated SQL (fetched from cache): ${sqlAnswer.sqlQuery}`
+      );
+      loggerLanguageToSQL.info(
+        `Expected row count (fetched from cache): ${sqlAnswer.sqlQuery}`
+      );
+    } else {
+      sqlAnswer = await generateGPTAnswer(
+        promptForSQL(userQuery),
+        sqlResponse,
+        "sql_response"
+      );
+      loggerLanguageToSQL.info(`🤖 Generated SQL: ${sqlAnswer.sqlQuery}`);
+
+      expectedRowCount = checkRowCount(sqlAnswer.sqlQuery);
+      loggerLanguageToSQL.info(`Expected row count: ${sqlAnswer.sqlQuery}`);
+    }
 
     if (!sqlAnswer.isSelect) {
       res.status(400).json({
@@ -91,8 +70,7 @@ mainRouter.post(
 
     // ===========================================================================
     // Check row count
-    const expectedRowCount = checkRowCount(sqlAnswer.sqlQuery);
-    if (expectedRowCount <= rowLimit) {
+    if (expectedRowCount <= maxRows) {
       sqlQueryFinal = sqlAnswer.sqlQuery;
       sqlQueryFormatted = sqlAnswer.sqlQueryFormatted;
     } else if (forceLimit) {
@@ -109,13 +87,16 @@ mainRouter.post(
         },
       };
     } else {
-      // Respond with error & include generated query
+      if (reqParsed.cacheStrategy?.cacheFailed) {
+        cacheFailedQuery(userQuery, sqlAnswer, expectedRowCount);
+      }
+      // Respond with error & include generated SQL query
       res.status(400).json({
         status: "error",
         errorCode: ERR_CODES.TO_MANY_ROWS_ERR,
         errorDetails: {
           expectedRowCount: expectedRowCount,
-          rowLimit: rowLimit,
+          maxRows: maxRows,
         },
         data: {
           sqlQuery: sqlAnswer.sqlQuery,

@@ -16,30 +16,30 @@ export const promptForSQL_examples_schema = z
   })
   .array();
 
-// used with prompt_for_countingSQL_and_limitedSQL()
+// used with promptForCountingSQL()
 export const countingSqlResponseSchema = z.object({
   countingSqlQuery: z.string(),
 });
 
-export const prompt_for_countingSQL_examples_schema = z
+export const promptForCountingSQL_examples_schema = z
   .object({
     employeeSQL: z.string(),
     aiAnswer: countingSqlResponseSchema,
   })
   .array();
 
-export const countingAndLimitedSqlResponseSchema =
-  countingSqlResponseSchema.extend({
-    limitedSqlQuery: z.string(),
-    limitedSqlQueryFormatted: z.string(),
-  });
+// used with promptForLimitedSQL()
+export const limitedSqlResponseSchema = z.object({
+  limitedSqlQuery: z.string(),
+  limitedSqlQueryFormatted: z.string(),
+});
 
-export const prompt_for_countingSQL_and_limitedSQL_examples_schema = z
+export const promptForLimitedSQL_examples_schema = z
   .object({
     employeeSQL: z.string(),
-    aiAnswer: countingAndLimitedSqlResponseSchema.extend({
+    aiAnswer: limitedSqlResponseSchema.extend({
       limitedSqlQueryFormatted:
-        countingAndLimitedSqlResponseSchema.shape.limitedSqlQueryFormatted.optional(),
+        limitedSqlResponseSchema.shape.limitedSqlQueryFormatted.optional(),
     }),
   })
   .array();

@@ -2,8 +2,6 @@ import express from "express";
 import { generateGPTAnswer } from "../../OpenAI/openAI.js";
 import {
   sqlResponseSchema,
-  countingSqlResponseSchema,
-  countingAndLimitedSqlResponseSchema,
   finalResponseSchema,
 } from "../../OpenAI/responseSchemas.js";
 import { promptForSQL, promptForAnswer } from "../../OpenAI/prompts.js";
@@ -15,10 +13,12 @@ import { MAX_ROWS_DEFAULT } from "../../Constants/constants.js";
 import { ERR_CODES } from "../../Constants/StatusCodes/errorCodes.js";
 import { WRN_CODES } from "../../Constants/StatusCodes/warningCodes.js";
 import { querySchema } from "./inputSchemas.js";
+import { checkRowCount, appendLimitClause } from "./mainUtils.js";
+import { AppError } from "../../Utils/AppError.js";
 
 export const mainRouter = express.Router();
 
-// TODO: Add implementations for: cacheFailedQuery(), fetchCachedAnswer(), checkRowCount(), appendLimitClause()
+// TODO: Add implementations for: cacheFailedQuery(), fetchCachedAnswer()
 
 mainRouter.post(
   "/language-to-sql",
@@ -29,6 +29,7 @@ mainRouter.post(
 
     // ===========================================================================
     // Initialize required variables
+    let warning;
     let sqlQueryFinal;
     let sqlQueryFormatted;
 
@@ -37,55 +38,65 @@ mainRouter.post(
     const forceLimit = reqParsed.limitStrategy?.forceLimit || false;
     // console.log(promptForSQL(userQuery));
 
-    // ===========================================================================
-    // Call OpenAI to translate natural language to SQL
     let expectedRowCount;
     let sqlAnswer;
+    // ===========================================================================
+    // Fetch cached transalation & expectedRowCount
     if (reqParsed.cacheStrategy?.useCached) {
       ({ sqlAnswer, expectedRowCount } = fetchCachedAnswer());
+
       loggerLanguageToSQL.info(
-        `🤖 Generated SQL (fetched from cache): ${sqlAnswer.sqlQuery}`
+        `🤖 Generated SQL (fetched from cache):\n${sqlAnswer.sqlQuery}`
       );
       loggerLanguageToSQL.info(
         `Expected row count (fetched from cache): ${sqlAnswer.sqlQuery}`
       );
     } else {
+      // ===========================================================================
+      // Call OpenAI to translate natural language to SQL & obtain expectedRowCount
       sqlAnswer = await generateGPTAnswer(
         promptForSQL(userQuery),
         sqlResponseSchema,
         "sql_response"
       );
+      if (!sqlAnswer.sqlQuery || !sqlAnswer.sqlQueryFormatted) {
+        throw new AppError(
+          "GPT failed to generate a meaningful SQL translation."
+        );
+      }
+      if (!sqlAnswer.isSelect) {
+        res.status(400).json({
+          status: "error",
+          errorCode: ERR_CODES.UNSUPPORTED_QUERY_ERR,
+        });
+
+        return;
+      }
       loggerLanguageToSQL.info(`🤖 Generated SQL: ${sqlAnswer.sqlQuery}`);
 
-      expectedRowCount = checkRowCountAndAddLimit(sqlAnswer.sqlQuery);
-      loggerLanguageToSQL.info(`Expected row count: ${sqlAnswer.sqlQuery}`);
-    }
-
-    if (!sqlAnswer.isSelect) {
-      res.status(400).json({
-        status: "error",
-        errorCode: ERR_CODES.UNSUPPORTED_QUERY_ERR,
-      });
-
-      return;
+      expectedRowCount = await checkRowCount(sqlAnswer.sqlQuery);
+      loggerLanguageToSQL.info(
+        `Expected row count (fetched from the db): ${expectedRowCount} `
+      );
     }
 
     // ===========================================================================
-    // Check row count
+    // Check maxRows limit
     if (expectedRowCount <= maxRows) {
       sqlQueryFinal = sqlAnswer.sqlQuery;
       sqlQueryFormatted = sqlAnswer.sqlQueryFormatted;
     } else if (forceLimit) {
       // Append the limit clause & initialize warning message, then continue processing
-      ({ sqlQueryFinal, sqlQueryFormatted } = appendLimitCluase(
-        sqlAnswer.sqlQuery
-      ));
+      const { limitedSqlQuery, limitedSqlQueryFormatted } =
+        await appendLimitClause(sqlAnswer.sqlQuery, maxRows);
+      sqlQueryFinal = limitedSqlQuery;
+      sqlQueryFormatted = limitedSqlQueryFormatted;
 
-      const warning = {
+      warning = {
         warningCode: WRN_CODES.TRUNCATED_RECORDS_WRN,
         warningDetails: {
-          expectedRowCount: expectedRowCount,
-          rowLimit: rowLimit,
+          expectedRowCount,
+          maxRowsAllowed: maxRows,
         },
       };
     } else {
@@ -105,15 +116,16 @@ mainRouter.post(
           sqlQueryFormatted: sqlAnswer.sqlQueryFormatted,
         },
       });
-    }
 
+      return;
+    }
     // ===========================================================================
     // Execute the generated SQL query
     const rows = await executeSQL(sqlQueryFinal);
 
     // ===========================================================================
     // Call OpenAI to format the result
-    const formattedAnswer = await generateGPTAnswer(
+    const { formattedAnswer } = await generateGPTAnswer(
       promptForAnswer(userQuery, sqlQueryFinal, rows),
       finalResponseSchema,
       "final_response"
@@ -124,8 +136,8 @@ mainRouter.post(
     const responseBody = {
       status: "success",
       data: {
-        sqlQueryFormatted: sqlQueryFormatted,
-        formattedAnswer: formattedAnswer.formattedAnswer,
+        sqlQueryFormatted,
+        formattedAnswer,
         rawData: rows,
       },
     };

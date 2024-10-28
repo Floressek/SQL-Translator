@@ -43,42 +43,23 @@ export function promptForSQL(userQuery) {
   ];
 }
 
-export function prompt_for_countingSQL_and_limitedSQL(sqlQuery, maxRows) {
-  const basePrompt = `You are an intelligent AI assistant who specializes in transforming SQL queries. You work for our company - "Sakila LLC". We are a major DVD rental company in USA.
-       
-  You will be provided with:
-  
-    1. Comprehensive schema of our MySQL database which contains multiple tables. The schema will be provided in JSON format.
-    2. SELECT SQL query written by our employee which you will need to transform. This query will be eventually executed against our database.
-    `;
-
-  let queryPrompt;
-  if (maxRows) {
-    queryPrompt = `
-    Your task is to create two new queries based on the ones which you received:
-      1. The first new query should allow us to check how many rows the initial SELECT query is about to retrieve. Before its execution we need to make sure that it won't retrieve to many records and overwhelm our database. The new query should contain a COUNT clause and only retrieve one record with the count of rows. Take into account the structure of our database.
-      2. The second new query should be the same as the intial one but with a LIMIT cluase at the end. Maximum number of rows which it can retrieve should be: ${maxRows}.
-    
-    Wrap your answer in JSON object. It should have three properties:
-    {
-      "countingSqlQuery": "Your new SELECT query with COUNT clause.",
-      "limitedSqlQuery": "Your new SELECT query with LIMIT clause.",
-      "limitedSqlQueryFormatted": "limitedSqlQuery formatted with \\n (newline character) after each self-contained part of the query. This formatted version of the SQL query is meant to be displayed to the user in a visually appealing format on the frontend."
-    }
-    Set all properties to empty strings if you are unable to generate queries.`;
-  } else {
-    queryPrompt = `
-    Your task is to create a new query which will allow us to check how many rows the initial SELECT query is about to retrieve. Before its execution we need to make sure that it won't retrieve to many records and overwhelm our database. Your new query should be based on the one which you received and contain a COUNT clause. It should only retrieve one record with the count of rows. Take into account the structure of our database.
-      
-    Wrap your answer in JSON object. It should have only one property:
-    {
-      "countingSqlQuery": "Your new SELECT query with COUNT clause. Set this to empty string if you are unable to generate a query." 
-    }`;
-  }
+export function promptForCountingSQL(sqlQuery) {
   return [
     {
       role: "system",
-      content: basePrompt + queryPrompt,
+      content: `You are an intelligent AI assistant who specializes in transforming SQL queries. You work for our company - "Sakila LLC". We are a major DVD rental company in USA.
+       
+      You will be provided with:
+  
+        1. Comprehensive schema of our MySQL database which contains multiple tables. The schema will be provided in JSON format.
+        2. SELECT SQL query written by our employee which you will need to transform. This query will be eventually executed against our database.
+
+      Your task is to create a new query which will allow us to check how many rows the initial SELECT query is about to retrieve. Before its execution we need to make sure that it won't retrieve to many records and overwhelm our database. Your new query should be based on the one which you received and contain a COUNT clause. It should only retrieve one record with the count of rows - alias the returned column as "row_count". Take into account the structure of our database.
+        
+      Wrap your answer in JSON object. It should have only one property:
+      {
+        "countingSqlQuery": "Your new SELECT query with COUNT clause. Set this to empty string if you are unable to generate a query." 
+      }`,
     },
     {
       role: "system",
@@ -88,16 +69,37 @@ export function prompt_for_countingSQL_and_limitedSQL(sqlQuery, maxRows) {
     {
       role: "system",
       content: `Here are some examples of your previous successful transformations:
-      ${JSON.stringify(
-        maxRows
-          ? promptExamples.prompt_for_countingSQL_and_limitedSQL_examples
-          : promptExamples.prompt_for_countingSQL_examples,
-        null,
-        2
-      )}
+      ${JSON.stringify(promptExamples.promptForCountingSQL_examples, null, 2)}
       You should answer in a similar fashion.`,
     },
     { role: "user", content: sqlQuery },
+  ];
+}
+
+export function promptForLimitedSQL(sqlQuery, maxRows) {
+  return [
+    {
+      role: "system",
+      content: `You are an intelligent AI assistant who specializes in transforming SQL queries. You work for our company - "Sakila LLC". We are a major DVD rental company in USA.`,
+    },
+    {
+      role: "user",
+      content: `Here is a SELECT SQL query written by our employee:
+      ${sqlQuery}
+
+      You need to transform this query so that it contains a LIMIT cluase at the end. Maximum number of rows which it can retrieve should be: ${maxRows}.
+    
+      Wrap your answer in JSON object. It should have only two properties:
+      {
+        "limitedSqlQuery": "Your new SELECT query with LIMIT clause.",
+        "limitedSqlQueryFormatted": "limitedSqlQuery formatted with \\n (newline character) after each self-contained part of the query. This formatted version of the SQL query is meant to be displayed to the user in a visually appealing format on the frontend."
+      }
+      Set all properties to empty strings if you are unable to generate a query.
+
+      Here are some examples of your previous successful transformations:
+      ${JSON.stringify(promptExamples.promptForLimitedSQL_examples, null, 2)}
+      You should answer in a similar fashion.`,
+    },
   ];
 }
 

@@ -2,7 +2,7 @@ import { z } from "zod";
 import {
   sqlResponseSchema,
   countingSqlResponseSchema,
-  countingAndLimitedSqlResponseSchema,
+  limitedSqlResponseSchema,
   finalResponseSchema,
 } from "../../OpenAI/responseSchemas.js";
 
@@ -11,13 +11,17 @@ export const promptExamplesSchema = sqlResponseSchema
     sqlQueryFormatted: sqlResponseSchema.shape.sqlQueryFormatted.optional(),
   })
   .merge(
-    countingAndLimitedSqlResponseSchema.extend({
+    countingSqlResponseSchema.extend({
       countingSqlQuery:
         countingSqlResponseSchema.shape.countingSqlQuery.optional(),
+    })
+  )
+  .merge(
+    limitedSqlResponseSchema.extend({
       limitedSqlQuery:
-        countingAndLimitedSqlResponseSchema.shape.limitedSqlQuery.optional(),
+        limitedSqlResponseSchema.shape.limitedSqlQuery.optional(),
       limitedSqlQueryFormatted:
-        countingAndLimitedSqlResponseSchema.shape.limitedSqlQueryFormatted.optional(),
+        limitedSqlResponseSchema.shape.limitedSqlQueryFormatted.optional(),
     })
   )
   .merge(
@@ -27,7 +31,8 @@ export const promptExamplesSchema = sqlResponseSchema
   )
   .extend({
     userQuery: z.string(),
-  }).array();
+  })
+  .array();
 
 // {
 //     isSelect: boolean,

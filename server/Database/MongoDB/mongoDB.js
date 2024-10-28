@@ -4,8 +4,8 @@ import { AppError } from "../../Utils/AppError.js";
 import { promptExamplesSchema } from "./mongoTypes.js";
 import {
   promptForSQL_examples_schema,
-  prompt_for_countingSQL_examples_schema,
-  prompt_for_countingSQL_and_limitedSQL_examples_schema,
+  promptForCountingSQL_examples_schema,
+  promptForLimitedSQL_examples_schema,
   promptForAnswer_examples_schema,
 } from "../../OpenAI/responseSchemas.js";
 
@@ -90,29 +90,28 @@ export async function loadDbInformation() {
     }))
   );
 
-  const prompt_for_countingSQL_and_limitedSQL_examples =
-    prompt_for_countingSQL_and_limitedSQL_examples_schema.parse(
+  const promptForCountingSQL_examples =
+    promptForCountingSQL_examples_schema.parse(
       promptExamples
-        .filter(
-          (example) => !!example.countingSqlQuery && !!example.limitedSqlQuery
-        )
+        .filter((example) => !!example.countingSqlQuery)
         .map((example) => ({
           employeeSQL: example.userQuery,
           aiAnswer: {
             countingSqlQuery: example.countingSqlQuery,
-            limitedSqlQuery: example.limitedSqlQuery,
           },
         }))
     );
 
-  const prompt_fot_countingSQL_examples =
-    prompt_for_countingSQL_examples_schema.parse(
-      prompt_for_countingSQL_and_limitedSQL_examples.map((example) => ({
-        employeeSQL: example.employeeSQL,
-        aiAnswer: {
-          countingSqlQuery: example.aiAnswer.countingSqlQuery,
-        },
-      }))
+  const promptForLimitedSQL_examples =
+    promptForLimitedSQL_examples_schema.parse(
+      promptExamples
+        .filter((example) => !!example.limitedSqlQuery)
+        .map((example) => ({
+          employeeSQL: example.userQuery,
+          aiAnswer: {
+            limitedSqlQuery: example.limitedSqlQuery,
+          },
+        }))
     );
 
   const promptForAnswer_examples = promptForAnswer_examples_schema.parse(
@@ -130,8 +129,8 @@ export async function loadDbInformation() {
     dbSchema,
     promptExamples: {
       promptForSQL_examples,
-      prompt_fot_countingSQL_examples,
-      prompt_for_countingSQL_and_limitedSQL_examples,
+      promptForCountingSQL_examples,
+      promptForLimitedSQL_examples,
       promptForAnswer_examples,
     },
   };

@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { asyncWrapper } from "../../Utils/asyncWrapper.js";
 import { ERR_CODES } from "../../Constants/StatusCodes/errorCodes.js";
-import { passwordSchema } from "../inputTypes.js";
+import { passwordSchema } from "./inputSchemas.js";
 
 export const authRouter = express.Router();
 

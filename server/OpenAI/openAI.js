@@ -1,20 +1,9 @@
 import OpenAI from "openai";
-import { z } from "zod";
 import { zodResponseFormat } from "openai/helpers/zod";
 import { loggerOpenAI } from "../Utils/logger.js";
 import { AppError } from "../Utils/AppError.js";
 
 const openai = new OpenAI();
-
-export const sqlResponse = z.object({
-  isSelect: z.boolean(),
-  sqlQuery: z.string(),
-  sqlQueryFormatted: z.string(),
-});
-
-export const finalResponse = z.object({
-  formattedAnswer: z.string(),
-});
 
 export async function generateGPTAnswer(prompt, responseFormat, responseName) {
   try {

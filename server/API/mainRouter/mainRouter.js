@@ -1,9 +1,11 @@
 import express from "express";
+import { generateGPTAnswer } from "../../OpenAI/openAI.js";
 import {
-  generateGPTAnswer,
-  sqlResponse,
-  finalResponse,
-} from "../../OpenAI/openAI.js";
+  sqlResponseSchema,
+  countingSqlResponseSchema,
+  countingAndLimitedSqlResponseSchema,
+  finalResponseSchema,
+} from "../../OpenAI/responseSchemas.js";
 import { promptForSQL, promptForAnswer } from "../../OpenAI/prompts.js";
 import { asyncWrapper } from "../../Utils/asyncWrapper.js";
 import { executeSQL } from "../../Database/mysql.js";
@@ -12,7 +14,7 @@ import { JWTverificator } from "../../Utils/Middleware/JWTverificator.js";
 import { MAX_ROWS_DEFAULT } from "../../Constants/constants.js";
 import { ERR_CODES } from "../../Constants/StatusCodes/errorCodes.js";
 import { WRN_CODES } from "../../Constants/StatusCodes/warningCodes.js";
-import { querySchema } from "../inputTypes.js";
+import { querySchema } from "./inputSchemas.js";
 
 export const mainRouter = express.Router();
 
@@ -50,12 +52,12 @@ mainRouter.post(
     } else {
       sqlAnswer = await generateGPTAnswer(
         promptForSQL(userQuery),
-        sqlResponse,
+        sqlResponseSchema,
         "sql_response"
       );
       loggerLanguageToSQL.info(`🤖 Generated SQL: ${sqlAnswer.sqlQuery}`);
 
-      expectedRowCount = checkRowCount(sqlAnswer.sqlQuery);
+      expectedRowCount = checkRowCountAndAddLimit(sqlAnswer.sqlQuery);
       loggerLanguageToSQL.info(`Expected row count: ${sqlAnswer.sqlQuery}`);
     }
 
@@ -113,7 +115,7 @@ mainRouter.post(
     // Call OpenAI to format the result
     const formattedAnswer = await generateGPTAnswer(
       promptForAnswer(userQuery, sqlQueryFinal, rows),
-      finalResponse,
+      finalResponseSchema,
       "final_response"
     );
 

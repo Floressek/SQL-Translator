@@ -50,7 +50,9 @@ export const finalResponseSchema = z.object({
   formattedAnswer: z.string(),
 });
 
-export const promptForAnswer_examples_schema = z.object({
-  userQuery: z.string(),
-  aiAnswer: finalResponseSchema,
-});
+export const promptForAnswer_examples_schema = z
+  .object({
+    userQuery: z.string(),
+    aiAnswer: finalResponseSchema,
+  })
+  .array();

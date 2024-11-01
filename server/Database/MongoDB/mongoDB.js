@@ -8,6 +8,7 @@ import {
   promptForLimitedSQL_examples_schema,
   promptForAnswer_examples_schema,
 } from "../../OpenAI/responseSchemas.js";
+import "dotenv/config";
 
 const MONGO_CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING;
 const MONGO_COLLECTION_EXAMPLES = process.env.MONGO_COLLECTION_EXAMPLES;
@@ -162,7 +163,7 @@ async function insertPromptExamples() {
     // Prevent additional documents from being inserted if one fails
     const options = { ordered: true };
 
-    const result = await coll.insertMany(docs, options);
+    const result = await coll.insertMany(promptExamples, options);
     loggerMongoDB.info(
       `✅ ${result.insertedCount} prompt examples were successfully inserted.`
     );

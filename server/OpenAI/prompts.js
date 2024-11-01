@@ -60,7 +60,7 @@ export function promptForCountingSQL(sqlQuery) {
         
       Wrap your answer in JSON object. It should have the following structure:
       { 
-        "expectedRowCount?": "Optional numeric property which should store the expected number of rows returned by the intial query. Should only be present if you can infer this number.",
+        "expectedRowCount?": "Optional numeric property which should store the expected number of rows returned by the initial query. Should only be present if you can infer this number.",
         "countingSqlQuery": "Your new SELECT query with COUNT clause. Set this to empty string if 'expectedRowCount' is present or if you are unable to generate a query." 
       }`,
     },

@@ -76,7 +76,7 @@ mainRouter.post(
 
       expectedRowCount = await checkRowCount(sqlAnswer.sqlQuery);
       loggerLanguageToSQL.info(
-        `Expected row count (fetched from the db): ${expectedRowCount} `
+        `Expected row count: ${expectedRowCount} `
       );
     }
 

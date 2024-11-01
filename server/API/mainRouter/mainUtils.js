@@ -22,7 +22,7 @@ export async function checkRowCount(sqlQuery) {
     }
 
     // Call GPT for a proper query
-    const { expectedRowCount, countingSqlQuery } = await generateGPTAnswer(
+    let { expectedRowCount, countingSqlQuery } = await generateGPTAnswer(
       promptForCountingSQL(sqlQuery),
       countingSqlResponseSchema,
       "counting_sql_response"
@@ -54,7 +54,7 @@ export async function checkRowCount(sqlQuery) {
 }
 
 function extractLimit(sqlQuery) {
-  const limitRegex = /LIMIT\s+(\d+)\s*$/i;
+  const limitRegex = /LIMIT\s+(\d+);/i;
   const match = sqlQuery.match(limitRegex);
 
   // If a match is found, return the limit as a number, otherwise return null

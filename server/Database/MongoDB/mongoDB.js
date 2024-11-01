@@ -23,7 +23,7 @@ async function retrieveDbSchema() {
     const coll = db.collection(MONGO_COLLECTION_SCHEMAS);
 
     const filter = {
-      "schemaVersion.version": DB_SCHEMA_VERSION,
+      "schemaInfo.version": DB_SCHEMA_VERSION,
     };
     const options = {
       // Exclude _id and schemaVersion fields from the returned document
@@ -76,7 +76,7 @@ export async function loadDbInformation() {
   const promptExamples = promptExamplesSchema.parse(
     await retrievePromptExamples()
   );
-  mongoClient.close();
+  await mongoClient.close();
   loggerMongoDB.info("Successfully loaded database information! ✅");
 
   // Parse arrays of examples to be passed to LLM prompts
@@ -135,3 +135,44 @@ export async function loadDbInformation() {
     },
   };
 }
+
+// Only for manual use - additional imports needed
+async function insertDbSchema() {
+  try {
+    const db = mongoClient.db(MONGO_DATABASE);
+    const coll = db.collection(MONGO_COLLECTION_SCHEMAS);
+
+    const result = await coll.insertOne(dbSchema);
+    loggerMongoDB.info(
+      `✅ Db schema inserted successfully with the _id: ${result.insertedId}.`
+    );
+  } catch (error) {
+    loggerMongoDB.error("❌ Error inserting the db schema.");
+    console.log(error);
+  } finally {
+    await mongoClient.close();
+  }
+}
+
+async function insertPromptExamples() {
+  try {
+    const db = mongoClient.db(MONGO_DATABASE);
+    const coll = db.collection(MONGO_COLLECTION_EXAMPLES);
+
+    // Prevent additional documents from being inserted if one fails
+    const options = { ordered: true };
+
+    const result = await coll.insertMany(docs, options);
+    loggerMongoDB.info(
+      `✅ ${result.insertedCount} prompt examples were successfully inserted.`
+    );
+  } catch (error) {
+    loggerMongoDB.error("❌ Error inserting prompt examples.");
+    console.log(error);
+  } finally {
+    await mongoClient.close();
+  }
+}
+
+// await insertDbSchema();
+// await insertPromptExamples();

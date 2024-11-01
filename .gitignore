@@ -3,6 +3,7 @@ index_copy.js
 scratchpad.js
 server/client
 server/OpenAi/Prompts
+server/Database/Schemas
 
 # Dependencje
 node_modules

@@ -9,7 +9,7 @@ import { asyncWrapper } from "../../Utils/asyncWrapper.js";
 import { executeSQL } from "../../Database/mysql.js";
 import { loggerLanguageToSQL } from "../../Utils/logger.js";
 import { JWTverificator } from "../../Utils/Middleware/JWTverificator.js";
-import { MAX_ROWS_DEFAULT } from "../../Constants/constants.js";
+import { MAX_ROWS_DEFAULT, NODE_ENV } from "../../Constants/constants.js";
 import { ERR_CODES } from "../../Constants/StatusCodes/errorCodes.js";
 import { WRN_CODES } from "../../Constants/StatusCodes/warningCodes.js";
 import { querySchema } from "./inputSchemas.js";
@@ -136,7 +136,9 @@ mainRouter.post(
     const responseBody = {
       status: "success",
       data: {
-        sqlQueryFormatted,
+        sqlQueryFormatted: ["production", "frontend_testing"].includes(NODE_ENV)
+          ? sqlQueryFormatted
+          : sqlQueryFinal,
         formattedAnswer,
         rawData: rows,
       },

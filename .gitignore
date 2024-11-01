@@ -4,6 +4,7 @@ scratchpad.js
 server/client
 server/OpenAi/Prompts
 server/Database/Schemas
+server/Database/PromptExamples
 
 # Dependencje
 node_modules

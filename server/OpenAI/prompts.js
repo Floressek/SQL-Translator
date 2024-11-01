@@ -55,10 +55,13 @@ export function promptForCountingSQL(sqlQuery) {
         2. SELECT SQL query written by our employee which you will need to transform. This query will be eventually executed against our database.
 
       Your task is to create a new query which will allow us to check how many rows the initial SELECT query is about to retrieve. Before its execution we need to make sure that it won't retrieve to many records and overwhelm our database. Your new query should be based on the one which you received and contain a COUNT clause. It should only retrieve one record with the count of rows - alias the returned column as "row_count". Take into account the structure of our database.
+
+      If you are sure that the intitial SELECT query will only return one record (e.g. because it is an aggregation query which returns only the result of the aggregate function like COUNT(), SUM(), AVG(), MIN(), MAX() etc.) do NOT generate any new transformation query but straight away tell us that the expected row count is 1.
         
-      Wrap your answer in JSON object. It should have only one property:
-      {
-        "countingSqlQuery": "Your new SELECT query with COUNT clause. Set this to empty string if you are unable to generate a query." 
+      Wrap your answer in JSON object. It should have the following structure:
+      { 
+        "expectedRowCount?": "Optional numeric property which should store the expected number of rows returned by the intial query. Should only be present if you can infer this number.",
+        "countingSqlQuery": "Your new SELECT query with COUNT clause. Set this to empty string if 'expectedRowCount' is present or if you are unable to generate a query." 
       }`,
     },
     {

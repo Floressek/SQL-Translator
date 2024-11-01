@@ -26,8 +26,8 @@ async function retrieveDbSchema() {
       "schemaInfo.version": DB_SCHEMA_VERSION,
     };
     const options = {
-      // Exclude _id and schemaVersion fields from the returned document
-      projection: { _id: 0, schemaVersion: 0 },
+      // Exclude _id and schemaInfo fields from the returned document
+      projection: { _id: 0, schemaInfo: 0 },
     };
     const document = await coll.findOne(filter, options);
 

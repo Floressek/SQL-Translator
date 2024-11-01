@@ -40,6 +40,7 @@ export const promptExamplesSchema = sqlResponseSchema
 //     userQuery: string,
 //     sqlQueryFormatted?: string | undefined,
 //     countingSqlQuery?: string | undefined,
+//     expectedRowCount?: number | undefined,
 //     limitedSqlQuery?: string | undefined,
 //     limitedSqlQueryFormatted?: string | undefined,
 //     formattedAnswer?: string | undefined

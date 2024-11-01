@@ -18,6 +18,7 @@ export const promptForSQL_examples_schema = z
 
 // used with promptForCountingSQL()
 export const countingSqlResponseSchema = z.object({
+  expectedRowCount: z.number().optional(),
   countingSqlQuery: z.string(),
 });
 

@@ -13,12 +13,24 @@ import { loggerLanguageToSQL } from "../../Utils/logger.js";
 
 export async function checkRowCount(sqlQuery) {
   try {
+    const extractedLimit = extractLimit(sqlQuery);
+    if (extractedLimit) {
+      loggerLanguageToSQL.info(
+        `Row limit extracted from the LIMIT clause: ${extractedLimit}`
+      );
+      return extractedLimit;
+    }
+
     // Call GPT for a proper query
-    const { countingSqlQuery } = await generateGPTAnswer(
+    const { expectedRowCount, countingSqlQuery } = await generateGPTAnswer(
       promptForCountingSQL(sqlQuery),
       countingSqlResponseSchema,
       "counting_sql_response"
     );
+    if (expectedRowCount) {
+      loggerLanguageToSQL.info(`GPT directly inferred the expected row count.`);
+      return expectedRowCount;
+    }
     if (!countingSqlQuery) {
       throw new AppError(
         "GPT failed to generate a meaningful query for rows counting."
@@ -30,7 +42,7 @@ export async function checkRowCount(sqlQuery) {
 
     // Execute the query on MySQL database
     const rows = await executeSQL(countingSqlQuery);
-    const expectedRowCount = Number(rows?.[0]?.row_count);
+    expectedRowCount = Number(rows?.[0]?.row_count);
     if (!expectedRowCount) {
       throw new AppError("Failed to fetch the row_count from the db.");
     }
@@ -39,6 +51,14 @@ export async function checkRowCount(sqlQuery) {
     loggerLanguageToSQL.error("❌ Error checking expected row count.");
     throw error;
   }
+}
+
+function extractLimit(sqlQuery) {
+  const limitRegex = /LIMIT\s+(\d+)\s*$/i;
+  const match = sqlQuery.match(limitRegex);
+
+  // If a match is found, return the limit as a number, otherwise return null
+  return match ? Number(match[1]) : null;
 }
 
 export async function appendLimitClause(sqlQuery, maxRows) {

@@ -1,47 +1,27 @@
 import { z } from "zod";
 import {
   sqlResponseSchema,
-  countingSqlResponseSchema,
-  limitedSqlResponseSchema,
   finalResponseSchema,
-} from "../../OpenAI/responseSchemas.js";
+} from "../../OpenAI/LLMschemas.js";
 
 export const promptExamplesSchema = sqlResponseSchema
   .extend({
-    sqlQueryFormatted: sqlResponseSchema.shape.sqlQueryFormatted.optional(),
-  })
-  .merge(
-    countingSqlResponseSchema.extend({
-      countingSqlQuery:
-        countingSqlResponseSchema.shape.countingSqlQuery.optional(),
-    })
-  )
-  .merge(
-    limitedSqlResponseSchema.extend({
-      limitedSqlQuery:
-        limitedSqlResponseSchema.shape.limitedSqlQuery.optional(),
-      limitedSqlQueryFormatted:
-        limitedSqlResponseSchema.shape.limitedSqlQueryFormatted.optional(),
-    })
-  )
-  .merge(
-    finalResponseSchema.extend({
-      formattedAnswer: finalResponseSchema.shape.formattedAnswer.optional(),
-    })
-  )
-  .extend({
     userQuery: z.string(),
+    sqlQueryFormatted: sqlResponseSchema.shape.sqlQueryFormatted.optional(),
+    sqlQueryLimited: z.string().optional(),
+    sqlQueryLimitedFormatted: z.string().optional(),
+    rowData: z.any().array().optional(),
+    formattedAnswer: finalResponseSchema.shape.formattedAnswer.optional(),
   })
   .array();
 
 // {
+//     userQuery: string,
 //     isSelect: boolean,
 //     sqlQuery: string,
-//     userQuery: string,
+//     sqlQueryLimited?: string | undefined;
 //     sqlQueryFormatted?: string | undefined,
-//     countingSqlQuery?: string | undefined,
-//     expectedRowCount?: number | undefined,
-//     limitedSqlQuery?: string | undefined,
-//     limitedSqlQueryFormatted?: string | undefined,
+//     sqlQueryLimitedFormatted?: string | undefined;
+//     rowData?: any[] | undefined,
 //     formattedAnswer?: string | undefined
 // } []

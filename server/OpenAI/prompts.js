@@ -9,8 +9,8 @@ export function promptForSQL(userQuery) {
       role: "system",
       content: `You are an intelligent AI translator who translates natural language to SQL queries and works for our company - "Sakila LLC". We are a major DVD rental company in USA. You will be provided with:
 
-        1. Comprehensive schema of our MySQL database which contains multiple tables. The schema will be provided in JSON format.
-        2. Natural language query from our company employee who is trying to urgently find some important information in our database.
+        1. Comprehensive schema of our MySQL database which contains multiple tables.
+        2. Natural language query from our employee who is trying to urgently find some important information in our database.
       
       You need to translate this employee query into an appropiate SQL query which will allow the employee to retrieve the relevant data. Prepare the SQL query using information about our database.
 
@@ -22,9 +22,9 @@ export function promptForSQL(userQuery) {
 
       Wrap your answer in JSON object. It should have three properties:
       {
-        "isSelect": "Boolean property set to true only if the generated SQL query is of type SELECT (and thus doesn't change the data in our database). Otherwise (e.g if the SQL query involves INSERT or DELETE operation or you are unable to generate a query) this property should be false.",
+        "isSelect": "Boolean property set to true only if the generated SQL query is of type SELECT (and thus doesn't change the data in our database). Otherwise (e.g if the SQL query involves INSERT or DELETE operation) this property should be false.",
         "sqlQuery": "SQL query which you generated.",
-        "sqlQueryFormatted": "SQL query which you generated formatted with \n (newline character) after each self-contained part of the query. This formatted version of the SQL query is meant to be displayed to the user in a visually appealing format on the frontend."
+        "sqlQueryFormatted": "SQL query which you generated formatted with \\n (newline character) after each self-contained part of the query. This formatted version of the SQL query is meant to be displayed to the user in a visually appealing format on the frontend."
       }
       Set "sqlQuery" and "sqlQueryFormatted" to empty strings if you are unable to generate a query.`,
     },
@@ -40,69 +40,6 @@ export function promptForSQL(userQuery) {
       You should answer in a similar fashion.`,
     },
     { role: "user", content: userQuery },
-  ];
-}
-
-export function promptForCountingSQL(sqlQuery) {
-  return [
-    {
-      role: "system",
-      content: `You are an intelligent AI assistant who specializes in transforming SQL queries. You work for our company - "Sakila LLC". We are a major DVD rental company in USA.
-       
-      You will be provided with:
-  
-        1. Comprehensive schema of our MySQL database which contains multiple tables. The schema will be provided in JSON format.
-        2. SELECT SQL query written by our employee which you will need to transform. This query will be eventually executed against our database.
-
-      Your task is to create a new query which will allow us to check how many rows the initial SELECT query is about to retrieve. Before its execution we need to make sure that it won't retrieve to many records and overwhelm our database. Your new query should be based on the one which you received and contain a COUNT clause. It should only retrieve one record with the count of rows - alias the returned column as "row_count". Take into account the structure of our database.
-
-      If you are sure that the intitial SELECT query will only return one record (e.g. because it is an aggregation query which returns only the result of the aggregate function like COUNT(), SUM(), AVG(), MIN(), MAX() etc.) do NOT generate any new transformation query but straight away tell us that the expected row count is 1.
-        
-      Wrap your answer in JSON object. It should have the following structure:
-      { 
-        "expectedRowCount?": "Optional numeric property which should store the expected number of rows returned by the initial query. Should only be present if you can infer this number.",
-        "countingSqlQuery": "Your new SELECT query with COUNT clause. Set this to empty string if 'expectedRowCount' is present or if you are unable to generate a query." 
-      }`,
-    },
-    {
-      role: "system",
-      content: `Here is the comprehensive JSON formatted schema of our database:
-      ${JSON.stringify(dbSchema, null, 2)}`,
-    },
-    {
-      role: "system",
-      content: `Here are some examples of your previous successful transformations:
-      ${JSON.stringify(promptExamples.promptForCountingSQL_examples, null, 2)}
-      You should answer in a similar fashion.`,
-    },
-    { role: "user", content: sqlQuery },
-  ];
-}
-
-export function promptForLimitedSQL(sqlQuery, maxRows) {
-  return [
-    {
-      role: "system",
-      content: `You are an intelligent AI assistant who specializes in transforming SQL queries. You work for our company - "Sakila LLC". We are a major DVD rental company in USA.`,
-    },
-    {
-      role: "user",
-      content: `Here is a SELECT SQL query written by our employee:
-      ${sqlQuery}
-
-      You need to transform this query so that it contains a LIMIT cluase at the end. Maximum number of rows which it can retrieve should be: ${maxRows}.
-    
-      Wrap your answer in JSON object. It should have only two properties:
-      {
-        "limitedSqlQuery": "Your new SELECT query with LIMIT clause.",
-        "limitedSqlQueryFormatted": "limitedSqlQuery formatted with \\n (newline character) after each self-contained part of the query. This formatted version of the SQL query is meant to be displayed to the user in a visually appealing format on the frontend."
-      }
-      Set all properties to empty strings if you are unable to generate a query.
-
-      Here are some examples of your previous successful transformations:
-      ${JSON.stringify(promptExamples.promptForLimitedSQL_examples, null, 2)}
-      You should answer in a similar fashion.`,
-    },
   ];
 }
 
@@ -122,7 +59,7 @@ export function promptForAnswer(userQuery, sqlQuery, rowData) {
       Here are additional instructions which you should follow:
        - Wrap the most important part of the answer (e.g. a numeric value like total profit or a text like client company name) with the HTML <span class="bold"></span> tags, so that I can later display it on frontend in a user friendly way.
        - Format numeric values so that thousands are separated with a comma and decimal places come after a dot.
-       - If there are multiple rows retrieved from the database and you need to enumerate some values in the your answer, do it in a form of a list. Each list item should start from a new line and be preceded by a tabulation character and a bullet point or a number.
+       - If there are multiple rows retrieved from the database and you need to enumerate some values in your answer, do it in a form of a list. Each list item should start from a new line and be preceded by a tabulation character and a bullet point or a number.
        - Your answer should be a full sentence in the same language as the initial question.
       
       Wrap your answer in JSON object. It should have only one property:
@@ -132,21 +69,21 @@ export function promptForAnswer(userQuery, sqlQuery, rowData) {
     },
     {
       role: "system",
-      content: `
-      SQL query which corresponds to the initial employee question:
-      ${sqlQuery}
-      
-      Records retrieved from our database:
-      ${JSON.stringify(rowData, null, 2)}
-      `,
+      content: `Here are some examples of previous questions which you have answered:
+      ${JSON.stringify(promptExamples.promptForAnswer_examples, null, 2)}
+      You should answer in a similar fashion.`,
     },
-    { role: "user", content: userQuery },
+    {
+      role: "user",
+      content: JSON.stringify(
+        {
+          userQuery,
+          sqlTranslation: sqlQuery,
+          rowData,
+        },
+        null,
+        2
+      ),
+    },
   ];
 }
-
-// TODO: add examples to promptForAnswer
-
-// Lines from prompt:
-//
-// Set of example pairs of employee queries (in natural langauge) and your JSON-formatted answers containing SQL queries.
-// If 'isSelect' is false set this property to an empty string.

@@ -1,83 +1,32 @@
-import { executeSQL } from "../../Database/mysql.js";
-import { generateGPTAnswer } from "../../OpenAI/openAI.js";
-import {
-  promptForCountingSQL,
-  promptForLimitedSQL,
-} from "../../OpenAI/prompts.js";
-import {
-  countingSqlResponseSchema,
-  limitedSqlResponseSchema,
-} from "../../OpenAI/responseSchemas.js";
-import { AppError } from "../../Utils/AppError.js";
-import { loggerLanguageToSQL } from "../../Utils/logger.js";
+export function appendLimitClause(sqlQuery, sqlQueryFormatted, rowLimit) {
+  let sqlQueryLimited;
+  let sqlQueryLimitedFormatted;
 
-export async function checkRowCount(sqlQuery) {
-  try {
-    const extractedLimit = extractLimit(sqlQuery);
-    if (extractedLimit) {
-      loggerLanguageToSQL.info(
-        `Row limit extracted from the LIMIT clause: ${extractedLimit}`
-      );
-      return extractedLimit;
-    }
+  const pattern = /\s?LIMIT\s(\d+);/i;
+  const queryMatches = sqlQuery.match(pattern);
+  const limitedQueryMatches = sqlQueryFormatted.match(pattern);
 
-    // Call GPT for a proper query
-    let { expectedRowCount, countingSqlQuery } = await generateGPTAnswer(
-      promptForCountingSQL(sqlQuery),
-      countingSqlResponseSchema,
-      "counting_sql_response"
-    );
-    if (expectedRowCount) {
-      loggerLanguageToSQL.info(`GPT directly inferred the expected row count.`);
-      return expectedRowCount;
-    }
-    if (!countingSqlQuery) {
-      throw new AppError(
-        "GPT failed to generate a meaningful query for rows counting."
-      );
-    }
-    loggerLanguageToSQL.info(
-      `🤖 Generated row-counting SQL:\n${countingSqlQuery} `
-    );
-
-    // Execute the query on MySQL database
-    const rows = await executeSQL(countingSqlQuery);
-    expectedRowCount = Number(rows?.[0]?.row_count);
-    if (!expectedRowCount) {
-      throw new AppError("Failed to fetch the row_count from the db.");
-    }
-    return expectedRowCount;
-  } catch (error) {
-    loggerLanguageToSQL.error("❌ Error checking expected row count.");
-    throw error;
+  if (!queryMatches) {
+    sqlQueryLimited = `${sqlQuery.split(";")[0]} LIMIT ${rowLimit};`;
+  } else {
+    const extractedRowLimit = parseInt(queryMatches[1]);
+    sqlQueryLimited =
+      extractedRowLimit > rowLimit
+        ? `${sqlQuery.split(pattern)[0]} LIMIT ${rowLimit};`
+        : sqlQuery;
   }
-}
 
-function extractLimit(sqlQuery) {
-  const limitRegex = /LIMIT\s+(\d+);/i;
-  const match = sqlQuery.match(limitRegex);
-
-  // If a match is found, return the limit as a number, otherwise return null
-  return match ? Number(match[1]) : null;
-}
-
-export async function appendLimitClause(sqlQuery, maxRows) {
-  try {
-    const { limitedSqlQuery, limitedSqlQueryFormatted } =
-      await generateGPTAnswer(
-        promptForLimitedSQL(sqlQuery, maxRows),
-        limitedSqlResponseSchema,
-        "limited_sql_response"
-      );
-    if (!limitedSqlQuery || !limitedSqlQueryFormatted) {
-      throw new AppError("GPT failed to correctly append the LIMIT clause.");
-    }
-    loggerLanguageToSQL.info(
-      `Successfully appended the LIMIT clause: ${limitedSqlQuery}`
-    );
-    return { limitedSqlQuery, limitedSqlQueryFormatted };
-  } catch (error) {
-    loggerLanguageToSQL.error("❌ Error appending the LIMIT clause.");
-    throw error;
+  if (!limitedQueryMatches) {
+    sqlQueryLimitedFormatted = `${
+      sqlQueryFormatted.split(";")[0]
+    } \n LIMIT ${rowLimit};`;
+  } else {
+    const extractedRowLimit = parseInt(limitedQueryMatches[1]);
+    sqlQueryLimitedFormatted =
+      extractedRowLimit > rowLimit
+        ? `${sqlQueryFormatted.split(pattern)[0]} LIMIT ${rowLimit};`
+        : sqlQueryFormatted;
   }
+
+  return { sqlQueryLimited, sqlQueryLimitedFormatted };
 }

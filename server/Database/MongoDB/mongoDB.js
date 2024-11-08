@@ -4,10 +4,8 @@ import { AppError } from "../../Utils/AppError.js";
 import { promptExamplesSchema } from "./mongoTypes.js";
 import {
   promptForSQL_examples_schema,
-  promptForCountingSQL_examples_schema,
-  promptForLimitedSQL_examples_schema,
   promptForAnswer_examples_schema,
-} from "../../OpenAI/responseSchemas.js";
+} from "../../OpenAI/LLMschemas.js";
 import "dotenv/config";
 
 const MONGO_CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING;
@@ -52,8 +50,8 @@ async function retrievePromptExamples() {
     const coll = db.collection(MONGO_COLLECTION_EXAMPLES);
 
     const options = {
-      // Exclude _id field from the returned document
-      projection: { _id: 0 },
+      // Exclude _id and metadata fields from the returned documents
+      projection: { _id: 0, metadata: 0 },
     };
 
     const documents = await coll.find({}, options).toArray();
@@ -87,42 +85,29 @@ export async function loadDbInformation() {
       aiAnswer: {
         isSelect: example.isSelect,
         sqlQuery: example.sqlQuery,
+        ...(!!example.sqlQueryFormatted && {
+          sqlQueryFormatted: example.sqlQueryFormatted,
+        }),
       },
     }))
   );
 
-  const promptForCountingSQL_examples =
-    promptForCountingSQL_examples_schema.parse(
-      promptExamples
-        .filter((example) => !!example.countingSqlQuery)
-        .map((example) => ({
-          employeeSQL: example.userQuery,
-          aiAnswer: {
-            countingSqlQuery: example.countingSqlQuery,
-          },
-        }))
-    );
-
-  const promptForLimitedSQL_examples =
-    promptForLimitedSQL_examples_schema.parse(
-      promptExamples
-        .filter((example) => !!example.limitedSqlQuery)
-        .map((example) => ({
-          employeeSQL: example.userQuery,
-          aiAnswer: {
-            limitedSqlQuery: example.limitedSqlQuery,
-          },
-        }))
-    );
-
   const promptForAnswer_examples = promptForAnswer_examples_schema.parse(
     promptExamples
-      .filter((example) => !!example.formattedAnswer)
+      .filter(
+        (example) =>
+          !!example.formattedAnswer &&
+          !!example.sqlQueryLimited &&
+          !!example.rowData &&
+          example.rowData.length > 1
+      )
       .map((example) => ({
-        userQuery: example.userQuery,
-        aiAnswer: {
-          formattedAnswer: example.formattedAnswer,
+        inputData: {
+          userQuery: example.userQuery,
+          sqlTranslation: example.sqlQueryLimited,
+          rowData: example.rowData,
         },
+        aiAnswer: example.formattedAnswer,
       }))
   );
 
@@ -130,15 +115,13 @@ export async function loadDbInformation() {
     dbSchema,
     promptExamples: {
       promptForSQL_examples,
-      promptForCountingSQL_examples,
-      promptForLimitedSQL_examples,
       promptForAnswer_examples,
     },
   };
 }
 
 // Only for manual use - additional imports needed
-async function insertDbSchema() {
+export async function insertDbSchema(dbSchema) {
   try {
     const db = mongoClient.db(MONGO_DATABASE);
     const coll = db.collection(MONGO_COLLECTION_SCHEMAS);
@@ -155,7 +138,7 @@ async function insertDbSchema() {
   }
 }
 
-async function insertPromptExamples() {
+export async function insertPromptExamples(promptExamples) {
   try {
     const db = mongoClient.db(MONGO_DATABASE);
     const coll = db.collection(MONGO_COLLECTION_EXAMPLES);
@@ -174,6 +157,3 @@ async function insertPromptExamples() {
     await mongoClient.close();
   }
 }
-
-// await insertDbSchema();
-// await insertPromptExamples();

@@ -11,6 +11,7 @@ import {
 import { RowMYSQL } from '../interfaces/row-mysql';
 import { AuthService } from './auth.service';
 import { finalize } from 'rxjs';
+import { APISuccessResponse } from '../interfaces/api-responses';
 
 @Injectable({
   providedIn: 'root',
@@ -22,27 +23,26 @@ export class DataFetchingService {
   readonly isFirstAppOpen = signal<boolean>(false);
   readonly query = signal<string>(EXAMPLE_USER_QUERY);
   readonly rowData = signal<RowMYSQL[]>(EXAMPLE_ROW_DATA_ARRAY);
-  readonly sqlStatement = signal<string>(EXAMPLE_SQL_STATEMENT);
+  readonly sqlQueryFormatted = signal<string>(EXAMPLE_SQL_STATEMENT);
   readonly formattedAnswer = signal<string>(EXAMPLE_FORMATTED_ANSWER);
 
   fetchAiAnswers(userQuery: string): void {
     this.query.set(userQuery);
     this.isLoading.set(true);
 
-    const payload: QueryPayload = { query: userQuery };
+    const payload: QueryPayload = { query: userQuery, rowLimit: 3 };
     this.http
-      .post<any>(apiUrl('/language-to-sql'), payload, {
+      .post<APISuccessResponse>(apiUrl('/language-to-sql'), payload, {
         withCredentials: true, // Has to be true if the request should be sent with outgoing credentials (cookies).
       })
       .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe({
         next: (res) => {
-          this.rowData.set(res.rawData || []);
-          this.sqlStatement.set(res.sqlStatement || '');
-          this.formattedAnswer.set(res.formattedAnswer || '');
+          this.rowData.set(res.data?.rowData || []);
+          this.sqlQueryFormatted.set(res.data?.sqlQueryFormatted || '');
+          this.formattedAnswer.set(res.data?.formattedAnswer || '');
           this.isFirstAppOpen.set(false);
-          this.isLoading.set(false);
-        },
+        }
       });
   }
 }

@@ -26,7 +26,8 @@ mainRouter.post(
 
     // ===========================================================================
     // Initialize required variables
-    const { userQuery, rowLimit } = reqParsed;
+    const userQuery = reqParsed.query;
+    const rowLimit = reqParsed.rowLimit;
 
     // ===========================================================================
     // Call OpenAI to translate natural language to SQL
@@ -35,25 +36,21 @@ mainRouter.post(
       sqlResponseSchema,
       "sql_response"
     );
-    if (!sqlQuery || !sqlQueryFormatted) {
-      throw new AppError(
-        "GPT failed to generate a meaningful SQL translation."
-      );
-    }
     if (!isSelect) {
       res.status(400).json({
         status: "error",
         errorCode: ERR_CODES.UNSUPPORTED_QUERY_ERR,
         data: {
-          sqlQueryFormatted: ["production", "frontend_testing"].includes(
-            NODE_ENV
-          )
-            ? sqlQueryFormatted
-            : sqlQuery,
+          sqlQueryFormatted: sqlQueryFormatted,
         },
       });
 
       return;
+    }
+    if (!sqlQuery || !sqlQueryFormatted) {
+      throw new AppError(
+        "GPT failed to generate a meaningful SQL translation."
+      );
     }
     loggerLanguageToSQL.info(`🤖 Generated SQL: ${sqlQuery}`);
 

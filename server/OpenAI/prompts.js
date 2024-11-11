@@ -22,10 +22,10 @@ export function promptForSQL(userQuery) {
 
       Wrap your answer in JSON object. It should have three properties:
       {
-        "isSelect": "Boolean property set to true only if the generated SQL query is of type SELECT (and thus doesn't change the data in our database). Otherwise (e.g if the SQL query involves INSERT or DELETE operation) this property should be false.",
         "sqlQuery": "SQL query which you generated.",
-        "sqlQueryFormatted": "SQL query which you generated formatted with \\n (newline character) after each self-contained part of the query. This formatted version of the SQL query is meant to be displayed to the user in a visually appealing format on the frontend."
-      }
+        "sqlQueryFormatted": "SQL query which you generated formatted with \\n (newline character) after each self-contained part of the query. This formatted version of the SQL query is meant to be displayed to the user in a visually appealing format on the frontend.",
+        "isSelect": "Boolean property set to true only if the generated SQL query is of type SELECT (and thus doesn't change the data in our database). Otherwise (e.g if the SQL query involves INSERT or DELETE operation) this property should be false."
+        }
       Set "sqlQuery" and "sqlQueryFormatted" to empty strings if you are unable to generate a query.`,
     },
     {

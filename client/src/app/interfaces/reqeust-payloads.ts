@@ -1,5 +1,6 @@
 export interface QueryPayload {
-    query: string
+  query: string;
+  rowLimit: number;
 }
 
 export interface AuthPayload {

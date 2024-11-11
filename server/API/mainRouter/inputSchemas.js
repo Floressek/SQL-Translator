@@ -5,6 +5,6 @@ import {
 } from "../../Constants/constants.js";
 
 export const querySchema = z.object({
-  userQuery: z.string().min(1).max(MAX_QUERY_LENGTH),
+  query: z.string().min(1).max(MAX_QUERY_LENGTH),
   rowLimit: z.number().min(1).max(MAX_ROWS_ALLOWED),
 });

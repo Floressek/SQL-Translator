@@ -18,6 +18,10 @@ export class ResultsGridComponent {
 
   readonly rowData = this.dataFetchingService.rowData;
   readonly colDefs = computed<ColDef[]>((): ColDef[] => {
+    if (this.rowData().length === 0) {
+      return [];
+    }
+
     const columnNames = Object.keys(this.rowData()[0]);
     return columnNames.map((name) => ({
       field: name,

@@ -36,7 +36,6 @@ export class AuthService {
           this.persistLoggedInState();
           this.isSessionExpired.set(false);
           this.router.navigate(['/']);
-          this.isLoading.set(false);
         },
       });
   }
@@ -59,7 +58,6 @@ export class AuthService {
           // Only remove the 'isAuthenticated' flag and redirect to login page after the session was terminated from the backend perspective
           this.removeAuthenticatedFlag();
           this.router.navigate(['/auth/login']);
-          this.isWaitingForLogout.set(false);
         },
       });
   }

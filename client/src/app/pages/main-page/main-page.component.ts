@@ -1,7 +1,6 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
-import { RouterOutlet } from '@angular/router';
 import { ButtonComponent } from '../../components/button/button.component';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { CardComponent } from '../../components/card/card.component';
@@ -9,18 +8,19 @@ import { ResultsGridComponent } from '../../components/results-grid/results-grid
 import { DataFetchingService } from '../../services/data-fetching.service';
 import { AuthService } from '../../services/auth.service';
 import { MessageService } from '../../services/message.service';
+import { TitlesComponent } from '../../components/titles/titles.component';
 
 @Component({
   selector: 'app-main-page',
   standalone: true,
   imports: [
-    RouterOutlet,
     NgClass,
     CardComponent,
     ButtonComponent,
     SpinnerComponent,
     ResultsGridComponent,
     ReactiveFormsModule,
+    TitlesComponent
   ],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.scss',

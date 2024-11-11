@@ -1,0 +1,17 @@
+@import "./../../../design-system/typography/typography_mixins";
+
+.titles-container {
+  display: flex;
+  padding: 0 0.75rem;
+  flex-direction: column;
+}
+
+.title-main {
+  @include m3-headline-small;
+  color: var(--sys-on-surface);
+}
+
+.subtitle {
+  @include m3-title-medium;
+  color: var(--sys-on-surface);
+}

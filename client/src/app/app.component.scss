@@ -1,30 +1,12 @@
 @import "./../design-system/typography/typography_mixins";
 
 :host {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-}
-
-.titles-container {
-  display: flex;
-  padding: 0 0.75rem;
-  flex-direction: column;
-}
-
-.title-main {
-  @include m3-headline-small;
-  color: var(--sys-on-surface);
-}
-
-.subtitle {
-  @include m3-title-medium;
-  color: var(--sys-on-surface);
+  width: 95vw;
+  max-width: 70rem;
 }
 
 app-theme-switch {
   position: fixed;
-
   top: 0.4rem;
   left: 0.4rem;
 }

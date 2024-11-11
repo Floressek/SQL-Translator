@@ -6,6 +6,7 @@ import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { CardComponent } from '../../components/card/card.component';
 import { AuthService } from '../../services/auth.service';
 import { MessageService } from '../../services/message.service';
+import { TitlesComponent } from '../../components/titles/titles.component';
 
 @Component({
   selector: 'app-login-page',
@@ -16,6 +17,7 @@ import { MessageService } from '../../services/message.service';
     ButtonComponent,
     SpinnerComponent,
     ReactiveFormsModule,
+    TitlesComponent
   ],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss',

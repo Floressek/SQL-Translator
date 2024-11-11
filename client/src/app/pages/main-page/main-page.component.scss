@@ -1,9 +1,26 @@
 @import "./../../../design-system/typography/typography_mixins";
 
-.main-container {
-  width: 95vw;
-  max-width: 70rem;
+:host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
+.page-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+
+  &.first-app-open {
+    width: 60%;
+    max-width: 43rem;
+  }
+}
+
+.main-container {
   display: flex;
   flex-direction: row;
   gap: 4rem;
@@ -12,10 +29,6 @@
 
   border-radius: var(--m3-corner-large);
   background: var(--sys-surface-container-high);
-
-  &.first-app-open {
-    max-width: 43rem;
-  }
 }
 
 .col {

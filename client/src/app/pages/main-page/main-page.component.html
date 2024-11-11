@@ -1,92 +1,98 @@
 <div
-  class="main-container"
+  class="page-content"
   [ngClass]="this.dataFetchingService.isFirstAppOpen() ? 'first-app-open' : ''"
 >
-  <div class="col col-left">
-    <!-- Ask the Database -->
-    <app-card cardTitle="Ask the Database">
-      <form
-        class="form"
-        [formGroup]="dbQuestionForm"
-        (ngSubmit)="submitQuery()"
-      >
-        <div
-          class="card-content-container user-question-container"
-          [ngClass]="this.messageService.errorMessage() ? 'error' : ''"
+  <app-titles />
+
+  <div class="main-container">
+    <div class="col col-left">
+      <!-- Ask the Database -->
+      <app-card cardTitle="Ask the Database">
+        <form
+          class="form"
+          [formGroup]="dbQuestionForm"
+          (ngSubmit)="submitQuery()"
         >
-          <textarea
-            type="text"
-            formControlName="query"
-            class="card-content user-question"
-            [ngClass]="
-              this.dataFetchingService.isFirstAppOpen() ? 'first-app-open' : ''
-            "
-          ></textarea>
-        </div>
-
-        <div class="bottom-row-container">
-          @if (this.messageService.errorMessage()) {
-          <div class="error-container">
-            <b>Error:</b> {{ this.messageService.errorMessage() }}
-          </div>
-          } @if (this.dataFetchingService.isLoading()) {
-          <app-spinner />
-          }
-
-          <div class="button-container">
-            <app-button
-              [disabled]="
-                this.dataFetchingService.isLoading() ||
-                this.authService.isWaitingForLogout() ||
-                this.authService.isSessionExpired()
-              "
-              type="submit"
-              >Submit</app-button
-            >
-          </div>
-        </div>
-      </form>
-    </app-card>
-
-    @if (!this.dataFetchingService.isFirstAppOpen()) {
-    <!-- Assistant Answer -->
-    <app-card cardTitle="Assistant Answer">
-      <div class="card-content-container assistant-answer-container">
-        <div
-          class="card-content assistant-answer"
-          [innerHTML]="this.dataFetchingService.formattedAnswer()"
-        ></div>
-      </div>
-    </app-card>
-    }
-  </div>
-
-  @if (!this.dataFetchingService.isFirstAppOpen()) {
-  <div class="col col-right">
-    <div class="col-right-centered-holder">
-      <!-- SQL Translation -->
-      <app-card cardTitle="SQL Translation" class="card-sql">
-        <div class="card-content-container sql-translation-container">
           <div
-            class="card-content sql-translation"
-            [innerHTML]="this.dataFetchingService.sqlQueryFormatted()"
+            class="card-content-container user-question-container"
+            [ngClass]="this.messageService.errorMessage() ? 'error' : ''"
+          >
+            <textarea
+              type="text"
+              formControlName="query"
+              class="card-content user-question"
+              [ngClass]="
+                this.dataFetchingService.isFirstAppOpen()
+                  ? 'first-app-open'
+                  : ''
+              "
+            ></textarea>
+          </div>
+
+          <div class="bottom-row-container">
+            @if (this.messageService.errorMessage()) {
+            <div class="error-container">
+              <b>Error:</b> {{ this.messageService.errorMessage() }}
+            </div>
+            } @if (this.dataFetchingService.isLoading()) {
+            <app-spinner />
+            }
+
+            <div class="button-container">
+              <app-button
+                [disabled]="
+                  this.dataFetchingService.isLoading() ||
+                  this.authService.isWaitingForLogout() ||
+                  this.authService.isSessionExpired()
+                "
+                type="submit"
+                >Submit</app-button
+              >
+            </div>
+          </div>
+        </form>
+      </app-card>
+
+      @if (!this.dataFetchingService.isFirstAppOpen()) {
+      <!-- Assistant Answer -->
+      <app-card cardTitle="Assistant Answer">
+        <div class="card-content-container assistant-answer-container">
+          <div
+            class="card-content assistant-answer"
+            [innerHTML]="this.dataFetchingService.formattedAnswer()"
           ></div>
         </div>
       </app-card>
-
-      <!-- Retrieved Records -->
-      <app-card cardTitle="Retrieved Records" class="card-ag-grid">
-        <app-results-grid />
-      </app-card>
+      }
     </div>
-  </div>
-  }
 
-  <app-button
-    class="logout-button"
-    appearance="subtle"
-    [disabled]="this.authService.isWaitingForLogout()"
-    (click)="this.authService.logout()"
-    >Log out</app-button
-  >
+    @if (!this.dataFetchingService.isFirstAppOpen()) {
+    <div class="col col-right">
+      <div class="col-right-centered-holder">
+        <!-- SQL Translation -->
+        <app-card cardTitle="SQL Translation" class="card-sql">
+          <div class="card-content-container sql-translation-container">
+            <div
+              class="card-content sql-translation"
+              [innerHTML]="this.dataFetchingService.sqlQueryFormatted()"
+            ></div>
+          </div>
+        </app-card>
+
+        <!-- Retrieved Records -->
+        <app-card cardTitle="Retrieved Records" class="card-ag-grid">
+          <app-results-grid />
+        </app-card>
+      </div>
+    </div>
+    }
+
+    <app-button
+      class="logout-button"
+      appearance="subtle"
+      [disabled]="this.authService.isWaitingForLogout()"
+      (click)="this.authService.logout()"
+      >Log out</app-button
+    >
+  </div>
 </div>

@@ -86,13 +86,5 @@
       </div>
     </div>
     }
-
-    <app-button
-      class="logout-button"
-      appearance="subtle"
-      [disabled]="this.authService.isWaitingForLogout()"
-      (click)="this.authService.logout()"
-      >Log out</app-button
-    >
   </div>
 </div>

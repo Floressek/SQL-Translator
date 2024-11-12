@@ -1,0 +1,13 @@
+<div class="navbar">
+  <app-theme-switch />
+
+  @if (this.authService.isLoggedIn()) {
+  <app-button
+    class="logout-button"
+    appearance="subtle"
+    [disabled]="this.authService.isWaitingForLogout()"
+    (click)="this.authService.logout()"
+    >Log out</app-button
+  >
+  }
+</div>

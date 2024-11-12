@@ -1,5 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { ColorTheme } from '../interfaces/color-theme';
+import { DARK_THEME_FLAG } from '../utils/constants';
 
 export const storageKey = 'theme';
 
@@ -8,7 +9,6 @@ export const storageKey = 'theme';
 })
 export class ThemeService {
   readonly isDarkTheme = signal<boolean>(false);
-  readonly themeFlagName = 'theme';
 
   switchTheme() {
     const rootElement: HTMLElement = document.documentElement;
@@ -17,26 +17,25 @@ export class ThemeService {
       this.removeDarkThemeFlag();
     } else {
       rootElement.id = ColorTheme.dark;
-      this.persistDarkTheme();
+      this.setDarkThemeFlag();
     }
 
     this.isDarkTheme.set(!this.isDarkTheme());
   }
 
   initializeAppTheme() {
-    const darkThemeFlag = localStorage.getItem(this.themeFlagName);
-    if (darkThemeFlag && darkThemeFlag === ColorTheme.dark) {
+    if (localStorage.getItem(DARK_THEME_FLAG.name) === DARK_THEME_FLAG.value) {
       this.isDarkTheme.set(true);
       const rootElement: HTMLElement = document.documentElement;
       rootElement.id = ColorTheme.dark;
     }
   }
 
-  persistDarkTheme() {
-    localStorage.setItem(this.themeFlagName, ColorTheme.dark);
+  setDarkThemeFlag() {
+    localStorage.setItem(DARK_THEME_FLAG.name, DARK_THEME_FLAG.value);
   }
 
   removeDarkThemeFlag() {
-    localStorage.removeItem(this.themeFlagName);
+    localStorage.removeItem(DARK_THEME_FLAG.name);
   }
 }

@@ -1,0 +1,13 @@
+.navbar {
+    height: 3.3rem;
+    padding: 0.4rem;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    // background-color: orange;
+}
+
+app-theme-switch {
+    align-self: start;
+}

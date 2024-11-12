@@ -1,12 +1,21 @@
 @import "./../design-system/typography/typography_mixins";
 
 :host {
-  width: 95vw;
-  max-width: 70rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding-bottom: 2rem;
 }
 
-app-theme-switch {
-  position: fixed;
-  top: 0.4rem;
-  left: 0.4rem;
+.main-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  // background-color: yellow;
+}
+
+.app-content {
+  width: 95vw;
+  max-width: 70rem;
+  // background-color: green;
 }

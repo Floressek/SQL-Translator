@@ -4,6 +4,7 @@ import { AuthPayload } from '../interfaces/reqeust-payloads';
 import { apiUrl } from '../utils/apiUrl';
 import { Router } from '@angular/router';
 import { MessageService } from './message.service';
+import { AUTHENTICATED_FLAG } from '../utils/constants';
 import { finalize } from 'rxjs';
 
 @Injectable({
@@ -13,6 +14,7 @@ export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
   readonly messageService = inject(MessageService);
+  readonly isLoggedIn = signal<boolean>(false);
   readonly isLoading = signal<boolean>(false);
   readonly isSessionExpired = signal<boolean>(false);
   readonly isWaitingForLogout = signal<boolean>(false);
@@ -27,14 +29,13 @@ export class AuthService {
 
     const payload: AuthPayload = { password: userPassword };
     this.http
-      .post<any>(apiUrl('/auth/login'), payload, {
+      .post(apiUrl('/auth/login'), payload, {
         withCredentials: true, // Has to be true if the request should be sent with outgoing credentials (cookies).
       })
       .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe({
-        next: (res) => {
+        next: () => {
           this.persistLoggedInState();
-          this.isSessionExpired.set(false);
           this.router.navigate(['/']);
         },
       });
@@ -45,7 +46,7 @@ export class AuthService {
 
     // Empty {} as request body needed in order for this to work 😡
     this.http
-      .post<any>(
+      .post(
         apiUrl('/auth/logout'),
         {},
         {
@@ -54,23 +55,28 @@ export class AuthService {
       )
       .pipe(finalize(() => this.isWaitingForLogout.set(false)))
       .subscribe({
-        next: (res) => {
+        next: () => {
           // Only remove the 'isAuthenticated' flag and redirect to login page after the session was terminated from the backend perspective
-          this.removeAuthenticatedFlag();
+          this.persistLoggedOutState();
           this.router.navigate(['/auth/login']);
         },
       });
   }
 
   persistLoggedInState(): void {
-    localStorage.setItem('isAuthenticated', 'true');
+    localStorage.setItem(AUTHENTICATED_FLAG.name, AUTHENTICATED_FLAG.value);
+    this.isLoggedIn.set(true);
+    this.isSessionExpired.set(false);
   }
 
-  removeAuthenticatedFlag(): void {
-    localStorage.removeItem('isAuthenticated');
+  persistLoggedOutState(): void {
+    localStorage.removeItem(AUTHENTICATED_FLAG.name);
+    this.isLoggedIn.set(false);
   }
 
-  isLoggedIn(): boolean {
-    return localStorage.getItem('isAuthenticated') === 'true';
+  syncAuthenticationState(): void {
+    this.isLoggedIn.set(
+      localStorage.getItem(AUTHENTICATED_FLAG.name) === AUTHENTICATED_FLAG.value
+    );
   }
 }

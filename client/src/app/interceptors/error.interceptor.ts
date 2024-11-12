@@ -93,14 +93,14 @@ export class ErrorInterceptor implements HttpInterceptor {
     NO_TOKEN_ERR: {
       message: 'Your session has expired. Please log in again to continue.',
       action: () => {
-        this.authService.removeAuthenticatedFlag();
+        this.authService.persistLoggedOutState();
         this.authService.isSessionExpired.set(true);
       },
     },
     INVALID_VERIFICATION_TOKEN_ERR: {
       message: 'Your session has expired. Please log in again to continue.',
       action: () => {
-        this.authService.removeAuthenticatedFlag();
+        this.authService.persistLoggedOutState();
         this.authService.isSessionExpired.set(true);
       },
     },

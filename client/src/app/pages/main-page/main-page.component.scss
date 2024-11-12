@@ -104,12 +104,6 @@
   align-items: center;
 }
 
-.logout-button {
-  position: fixed;
-  top: 0.4rem;
-  right: 0.4rem;
-}
-
 @media (max-width: 768px) {
   .main-container {
     flex-direction: column;

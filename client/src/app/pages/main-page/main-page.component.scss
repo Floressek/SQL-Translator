@@ -53,19 +53,19 @@
 
 .card-content {
   &.user-question {
-    height: 7rem;
+    height: 5.3rem;
 
     &.first-app-open {
-      height: 7.5rem;
+      height: 6.8rem;
     }
   }
 
   &.assistant-answer {
-    height: 16rem;
+    height: 15.8rem;
   }
 
   &.sql-translation {
-    height: 7rem;
+    height: 5.9rem;
     background-color: unset;
     padding: 0.5rem 1rem;
     font-family: "Consolas";

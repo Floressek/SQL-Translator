@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { ColorTheme } from '../interfaces/color-theme';
-import { DARK_THEME_FLAG } from '../utils/constants';
+import { DARK_THEME_FLAG } from '../utils/local-storage-flags';
 
 export const storageKey = 'theme';
 
@@ -23,7 +23,7 @@ export class ThemeService {
     this.isDarkTheme.set(!this.isDarkTheme());
   }
 
-  initializeAppTheme() {
+  syncAppTheme() {
     if (localStorage.getItem(DARK_THEME_FLAG.name) === DARK_THEME_FLAG.value) {
       this.isDarkTheme.set(true);
       const rootElement: HTMLElement = document.documentElement;

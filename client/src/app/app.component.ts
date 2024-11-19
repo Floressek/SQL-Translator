@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { ThemeService } from './services/theme.service';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AuthService } from './services/auth.service';
+import { RowLimitService } from './services/row-limit.service';
 
 @Component({
   selector: 'app-root',
@@ -14,9 +15,11 @@ import { AuthService } from './services/auth.service';
 export class AppComponent implements OnInit {
   readonly themeService = inject(ThemeService);
   readonly authService = inject(AuthService);
+  readonly rowLimitService = inject(RowLimitService);
 
   ngOnInit(): void {
     this.authService.syncAuthenticationState();
-    this.themeService.initializeAppTheme();
+    this.themeService.syncAppTheme();
+    this.rowLimitService.syncRowLimit();
   }
 }

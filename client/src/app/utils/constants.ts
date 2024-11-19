@@ -1,11 +1,5 @@
-import { ColorTheme } from '../interfaces/color-theme';
+export const DEFAULT_ROW_LIMIT = 3 as const;
 
-export const AUTHENTICATED_FLAG = {
-  name: 'isAuthenticated',
-  value: 'true',
-} as const;
+export const ROW_LIMITS = [1, DEFAULT_ROW_LIMIT, 5, 10, 25, 50] as const;
 
-export const DARK_THEME_FLAG = {
-  name: 'theme',
-  value: ColorTheme.dark,
-} as const;
+export type RowLimit = (typeof ROW_LIMITS)[number];

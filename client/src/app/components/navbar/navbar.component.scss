@@ -1,13 +1,28 @@
 .navbar {
-    height: 3.3rem;
-    padding: 0.4rem;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    // background-color: orange;
+  height: 3.3rem;
+  padding: 0.4rem;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // background-color: orange;
+}
+
+.right-side-container {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 app-theme-switch {
-    align-self: start;
+  align-self: start;
+}
+
+::ng-deep {
+  .p-dropdown-item,
+  .p-dropdown-label {
+    height: 2rem;
+    display: flex;
+    align-items: center;
+  }
 }

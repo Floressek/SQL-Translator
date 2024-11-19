@@ -4,7 +4,7 @@ import { AuthPayload } from '../interfaces/reqeust-payloads';
 import { apiUrl } from '../utils/apiUrl';
 import { Router } from '@angular/router';
 import { MessageService } from './message.service';
-import { AUTHENTICATED_FLAG } from '../utils/constants';
+import { AUTHENTICATED_FLAG } from '../utils/local-storage-flags';
 import { finalize } from 'rxjs';
 
 @Injectable({

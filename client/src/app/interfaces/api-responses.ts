@@ -2,7 +2,7 @@ import { APIErrorCode } from './error-codes';
 
 interface APIResponseBase {
   status: 'success' | 'error';
-  data?: APIData | APIDataPartial;
+  data?: APIData | APIDataPartial | AboutPageContent;
 }
 
 export interface APISuccessResponse extends APIResponseBase {
@@ -19,6 +19,11 @@ export interface APIErrorResponse extends APIResponseBase {
   data?: APIDataPartial;
 }
 
+export interface AboutPageContentResponse {
+  status: 'success';
+  data: AboutPageContent;
+}
+
 type APIData = {
   sqlQueryFormatted: string;
   formattedAnswer: string;
@@ -26,3 +31,9 @@ type APIData = {
 };
 
 type APIDataPartial = Pick<APIData, 'sqlQueryFormatted'>;
+
+export type AboutPageContent = {
+  promptCode: string;
+  dbSchema: object | string;
+  promptExamples: any[] | string;
+}

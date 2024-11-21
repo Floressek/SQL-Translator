@@ -84,16 +84,20 @@
           >Translation Prompt</a
         >
       </li>
+      <ul>
+        <li>
+          <a [routerLink]="currentPath" fragment="prompt-code">Prompt code</a>
+        </li>
+        <li>
+          <a [routerLink]="currentPath" fragment="db-schema">Database Schema</a>
+        </li>
+        <li>
+          <a [routerLink]="currentPath" fragment="prompt-examples"
+            >Prompt Examples</a
+          >
+        </li>
+      </ul>
     </ul>
-
-    <li>
-      <a [routerLink]="currentPath" fragment="db-schema">Database Schema</a>
-    </li>
-    <li>
-      <a [routerLink]="currentPath" fragment="prompt-examples"
-        >Prompt Examples</a
-      >
-    </li>
   </ul>
 </nav>
 
@@ -178,52 +182,26 @@
   to loose attention.
 </p>
 
-<h4>Prompt code</h4>
+<h4 id="prompt-code">Prompt code</h4>
 <div class="code-window">
   <div class="code-title">JavaScript</div>
-  <div class="code-block">
-    <pre><code>
-export function promptForSQL(userQuery) &#123;
-  return [
-    &#123;
-      role: "system",
-      content: `You are an intelligent AI translator who translates natural language to SQL queries and works for our company - "Sakila LLC". We are a major DVD rental company in USA. You will be provided with:
-        
-        1. Comprehensive schema of our MySQL database which contains multiple tables.
-        2. Natural language query from our employee who is trying to urgently find some important information in our database.
-      
-      You need to translate this employee query into an appropriate SQL query which will allow the employee to retrieve the relevant data. Prepare the SQL query using information about our database.
-
-      Here are additional instructions which you should follow:
-       - Use "*" selector sparingly as the tables can have multiple columns and hold few hundred thousand records. Retrieve only what is necessary and needed.
-       - When you want to filter based on the values of the textual columns use 'LIKE' instead of '=' checking. If applicable prefer 'LIKE' checking whenever you recognize named entity in a user query.
-       - Don't add any additional comments.
-       - SQL-specific keywords should be in upper case. 
-
-      Wrap your answer in JSON object. It should have three properties:
-      &#123;
-        &#123;"sqlQuery"&#125;: "SQL query which you generated.",
-        &#123;"sqlQueryFormatted"&#125;: "SQL query which you generated formatted with \\n (newline character) after each self-contained part of the query. This formatted version of the SQL query is meant to be displayed to the user in a visually appealing format on the frontend.",
-        &#123;"isSelect"&#125;: "Boolean property set to true only if the generated SQL query is of type SELECT (and thus doesn't change the data in our database). Otherwise (e.g if the SQL query involves INSERT or DELETE operation) this property should be false."
-      &#125;
-      Set &#123;"sqlQuery"&#125; and &#123;"sqlQueryFormatted"&#125; to empty strings if you are unable to generate a query.`,
-    &#125;,
-    &#123;
-      role: "system",
-      content: `Here is the comprehensive JSON formatted schema of our database:
-      &#123;$&#123;JSON.stringify(dbSchema, null, 2)&#125;&#125;`
-    &#125;,
-    &#123;
-      role: "system",
-      content: `Here are some example pairs of employee queries (in natural language) and your SQL translations:
-      &#123;$&#123;JSON.stringify(promptExamples.promptForSQL_examples, null, 2)&#125;&#125;`
-    &#125;,
-    &#123; role: "user", content: userQuery &#125;
-  ];
-&#125;
-</code></pre>
-  </div>
+  <pre
+    class="translation-prompt-code"
+  ><code>{{ this.dataFetchingService.aboutPageContent().promptCode }}</code></pre>
 </div>
 
-<h4>Database schema</h4>
-<h4>Prompt examples</h4>
+<h4 id="db-schema">Database schema</h4>
+<div class="code-window">
+  <div class="code-title">JSON</div>
+  <pre
+    class="database-schema-code"
+  ><code>{{ this.dataFetchingService.aboutPageContent().dbSchema }}</code></pre>
+</div>
+
+<h4 id="prompt-examples">Prompt examples</h4>
+<div class="code-window">
+  <div class="code-title">JSON</div>
+  <pre
+    class="prompt-examples-code"
+  ><code>{{ this.dataFetchingService.aboutPageContent().promptExamples }}</code></pre>
+</div>

@@ -37,10 +37,17 @@ h6 {
   color: var(--sys-on-surface);
 }
 
-p,
+p {
+  color: var(--sys-on-surface);
+  @include m3-body-large;
+}
+
 code {
   color: var(--sys-on-surface);
   @include m3-body-large;
+  font-family: "Consolas";
+  line-height: 1.3;
+  letter-spacing: unset;
 }
 
 a {

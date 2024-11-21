@@ -4,6 +4,7 @@ import cors from "cors";
 import { loggerMain } from "./Utils/logger.js";
 import { clientRouter } from "./API/clientRouter.js";
 import { authRouter } from "./API/authorizationRouter/authorizationRouter.js";
+import { contentRouter } from "./API/contentRouter/contentRouter.js";
 import { mainRouter } from "./API/mainRouter/mainRouter.js";
 import { errorHandler } from "./Utils/Middleware/errorHandler.js";
 import cookieParser from "cookie-parser";
@@ -30,6 +31,7 @@ app.use(
 // Routers
 app.use("/auth", authRouter);
 app.use(mainRouter);
+app.use(contentRouter);
 app.use(clientRouter);
 
 // Error handling middleware

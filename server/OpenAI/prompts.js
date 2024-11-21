@@ -1,6 +1,4 @@
-import { loadDbInformation } from "../Database/MongoDB/mongoDB.js";
-
-const { dbSchema, promptExamples } = await loadDbInformation();
+import { dbSchema, promptExamples } from "../Utils/ResourceManager/resourceManager.js";
 
 // OpenAI prompt for natural language to SQL translation
 export function promptForSQL(userQuery) {

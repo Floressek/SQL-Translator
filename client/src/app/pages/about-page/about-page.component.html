@@ -1,0 +1,229 @@
+<h1>SQL Translator</h1>
+
+<!-- Overview Section -->
+<h2 id="overview">Overview</h2>
+<p>
+  SQL Translator is a simple web application designed for the company management
+  board to streamline the retrieval of key information from its internal
+  database. The application demonstrates how natural language queries can be
+  translated into SQL with the help of a Large Language Model (LLM), enabling
+  intuitive data retrieval without requiring SQL syntax expertise.
+</p>
+<p>
+  Currently, the application is implemented for the fictitious "Sakila LLC"
+  company, using the
+  <a
+    href="https://dev.mysql.com/doc/sakila/en/sakila-introduction.html"
+    title="Go to official Sakila db description page"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Sakila Database
+  </a>
+  as a sample dataset. A prior version of the app was
+  <a
+    href="https://github.com/ardium-pl/SQL-translator"
+    title="Go to deployment repo"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    successfully deployed</a
+  >
+  for the management board of BUDMAT during my time at
+  <a
+    href="https://github.com/ardium-pl"
+    title="Go to Ardium GitHub"
+    target="_blank"
+    rel="noopener noreferrer"
+    >Ardium</a
+  >.
+</p>
+<p>
+  The app can be customized to operate on your company's database. For more
+  information feel free to reach me via email:
+  <a href="mailto:szymonskowronnn@gmail.com" title="Reach me via email"
+    >szymonskowronnn&#64;gmail.com</a
+  >.
+</p>
+
+<!-- Table of Contents -->
+<nav id="contents">
+  <h2>Contents</h2>
+  <ul>
+    <li><a [routerLink]="currentPath" fragment="overview">Overview</a></li>
+    <li>
+      <a [routerLink]="currentPath" fragment="sakila-database"
+        >About the Sakila Database</a
+      >
+    </li>
+    <li>
+      <a [routerLink]="currentPath" fragment="translation-mechanism"
+        >Translation Mechanism</a
+      >
+    </li>
+    <ul>
+      <li>
+        <a [routerLink]="currentPath" fragment="selected-model"
+          >Selected Model</a
+        >
+      </li>
+      <li>
+        <a [routerLink]="currentPath" fragment="query-to-answer"
+          >From User Query to Final Answer</a
+        >
+      </li>
+    </ul>
+    <li>
+      <a [routerLink]="currentPath" fragment="prompt-architecture"
+        >Prompt Architecture</a
+      >
+    </li>
+    <ul>
+      <li>
+        <a [routerLink]="currentPath" fragment="translation-prompt"
+          >Translation Prompt</a
+        >
+      </li>
+    </ul>
+
+    <li>
+      <a [routerLink]="currentPath" fragment="db-schema">Database Schema</a>
+    </li>
+    <li>
+      <a [routerLink]="currentPath" fragment="prompt-examples"
+        >Prompt Examples</a
+      >
+    </li>
+  </ul>
+</nav>
+
+<!-- About Sakila Database Section -->
+<h2 id="sakila-database">About the Sakila Database</h2>
+<p>
+  The
+  <a
+    href="https://dev.mysql.com/doc/sakila/en/sakila-introduction.html"
+    title="Go to official Sakila db description page"
+    target="_blank"
+    rel="noopener noreferrer"
+    >Sakila Database
+  </a>
+  is a multi-table, relational database originally developed by the MySQL team
+  as a learning resource. It simulates a video rental store, containing tables
+  for films, actors, staff, rentals, payments, customers, and more. It is widely
+  used to demonstrate SQL querying, complex joins, and database management
+  techniques in educational environments.
+</p>
+
+<!-- Translation Mechanism Section -->
+<h2 id="translation-mechanism">Translation Mechanism</h2>
+
+<h3 id="selected-model">Selected Model</h3>
+<p>
+  The application uses <span class="bold">gpt-4o-mini</span> from OpenAI,
+  accessed via HTTP. The model was chosen for its balance of affordability,
+  versatility, and capability in understanding and generating. Communication
+  over HTTP eliminates the need for hosting the model locally, reducing
+  infrastructure costs and setup complexity.
+</p>
+<p>
+  While lightweight compared to larger LLMs, gpt-4o-mini effectively supports
+  multilingual queries and structured outputs, making it an excellent choice for
+  the use case.
+</p>
+
+<h3 id="query-to-answer">From User Query to Final Answer</h3>
+<p>
+  The core process happening under the hood can be devided into 3 main parts:
+</p>
+<ol>
+  <li class="bold">Translation to SQL</li>
+  <li class="bold">Execution of SQL</li>
+  <li class="bold">Response Generation</li>
+</ol>
+<p>
+  LLM is effectively hit twice for each user question. The first call attempts
+  to generate the SQL which can then be executed against the relational database
+  in order to obtain the strived for information. After the data was fetched,
+  the second LLM call is made to generate a textual answer in the same language
+  as the initial question. As GPT-family models accept inputs in almost every
+  human language, the app is generally language agnostic - users can write
+  queries in whatever langauge they prefer and should still get valid answers.
+</p>
+
+<h2 id="prompt-architecture">Prompt Architecture</h2>
+<p>
+  Each prompt provides the LLM with a detailed task description, the database
+  schema, and examples of successful translations. To ensure consistency, the
+  OpenAI Completions API's Structured Outputs feature is used, enforcing a
+  predefined JSON format for the model's responses.
+</p>
+<p>Below follows the description of the core prompt and its components.</p>
+
+<!-- Translation Prompt Section -->
+<h3 id="translation-prompt">Translation Prompt</h3>
+<p>
+  In order to obtain valid tranlsations the model has to be aware of the
+  structure of the database (table names, column names etc) and the information
+  which it can find there. As a result the core prompt is always served with a
+  hand-crafted JSON schema of the Sakila database, which I created by quering
+  various system tables, checking column types and cross-table relationalships
+  and providing concise descriptions. Creation of the schema required some
+  trial-and-error but eventually gave satisfactory results. One possible
+  extension to the schema, which could improve the tranlsation when dealing with
+  databases holding more sophisticated data is to inlcude a few example rows of
+  each table. I recommed first trying the base approach and only later, if LLM
+  continues to fail with the translation, extend the schema, so as not to
+  overwhelm the model with the excessive context which may eventually cause it
+  to loose attention.
+</p>
+
+<h4>Prompt code</h4>
+<div class="code-window">
+  <div class="code-title">JavaScript</div>
+  <div class="code-block">
+    <pre><code>
+export function promptForSQL(userQuery) &#123;
+  return [
+    &#123;
+      role: "system",
+      content: `You are an intelligent AI translator who translates natural language to SQL queries and works for our company - "Sakila LLC". We are a major DVD rental company in USA. You will be provided with:
+        
+        1. Comprehensive schema of our MySQL database which contains multiple tables.
+        2. Natural language query from our employee who is trying to urgently find some important information in our database.
+      
+      You need to translate this employee query into an appropriate SQL query which will allow the employee to retrieve the relevant data. Prepare the SQL query using information about our database.
+
+      Here are additional instructions which you should follow:
+       - Use "*" selector sparingly as the tables can have multiple columns and hold few hundred thousand records. Retrieve only what is necessary and needed.
+       - When you want to filter based on the values of the textual columns use 'LIKE' instead of '=' checking. If applicable prefer 'LIKE' checking whenever you recognize named entity in a user query.
+       - Don't add any additional comments.
+       - SQL-specific keywords should be in upper case. 
+
+      Wrap your answer in JSON object. It should have three properties:
+      &#123;
+        &#123;"sqlQuery"&#125;: "SQL query which you generated.",
+        &#123;"sqlQueryFormatted"&#125;: "SQL query which you generated formatted with \\n (newline character) after each self-contained part of the query. This formatted version of the SQL query is meant to be displayed to the user in a visually appealing format on the frontend.",
+        &#123;"isSelect"&#125;: "Boolean property set to true only if the generated SQL query is of type SELECT (and thus doesn't change the data in our database). Otherwise (e.g if the SQL query involves INSERT or DELETE operation) this property should be false."
+      &#125;
+      Set &#123;"sqlQuery"&#125; and &#123;"sqlQueryFormatted"&#125; to empty strings if you are unable to generate a query.`,
+    &#125;,
+    &#123;
+      role: "system",
+      content: `Here is the comprehensive JSON formatted schema of our database:
+      &#123;$&#123;JSON.stringify(dbSchema, null, 2)&#125;&#125;`
+    &#125;,
+    &#123;
+      role: "system",
+      content: `Here are some example pairs of employee queries (in natural language) and your SQL translations:
+      &#123;$&#123;JSON.stringify(promptExamples.promptForSQL_examples, null, 2)&#125;&#125;`
+    &#125;,
+    &#123; role: "user", content: userQuery &#125;
+  ];
+&#125;
+</code></pre>
+  </div>
+</div>
+
+<h4>Database schema</h4>
+<h4>Prompt examples</h4>

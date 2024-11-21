@@ -29,8 +29,28 @@ body {
 h1,
 h2,
 h3,
-h4 {
+h4,
+h5,
+h6 {
   all: unset;
+  display: block;
+  color: var(--sys-on-surface);
+}
+
+p,
+code {
+  color: var(--sys-on-surface);
+  @include m3-body-large;
+}
+
+a {
+  color: var(--sys-tertiary);
+  text-decoration-style: dotted;
+
+  &:hover {
+    text-decoration-style: solid;
+    text-decoration-thickness: 0.125rem;
+  }
 }
 
 input,
@@ -67,4 +87,5 @@ textarea,
 // Strings being the part of the response have crucial information wrapped in <span class="bold"></span>
 .bold {
   @include m3-title-medium;
+  color: var(--sys-on-surface);
 }

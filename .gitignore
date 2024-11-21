@@ -6,6 +6,7 @@ server/OpenAi/Prompts
 server/Database/Schemas
 server/Database/PromptExamples
 server/Database/databasePopulation.js
+about-page.component copy.html
 
 # Dependencje
 node_modules

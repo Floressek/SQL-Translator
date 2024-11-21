@@ -1,13 +1,32 @@
 <div class="navbar">
+  <!-- Color theme switch -->
   <app-theme-switch />
 
   <div class="right-side-container">
+    <!-- Dropdown row limit selection -->
+    @if (this.authService.isLoggedIn() && this.router.url === '/') {
     <p-dropdown
       [options]="rowLimits"
       [ngModel]="this.rowLimitService.rowLimit()"
       (onChange)="updateRowLimit($event)"
     />
+    }
 
+    <!-- Home Page button -->
+    @if (this.authService.isLoggedIn() && this.router.url !== '/') {
+    <app-button class="home-button" appearance="main" routerLink="/"
+      >Home</app-button
+    >
+    }
+
+    <!-- About Page button -->
+    @if (!this.router.url.match('/about')) {
+    <app-button class="about-button" appearance="main" routerLink="/about"
+      >About</app-button
+    >
+    }
+
+    <!-- Logout button -->
     @if (this.authService.isLoggedIn()) {
     <app-button
       class="logout-button"
@@ -16,6 +35,12 @@
       (click)="this.authService.logout()"
       >Log out</app-button
     >
-    }
+    } @else {
+    <!-- Login button -->
+    @if (!this.router.url.match('/login')) {
+    <app-button class="login-button" appearance="subtle" routerLink="auth/login"
+      >Log In</app-button
+    >
+    } }
   </div>
 </div>

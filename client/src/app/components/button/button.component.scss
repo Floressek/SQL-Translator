@@ -24,7 +24,6 @@ button {
     height: 100%;
     border-radius: inherit;
     opacity: 0;
-    // background-color: red;
     transition: opacity 0.08s ease-in-out;
     pointer-events: none;
   }
@@ -69,6 +68,18 @@ button {
 
     .button-overlay {
       background-color: var(--sys-surface);
+    }
+  }
+  &.main {
+    border-radius: var(--m3-corner-extra-small);
+    background-color: var(--sys-primary);
+
+    .button-content {
+      color: var(--sys-on-primary);
+    }
+
+    .button-overlay {
+      background-color: var(--sys-on-surface);
     }
   }
 

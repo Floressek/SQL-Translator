@@ -6,15 +6,23 @@ import { DropdownChangeEvent, DropdownModule } from 'primeng/dropdown';
 import { ROW_LIMITS } from '../../utils/constants';
 import { FormsModule } from '@angular/forms';
 import { RowLimitService } from '../../services/row-limit.service';
+import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [ThemeSwitchComponent, ButtonComponent, DropdownModule, FormsModule],
+  imports: [
+    RouterLink,
+    ThemeSwitchComponent,
+    ButtonComponent,
+    DropdownModule,
+    FormsModule,
+  ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent {
+  readonly router = inject(Router);
   readonly authService = inject(AuthService);
   readonly rowLimitService = inject(RowLimitService);
   readonly rowLimits = [...ROW_LIMITS];

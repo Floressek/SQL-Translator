@@ -4,6 +4,7 @@ import { loggerOpenAI } from "../Utils/logger.js";
 import { AppError } from "../Utils/AppError.js";
 
 const openai = new OpenAI();
+const MAX_INPUT_TOKENS = Number(process.env.MAX_INPUT_TOKENS) || 80000;
 
 export async function generateGPTAnswer(prompt, responseFormat, responseName) {
   try {
@@ -31,4 +32,11 @@ export async function generateGPTAnswer(prompt, responseFormat, responseName) {
     loggerOpenAI.error("❌ Error generating GPT answer.");
     throw error;
   }
+}
+
+export function isPromptWithinTokenLimit(prompt) {
+  const pseudoTokensCount = Math.round(
+    JSON.stringify(prompt).split(/\s+/).length * 1.4
+  );
+  return pseudoTokensCount < MAX_INPUT_TOKENS;
 }

@@ -9,11 +9,11 @@ import { asyncWrapper } from "../../Utils/asyncWrapper.js";
 import { executeSQL } from "../../Database/mysql.js";
 import { loggerLanguageToSQL } from "../../Utils/logger.js";
 import { JWTverificator } from "../../Utils/Middleware/JWTverificator.js";
-import { NODE_ENV } from "../../Constants/constants.js";
 import { ERR_CODES } from "../../Constants/StatusCodes/errorCodes.js";
 import { querySchema } from "./inputSchemas.js";
 import { appendLimitClause } from "./mainUtils.js";
 import { AppError } from "../../Utils/AppError.js";
+import { isPromptWithinTokenLimit } from "../../OpenAI/openAI.js";
 
 export const mainRouter = express.Router();
 
@@ -31,6 +31,18 @@ mainRouter.post(
 
     // ===========================================================================
     // Call OpenAI to translate natural language to SQL
+    if (!isPromptWithinTokenLimit(promptForSQL(userQuery))) {
+      loggerLanguageToSQL.warn(
+        "Prompt length exceeds max input tokens, shortcircuiting..."
+      );
+      res.status(400).json({
+        status: "error",
+        errorCode: ERR_CODES.LLM_INPUT_TO_BIG_ERR,
+      });
+
+      return;
+    }
+
     const { isSelect, sqlQuery, sqlQueryFormatted } = await generateGPTAnswer(
       promptForSQL(userQuery),
       sqlResponseSchema,
@@ -68,6 +80,25 @@ mainRouter.post(
 
     // ===========================================================================
     // Call OpenAI to format the result
+    if (
+      !isPromptWithinTokenLimit(
+        promptForAnswer(userQuery, sqlQueryLimited, rows)
+      )
+    ) {
+      loggerLanguageToSQL.warn(
+        "Prompt length exceeds max input tokens, shortcircuiting..."
+      );
+      res.status(400).json({
+        status: "error",
+        errorCode: ERR_CODES.LLM_INPUT_TO_BIG_ERR,
+        data: {
+          sqlQueryFormatted: sqlQueryLimitedFormatted,
+        },
+      });
+
+      return;
+    }
+
     const { formattedAnswer } = await generateGPTAnswer(
       promptForAnswer(userQuery, sqlQueryLimited, rows),
       finalResponseSchema,

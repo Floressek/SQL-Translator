@@ -114,5 +114,8 @@ export class ErrorInterceptor implements HttpInterceptor {
       message:
         'It seems that you are trying to perform a non-SELECT query, which is not supported.',
     },
+    LLM_INPUT_TO_BIG_ERR: {
+      message: 'Input data was to big to be processed by AI.'
+    },
   };
 }

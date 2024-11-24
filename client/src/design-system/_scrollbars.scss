@@ -1,7 +1,14 @@
+@import "typography/typography";
+
 // SCROLLBARS
+:root {
+  --scrollbar-width: 1rem;
+  --scrollbar-height: 1rem;
+}
+
 ::-webkit-scrollbar {
-  width: 1rem;
-  height: 1rem;
+  width: var(--scrollbar-width);
+  height: var(--scrollbar-height);
 }
 
 ::-webkit-scrollbar-track {
@@ -23,8 +30,8 @@
 }
 
 ::-webkit-scrollbar-button {
-  height: 1rem;
-  width: 1rem;
+  width: var(--scrollbar-width);
+  height: var(--scrollbar-height);
   background-color: var(--grey-scroll-track);
   background-repeat: no-repeat;
   background-position: center;
@@ -63,4 +70,25 @@
 // Buttons render doubled on body
 body::-webkit-scrollbar-button {
   display: none;
+}
+
+// Resize handle overlay
+@mixin resize-handle-overlay {
+  content: "⤡";
+  pointer-events: none;
+
+  width: var(--scrollbar-width);
+  height: var(--scrollbar-height);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: absolute;
+  right: 0;
+  bottom: 0;
+
+  @include m3-label-small;
+  color: black;
+  background-color: var(--grey-scroll-thumb);
 }

@@ -1,11 +1,13 @@
+export const BOOLEAN_FLAG = 'true';
+
 export const AUTHENTICATED_FLAG = {
   name: 'isAuthenticated',
-  value: 'true',
+  value: BOOLEAN_FLAG,
 } as const;
 
 export const DARK_THEME_FLAG = {
-  name: 'theme',
-  value: 'dark',
+  name: 'dark-theme',
+  value: BOOLEAN_FLAG,
 } as const;
 
 export const ROW_LIMIT_FLAG = {

@@ -53,8 +53,16 @@
             ],
             "styles": [
               "src/styles.scss",
-              "node_modules/primeng/resources/themes/md-light-deeppurple/theme.css",
-              "node_modules/primeng/resources/primeng.min.css"
+              {
+                "input": "src/design-system/themes/_prime-ng-md-light-deeppurple.scss",
+                "bundleName": "md-light-deeppurple",
+                "inject": false
+              },
+              {
+                "input": "src/design-system/themes/_prime-ng-md-dark-deeppurple.scss",
+                "bundleName": "md-dark-deeppurple",
+                "inject": false
+              }
             ],
             "scripts": []
           },

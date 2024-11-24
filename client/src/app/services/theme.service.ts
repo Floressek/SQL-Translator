@@ -1,8 +1,6 @@
 import { Injectable, signal } from '@angular/core';
-import { ColorTheme } from '../interfaces/color-theme';
+import { ColorTheme, PrimeNgThemeLink } from '../interfaces/color-theme';
 import { DARK_THEME_FLAG } from '../utils/local-storage-flags';
-
-export const storageKey = 'theme';
 
 @Injectable({
   providedIn: 'root',
@@ -10,14 +8,23 @@ export const storageKey = 'theme';
 export class ThemeService {
   readonly isDarkTheme = signal<boolean>(false);
 
-  switchTheme() {
+  switchTheme(options = { setFlag: true }) {
     const rootElement: HTMLElement = document.documentElement;
+    const primeNgThemeLink: HTMLLinkElement = document.getElementById(
+      'prime-ng-theme-link'
+    ) as HTMLLinkElement;
+
     if (this.isDarkTheme()) {
       rootElement.id = ColorTheme.light;
+      primeNgThemeLink.href = PrimeNgThemeLink.light;
       this.removeDarkThemeFlag();
     } else {
       rootElement.id = ColorTheme.dark;
-      this.setDarkThemeFlag();
+      primeNgThemeLink.href = PrimeNgThemeLink.dark;
+
+      if (options.setFlag) {
+        this.setDarkThemeFlag();
+      }
     }
 
     this.isDarkTheme.set(!this.isDarkTheme());
@@ -25,9 +32,7 @@ export class ThemeService {
 
   syncAppTheme() {
     if (localStorage.getItem(DARK_THEME_FLAG.name) === DARK_THEME_FLAG.value) {
-      this.isDarkTheme.set(true);
-      const rootElement: HTMLElement = document.documentElement;
-      rootElement.id = ColorTheme.dark;
+      this.switchTheme({ setFlag: false });
     }
   }
 

@@ -1,8 +1,7 @@
-// Angular Material theme reset should be imported before the import of root level CSS variables
-@import "design-system/angular-material-theme-reset";
+// Angular Material theme reset should be imported before root level CSS variables
+// Currently commented out since Angular Material isn't used. When including separate theme stylesheets theme reset should be either included in all of them or as an independent stylesheet linked before theme stylesheets.
+// @import "design-system/angular-material-theme-reset";
 @import "design-system/shape/shape";
-@import "design-system/themes/light";
-@import "design-system/themes/dark";
 @import "design-system/typography/typography";
 @import "design-system/typography/typography_mixins";
 @import "design-system/scrollbars";

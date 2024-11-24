@@ -1,4 +1,8 @@
-:root#dark {
+// PrimeNG Material Theme Dark Deeppurple
+@import "primeng/resources/themes/md-dark-deeppurple/theme.css";
+
+// Material Theme Dark
+:root {
   --sys-primary: rgb(207 189 254);
   --sys-surface-tint: rgb(207 189 254);
   --sys-on-primary: rgb(54 39 93);

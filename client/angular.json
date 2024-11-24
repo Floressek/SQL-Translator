@@ -54,13 +54,13 @@
             "styles": [
               "src/styles.scss",
               {
-                "input": "src/design-system/themes/_prime-ng-md-light-deeppurple.scss",
-                "bundleName": "md-light-deeppurple",
+                "input": "src/design-system/themes/_app-theme-light.scss",
+                "bundleName": "app-theme-light",
                 "inject": false
               },
               {
-                "input": "src/design-system/themes/_prime-ng-md-dark-deeppurple.scss",
-                "bundleName": "md-dark-deeppurple",
+                "input": "src/design-system/themes/_app-theme-dark.scss",
+                "bundleName": "app-theme-dark",
                 "inject": false
               }
             ],

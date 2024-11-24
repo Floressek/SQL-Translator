@@ -1,5 +1,3 @@
-import { ColorTheme } from '../interfaces/color-theme';
-
 export const AUTHENTICATED_FLAG = {
   name: 'isAuthenticated',
   value: 'true',
@@ -7,7 +5,7 @@ export const AUTHENTICATED_FLAG = {
 
 export const DARK_THEME_FLAG = {
   name: 'theme',
-  value: ColorTheme.dark,
+  value: 'dark',
 } as const;
 
 export const ROW_LIMIT_FLAG = {

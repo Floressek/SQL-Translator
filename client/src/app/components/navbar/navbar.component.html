@@ -4,12 +4,16 @@
 
   <div class="right-side-container">
     <!-- Dropdown row limit selection -->
+
     @if (this.authService.isLoggedIn() && this.router.url === '/') {
-    <p-dropdown
-      [options]="rowLimits"
-      [ngModel]="this.rowLimitService.rowLimit()"
-      (onChange)="updateRowLimit($event)"
-    />
+    <div class="row-limit-container">
+      <div class="row-limit-text">Row limit:</div>
+      <p-dropdown
+        [options]="rowLimits"
+        [ngModel]="this.rowLimitService.rowLimit()"
+        (onChange)="updateRowLimit($event)"
+      />
+    </div>
     }
 
     <!-- Home Page button -->

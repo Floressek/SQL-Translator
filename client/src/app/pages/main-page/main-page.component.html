@@ -21,6 +21,7 @@
               type="text"
               formControlName="query"
               class="card-content user-question"
+              (keydown)="submitOnEnter($event)"
               [ngClass]="
                 this.dataFetchingService.isFirstAppOpen()
                   ? 'first-app-open'

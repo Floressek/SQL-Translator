@@ -20,7 +20,7 @@ import { TitlesComponent } from '../../components/titles/titles.component';
     SpinnerComponent,
     ResultsGridComponent,
     ReactiveFormsModule,
-    TitlesComponent
+    TitlesComponent,
   ],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.scss',
@@ -32,6 +32,19 @@ export class MainPageComponent {
   readonly dbQuestionForm = new FormGroup({
     query: new FormControl(this.dataFetchingService.query()),
   });
+
+  submitOnEnter(event: KeyboardEvent): void {
+    if (
+      event.key === 'Enter' &&
+      !event.shiftKey &&
+      !this.dataFetchingService.isLoading() &&
+      !this.authService.isWaitingForLogout() &&
+      !this.authService.isSessionExpired()
+    ) {
+      event.preventDefault(); // Prevent newline
+      this.submitQuery();
+    }
+  }
 
   submitQuery() {
     const userInput = this.dbQuestionForm.value.query || '';

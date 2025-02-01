@@ -18,8 +18,8 @@
     target="_blank"
     rel="noopener noreferrer"
   >
-    Sakila Database
-  </a>
+    Sakila Database</a
+  >
   as a sample dataset. A prior version of the app was
   <a
     href="https://github.com/ardium-pl/SQL-translator"
@@ -168,14 +168,14 @@
 <h3 id="translation-prompt">Translation Prompt</h3>
 <p>
   In order to obtain valid tranlsations the model has to be aware of the
-  structure of the database (table names, column names etc) and the information
+  structure of the database (table, column names etc) and the information
   which it can find there. As a result the core prompt is always served with a
   hand-crafted JSON schema of the Sakila database, which I created by quering
   various system tables, checking column types and cross-table relationalships
   and providing concise descriptions. Creation of the schema required some
   trial-and-error but eventually gave satisfactory results. One possible
-  extension to the schema, which could improve the tranlsation when dealing with
-  databases holding more sophisticated data is to inlcude a few example rows of
+  extension to the schema, which could improve the translation, when dealing with
+  databases holding more sophisticated data, is to inlcude a few example rows of
   each table. I recommed first trying the base approach and only later, if LLM
   continues to fail with the translation, extend the schema, so as not to
   overwhelm the model with the excessive context which may eventually cause it

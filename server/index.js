@@ -22,7 +22,7 @@ app.use(
   cors({
     origin:
       NODE_ENV === "production"
-        ? "https://sql-translator-development.up.railway.app"
+        ? "https://sql-translator-production-92ae.up.railway.app"
         : "http://localhost:4200",
     credentials: true,
   })

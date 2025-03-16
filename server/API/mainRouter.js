@@ -7,14 +7,15 @@ import {
 import { promptForSQL, promptForAnswer } from "../OpenAI/prompts.js";
 import { asyncWrapper } from "../Utils/asyncWrapper.js";
 import { executeSQL } from "../Database/mysql.js";
-import { loggerLanguageToSQL } from "../Utils/logger.js";
+import {createLogger} from "../Utils/logger.js";
+const logger = createLogger(__filename);
 
 export const mainRouter = express.Router();
 
 mainRouter.post(
   "/language-to-sql",
   d(async (req, res) => {
-    loggerLanguageToSQL.info("📩 Received a new POST request.");
+    logger.info("📩 Received a new POST request.");
 
     const userQuery = req.body?.query;
     // console.log(promptForSQL(userQuery));
@@ -31,7 +32,7 @@ mainRouter.post(
       sqlResponse,
       "sql_response"
     );
-    loggerLanguageToSQL.info(`🤖 Generated SQL: ${sqlAnswer.sqlStatement}`);
+    logger.info(`🤖 Generated SQL: ${sqlAnswer.sqlStatement}`);
 
     if (!sqlAnswer.isSelect) {
       res.status(400).json({
@@ -60,6 +61,6 @@ mainRouter.post(
       formattedAnswer: formattedAnswer.formattedAnswer,
       rawData: rows,
     });
-    loggerLanguageToSQL.info("✅ Successfully processed the request!");
+    logger.info("✅ Successfully processed the request!");
   })
 );

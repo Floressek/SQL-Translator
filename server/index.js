@@ -1,11 +1,12 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import {loggerMain} from "./Utils/logger.js";
+import {createLogger} from "./Utils/logger.js";
 import {clientRouter} from "./API/clientRouter.js";
 import {mainRouter} from "./API/mainRouter.js";
 import {errorHandler} from "./Utils/Middleware/errorHandler.js";
-import cookieParser from "cookie-parser";
+
+const logger = createLogger(__filename);
 
 const {NODE_ENV} = process.env;
 const PORT = process.env.PORT || 5000;
@@ -18,7 +19,6 @@ app.use(express.json());
 app.use(
     cors()
 );
-
 // Routers
 app.use(mainRouter);
 app.use(clientRouter);
@@ -27,5 +27,5 @@ app.use(clientRouter);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
-    loggerMain.info(`Server is running on port ${PORT}`);
+    logger.info(`Server is running on port ${PORT}`);
 });

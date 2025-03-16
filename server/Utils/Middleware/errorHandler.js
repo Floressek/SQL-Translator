@@ -1,7 +1,8 @@
-import { loggerError } from "../logger.js";
+import {createLogger} from "../logger.js";
+const logger = createLogger(__filename);
 
 export function errorHandler(err, req, res, next) {
-  loggerError.logWithLabel(
+  logger.error(
     "error",
     JSON.stringify(
       {

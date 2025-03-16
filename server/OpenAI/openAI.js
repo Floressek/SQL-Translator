@@ -1,8 +1,10 @@
 import OpenAI from "openai";
 import {z} from "zod";
 import {zodResponseFormat} from "openai/helpers/zod";
-import {loggerOpenAI} from "../Utils/logger.js";
+import {createLogger} from "../Utils/logger.js"
 import {AppError} from "../Utils/AppError.js";
+
+const logger = createLogger(__filename);
 
 const openai = new OpenAI();
 
@@ -35,10 +37,10 @@ export async function generateGPTAnswer(prompt, responseFormat, responseName) {
             throw new AppError(`Generated GPT answer is null or undefined.`);
         }
 
-        loggerOpenAI.info("Successfully generated an AI response! ✅");
+        logger.info("Successfully generated an AI response! ✅");
         return response.parsed;
     } catch (error) {
-        loggerOpenAI.error("❌ Error generating GPT answer.");
+        logger.error("❌ Error generating GPT answer.");
         throw error;
     }
 }

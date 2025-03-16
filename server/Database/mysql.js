@@ -1,5 +1,6 @@
 import mysql from "mysql2/promise";
-import {loggerMySQL} from "../Utils/logger.js";
+import {createLogger} from "../Utils/logger.js";
+const logger = createLogger(__filename);
 
 const dbConfig = {
     host: process.env.MYSQL_HOST,
@@ -15,7 +16,7 @@ export async function createConnection() {
         connection = await mysql.createConnection(dbConfig);
         return connection;
     } catch (error) {
-        loggerMySQL.error("❌ Error creating a connection.");
+        logger.error("❌ Error creating a connection.");
         if (connection) {
             await connection.end();
         }
@@ -31,7 +32,7 @@ export async function createTestConnection() {
     } finally {
         if (connection) {
             await connection.end();
-            loggerMySQL.info("Successfully established a database connection! ✅");
+            logger.info("Successfully established a database connection! ✅");
         }
     }
 }
@@ -41,11 +42,11 @@ export async function executeSQL(query) {
     try {
         connection = await createConnection();
         const [rows] = await connection.execute(query);
-        loggerMySQL.info("Successfully fetched the raw data! ✅");
-        loggerMySQL.info(`Number of rows fetched: ${rows.length}`);
+        logger.info("Successfully fetched the raw data! ✅");
+        logger.info(`Number of rows fetched: ${rows.length}`);
         return rows;
     } catch (error) {
-        loggerMySQL.error("❌ Error execucting SQL.");
+        logger.error("❌ Error execucting SQL.");
         throw error;
     } finally {
         if (connection) {

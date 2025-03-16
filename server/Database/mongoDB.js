@@ -1,6 +1,7 @@
 import {MongoClient} from "mongodb";
-import {loggerMongoDB} from "../Utils/logger.js";
+import {createLogger} from "../Utils/logger.js";
 import {AppError} from "../Utils/AppError.js";
+const logger = createLogger(__filename);
 
 const MONGO_DATABASE = process.env.MONGO_DATABASE;
 const MONGO_CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING;
@@ -27,10 +28,10 @@ async function retrieveDbSchema() {
             throw new AppError("No db schema found in the database.");
         }
 
-        loggerMongoDB.info(`📄 Retrieved a db schema.`);
+        logger.info(`📄 Retrieved a db schema.`);
         return document;
     } catch (error) {
-        loggerMongoDB.error("❌ Failed to fetch the db schema.");
+        logger.error("❌ Failed to fetch the db schema.");
         throw error;
     }
 }
@@ -51,12 +52,12 @@ async function retrievePromptExamples() {
             throw new AppError("No prompt examples found in the database.");
         }
 
-        loggerMongoDB.info(
+        logger.info(
             `📄 Retrieved a total of ${documents.length} prompt examples.`
         );
         return documents;
     } catch (error) {
-        loggerMongoDB.error("❌ Failed to fetch the prompt examples.");
+        logger.error("❌ Failed to fetch the prompt examples.");
         throw error;
     }
 }
@@ -68,6 +69,6 @@ export async function loadDbInformation() {
     };
 
     await mongoClient.close();
-    loggerMongoDB.info("Successfully loaded database information! ✅");
+    logger.info("Successfully loaded database information! ✅");
     return dbInfo;
 }

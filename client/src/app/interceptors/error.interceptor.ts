@@ -9,14 +9,13 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { MessageService } from '../services/message.service';
-import { AuthService } from '../services/auth.service';
+
 import { APIErrorCode, APIErrorCodeMapping } from '../interfaces/error-codes';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(
     private messageService: MessageService,
-    private authService: AuthService
   ) {}
 
   intercept(
@@ -52,37 +51,15 @@ export class ErrorInterceptor implements HttpInterceptor {
     const error = this.APIErrorCodeMapping[errorCode];
 
     this.messageService.errorMessage.set(error.message);
-    if (error.action) {
-      error.action();
-    }
   }
 
-readonly APIErrorCodeMapping: APIErrorCodeMapping = {
-  'NO_TOKEN_ERR': {
-    message: 'Twoja sesja wygasła. Zaloguj się ponownie aby kontynuować.',
-    action: () => {
-      this.authService.removeAuthenticatedFlag();
-      this.authService.isSessionExpired.set(true);
-    },
-  },
-  'INVALID_VERIFICATION_TOKEN_ERR': {
-    message: 'Twoja sesja wygasła. Zaloguj się ponownie aby kontynuować.',
-    action: () => {
-      this.authService.removeAuthenticatedFlag();
-      this.authService.isSessionExpired.set(true);
-    },
-  },
-  'INVALID_PASSWORD_ERR': {
-    message: 'Podano nieprawidłowe hasło.',
-  },
+readonly APIErrorCodeMapping: {
+  NO_QUERY_ERR: { message: string };
+  UNSUPPORTED_QUERY_ERR: { message: string }
+} = {
+
   'NO_QUERY_ERR': {
     message: 'Nie wprowadzono zapytania. Proszę podać zapytanie, aby kontynuować.',
-  },
-  'NO_PASSWORD_ERR': {
-    message: 'Nie wprowadzono hasła. Proszę podać hasło, aby kontynuować.',
-  },
-  'INTERNAL_SERVER_ERR': {
-    message: 'Wystąpił błąd serwera. Spróbuj ponownie później.',
   },
   'UNSUPPORTED_QUERY_ERR': {
     message: 'Wygląda na to, że chcesz wykonać zapytanie inne niż SELECT, co nie jest obsługiwane.',

@@ -9,7 +9,6 @@ import {
   EXAMPLE_USER_QUERY,
 } from '../utils/exampleValues';
 import { RowMYSQL } from '../interfaces/row-mysql';
-import { AuthService } from './auth.service';
 import { finalize } from 'rxjs';
 
 @Injectable({
@@ -17,7 +16,6 @@ import { finalize } from 'rxjs';
 })
 export class DataFetchingService {
   private readonly http = inject(HttpClient);
-  readonly authService = inject(AuthService);
   readonly isLoading = signal<boolean>(false);
   readonly isFirstAppOpen = signal<boolean>(true);
   readonly query = signal<string>(EXAMPLE_USER_QUERY);

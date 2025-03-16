@@ -30,9 +30,7 @@
           <div class="button-container">
             <app-button
               [disabled]="
-                this.dataFetchingService.isLoading() ||
-                this.authService.isWaitingForLogout() ||
-                this.authService.isSessionExpired()
+                this.dataFetchingService.isLoading()
               "
               type="submit"
               >Zatwierdź</app-button
@@ -72,11 +70,4 @@
   </div>
   }
 
-  <app-button
-    class="logout-button"
-    appearance="subtle"
-    [disabled]="this.authService.isWaitingForLogout()"
-    (click)="this.authService.logout()"
-    >Wyloguj</app-button
-  >
 </div>

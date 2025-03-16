@@ -8,14 +8,12 @@ import { promptForSQL, promptForAnswer } from "../OpenAI/prompts.js";
 import { asyncWrapper } from "../Utils/asyncWrapper.js";
 import { executeSQL } from "../Database/mysql.js";
 import { loggerLanguageToSQL } from "../Utils/logger.js";
-import { JWTverificator } from "../Utils/Middleware/JWTverificator.js";
 
 export const mainRouter = express.Router();
 
 mainRouter.post(
   "/language-to-sql",
-  JWTverificator,
-  asyncWrapper(async (req, res) => {
+  d(async (req, res) => {
     loggerLanguageToSQL.info("📩 Received a new POST request.");
 
     const userQuery = req.body?.query;

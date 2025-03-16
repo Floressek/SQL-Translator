@@ -7,7 +7,6 @@ import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { CardComponent } from '../../components/card/card.component';
 import { ResultsGridComponent } from '../../components/results-grid/results-grid.component';
 import { DataFetchingService } from '../../services/data-fetching.service';
-import { AuthService } from '../../services/auth.service';
 import { MessageService } from '../../services/message.service';
 
 @Component({
@@ -27,7 +26,6 @@ import { MessageService } from '../../services/message.service';
 })
 export class MainPageComponent {
   readonly dataFetchingService = inject(DataFetchingService);
-  readonly authService = inject(AuthService);
   readonly messageService = inject(MessageService);
   readonly zapytanieForm = new FormGroup({
     query: new FormControl(this.dataFetchingService.query()),

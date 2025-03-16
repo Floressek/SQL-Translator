@@ -5,6 +5,10 @@ import {createLogger} from "./Utils/logger.js";
 import {clientRouter} from "./API/clientRouter.js";
 import {mainRouter} from "./API/mainRouter.js";
 import {errorHandler} from "./Utils/Middleware/errorHandler.js";
+import { fileURLToPath } from 'url';
+
+// Create the equivalent of __filename for ES modules
+const __filename = fileURLToPath(import.meta.url);
 
 const logger = createLogger(__filename);
 

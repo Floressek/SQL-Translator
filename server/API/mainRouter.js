@@ -8,13 +8,17 @@ import { promptForSQL, promptForAnswer } from "../OpenAI/prompts.js";
 import { asyncWrapper } from "../Utils/asyncWrapper.js";
 import { executeSQL } from "../Database/mysql.js";
 import {createLogger} from "../Utils/logger.js";
+import { fileURLToPath } from 'url';
+
+// Create the equivalent of __filename for ES modules
+const __filename = fileURLToPath(import.meta.url);
 const logger = createLogger(__filename);
 
 export const mainRouter = express.Router();
 
 mainRouter.post(
   "/language-to-sql",
-  d(async (req, res) => {
+  (async (req, res) => {
     logger.info("📩 Received a new POST request.");
 
     const userQuery = req.body?.query;

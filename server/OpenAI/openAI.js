@@ -3,6 +3,10 @@ import {z} from "zod";
 import {zodResponseFormat} from "openai/helpers/zod";
 import {createLogger} from "../Utils/logger.js"
 import {AppError} from "../Utils/AppError.js";
+import { fileURLToPath } from 'url';
+
+// Create the equivalent of __filename for ES modules
+const __filename = fileURLToPath(import.meta.url);
 
 const logger = createLogger(__filename);
 

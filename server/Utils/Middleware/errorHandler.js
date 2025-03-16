@@ -1,4 +1,8 @@
 import {createLogger} from "../logger.js";
+import { fileURLToPath } from 'url';
+
+// Create the equivalent of __filename for ES modules
+const __filename = fileURLToPath(import.meta.url);
 const logger = createLogger(__filename);
 
 export function errorHandler(err, req, res, next) {

@@ -1,6 +1,11 @@
 import winston from 'winston';
 import path from 'path';
 import chalk from 'chalk';
+import { fileURLToPath } from 'url';
+
+// Create the equivalent of __dirname and __filename for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const DEFAULT_LOG_LEVEL = 'debug';
 const TIME_ZONE = 'Europe/Warsaw';
@@ -101,10 +106,18 @@ const logger = winston.createLogger({
 });
 
 export function createLogger(filePath) {
+    // Convert filePath to absolute path if it's not already
+    const absoluteFilePath = path.isAbsolute(filePath) ? filePath : path.resolve(filePath);
+
+    // Get project root (two directories up from current file)
     const projectRoot = path.resolve(__dirname, '..', '..');
-    const relativePath = path.relative(projectRoot, filePath);
+
+    // Get relative path
+    const relativePath = path.relative(projectRoot, absoluteFilePath);
+
+    // Extract folder structure and filename
     const folderStructure = path.dirname(relativePath).replace(/\\/g, '/');
-    const filename = path.basename(filePath);
+    const filename = path.basename(absoluteFilePath);
 
     const childLogger = logger.child({
         label: folderStructure,
@@ -121,5 +134,3 @@ export function createLogger(filePath) {
 
     return wrapperLogger;
 }
-
-// module.exports = {createLogger};

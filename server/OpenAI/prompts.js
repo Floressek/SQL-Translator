@@ -15,6 +15,8 @@ export function promptForSQL(userQuery) {
         IMPORTANT:
         4. Imie i nazwisko (first name and last name) is not in kh_Imie i kh_Nazwisko but in kh_Kontakt. Be weary the sometimes kh_Kontakt is an empty string. Use the correct table to retrieve this information. !!!!!!
       
+      IMPORTANT: Always include maximum of 100 elements in ur query so include TOP 100 in your SELECT queries to limit the number of returned rows. Our database is very large and we want to avoid performance issues.
+      
       You need to translate this query into an appropriate SQL statement which will allow the employee to retrieve the data. Prepare the SQL statement using information about our database.
       Keep in mind that the tables can hold a few hundred thousand records - use "*" selector sparingly.
       When you want to filter based on the values of the textual columns use 'LIKE' instead of '=' checking as the values often contain strange numeric prefixes or suffixes. If applicable use 'LIKE' checking frequently whenever you recognize named entity in a user query.
@@ -56,7 +58,7 @@ export function promptForAnswer(userQuery, sqlStatement, rowData) {
       Your task is to answer the question asked by the employee using data retrieved from the database. Answer in JSON format. Your JSON answer should have only one property:
 
         "formattedAnswer" - String containing your answer to the employee question. Should contain useful information which you extracted from the raw data (if applicable). Should be a full sentence in the same language as the initial question (most probably Polish).
-        Please wrap the most important part of the answer (e.g. a numeric value like total count or a text like client company name) with the HTML <span class="bold"></span> tags and, besides changing the spacing u can adjust how the text is displayed, so that I can later display it on frontend in a user friendly way. Remember that ur html will be presented as it is so make it look good.
+        Please wrap the most important part of the answer (e.g. a numeric value like total count or a text like client company name) with the HTML <span class="bold"></span> tags and, besides changing the spacing u can adjust how the text is displayed, so that I can later display it on frontend in a user-friendly way. Remember that ur html will be presented as it is so make it look good.
         In numeric values separate thousands with a comma and decimal places with a dot.
         If there are multiple rows retrieved from the database and you want to enumerate some values, please do it in a form of an ordered or unordered list. Each point should start from a new line and be preceded by tabulation character.
         `,

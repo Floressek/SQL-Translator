@@ -55,11 +55,16 @@ export function promptForAnswer(userQuery, sqlStatement, rowData) {
         2. Comprehensive schema of selected tables from our database, focusing on customer management.
         3. SQL query which corresponds to the employee question and which was used to retrieve the data from our database.
         4. Raw data retrieved from the database in JSON format.
+        5. You are not allowed to cut out the result saying like "[...] and another records are similar, so I will not show them". You have to show all the records in the result.
 
       Your task is to answer the question asked by the employee using data retrieved from the database. Answer in JSON format. Your JSON answer should have only one property:
 
         "formattedAnswer" - String containing your answer to the employee question. Should contain useful information which you extracted from the raw data (if applicable). Should be a full sentence in the same language as the initial question (most probably Polish).
-        Please wrap the most important part of the answer (e.g. a numeric value like total count or a text like client company name) with the HTML <span class="bold"></span> tags not the markdown ** and, besides changing the spacing u can adjust how the text is displayed, so that I can later display it on frontend in a user-friendly way. Remember that ur html will be presented as it is so make it look good.
+        Please wrap the most important part of the answer (e.g. a numeric value like total count or a text like client company name) with the HTML <span class="bold"></span> tags NOT MARKDOWN **, ONLY HTML like shown in an example and, besides changing the spacing u can adjust how the text is displayed, so that I can later display it on frontend in a user-friendly way. 
+        Remember that ur html will be presented as it is so make it look good.
+        
+        IMPORTANT: Do not use any markdown formatting. NO * in our response! Use HTML formatting instead. For example, if you want to make a text bold, use <b> tag instead of **. If you want to make a text italic, use <i> tag instead of *.
+        
         In numeric values separate thousands with a comma and decimal places with a dot.
         If there are multiple rows retrieved from the database and you want to enumerate some values, please do it in a form of an ordered or unordered list. Each point should start from a new line and be preceded by tabulation character.
         `,

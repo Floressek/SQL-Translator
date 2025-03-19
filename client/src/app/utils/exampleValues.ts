@@ -1,5 +1,5 @@
 export const EXAMPLE_USER_QUERY =
-  'Przygotuj szczegółowy raport o aktywnych kontrahentach będących firmami, z ich opiekunami, danymi kontaktowymi, informacjami o e-fakturach, statusie VAT, przypisanych rabatach i komunikatach, którzy zostali dodani lub zmodyfikowani w ciągu ostatnich 6 miesięcy, posiadający alternatywne adresy lub e-faktury, posortowani według daty modyfikacji i nazwiska opiekuna';
+  'Przygotuj szczegółowy raport o najbardziej aktywnych kontrahentach będących firmami, z ich opiekunami, danymi kontaktowymi, informacjami o e-fakturach, statusie VAT, przypisanych rabatach i komunikatach, którzy zostali dodani lub zmodyfikowani w ciągu ostatnich 6 miesięcy, posiadający alternatywne adresy lub e-faktury, posortowani według daty modyfikacji i nazwiska opiekuna';
 
 export const EXAMPLE_FORMATTED_ANSWER =
   'W roku 2024 sprzedano 4281 sztuk listwy startowej wentylacyjnej D-MATT 9005.';

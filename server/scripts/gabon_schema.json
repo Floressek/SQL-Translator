@@ -1199,103 +1199,103 @@
     {
       "fromTable": "kh__Kontrahent",
       "fromColumn": "kh_Rodzaj",
-      "toTable": "dbo.sl_RodzajKontaktu",
+      "toTable": "sl_RodzajKontaktu",
       "toColumn": "sl_Id"
     },
     {
       "fromTable": "kh__Kontrahent",
       "fromColumn": "kh_IdFormaP",
-      "toTable": "dbo.sl_FormaPlatnosci",
+      "toTable": "sl_FormaPlatnosci",
       "toColumn": "fp_Id"
     },
     {
       "fromTable": "kh__Kontrahent",
       "fromColumn": "kh_IdRabat",
-      "toTable": "dbo.sl_Rabat",
-      "toColumn": "sr_Id"
+      "toTable": "sl_Rabat",
+      "toColumn": "rt_Id"
     },
     {
       "fromTable": "kh__Kontrahent",
       "fromColumn": "kh_IdEwVATSp",
-      "toTable": "dbo.sl_TypEwidVAT",
+      "toTable": "sl_TypEwidVAT",
       "toColumn": "te_Id"
     },
     {
       "fromTable": "kh__Kontrahent",
       "fromColumn": "kh_IdEwVATZak",
-      "toTable": "dbo.sl_TypEwidVAT",
+      "toTable": "sl_TypEwidVAT",
       "toColumn": "te_Id"
     },
     {
       "fromTable": "kh__Kontrahent",
       "fromColumn": "kh_IdOpiekun",
-      "toTable": "dbo.pd_Uzytkownik",
+      "toTable": "pd_Uzytkownik",
       "toColumn": "uz_Id"
     },
     {
       "fromTable": "kh__Kontrahent",
       "fromColumn": "kh_IdOstatniWpisWeryfikacjiStatusuVAT",
-      "toTable": "dbo.kh_WeryfikacjaNIP",
+      "toTable": "kh_WeryfikacjaNIP",
       "toColumn": "khwn_Id"
     },
     {
       "fromTable": "kh__Kontrahent",
       "fromColumn": "kh_IdOstatniWpisWeryfikacjiStatusuVIES",
-      "toTable": "dbo.kh_Vies",
+      "toTable": "kh_Vies",
       "toColumn": "khv_Id"
     },
     {
       "fromTable": "kh__Kontrahent",
       "fromColumn": "kh_IdOdbiorca",
-      "toTable": "dbo.kh__Kontrahent",
+      "toTable": "kh__Kontrahent",
       "toColumn": "kh_Id"
     },
     {
       "fromTable": "kh__Kontrahent",
       "fromColumn": "kh_IdNabywca",
-      "toTable": "dbo.kh__Kontrahent",
+      "toTable": "kh__Kontrahent",
       "toColumn": "kh_Id"
     },
     {
       "fromTable": "pd_Uzytkownik",
       "fromColumn": "uz_IdKasy",
-      "toTable": "dbo.dks_Kasa",
+      "toTable": "dks_Kasa",
       "toColumn": "kasa_Id"
     },
     {
       "fromTable": "pd_Uzytkownik",
       "fromColumn": "uz_IdMagazynu",
-      "toTable": "dbo.sl_Magazyn",
+      "toTable": "sl_Magazyn",
       "toColumn": "mag_Id"
     },
     {
       "fromTable": "pd_Uzytkownik",
       "fromColumn": "uz_IdPracownika",
-      "toTable": "dbo.pr_Pracownik",
+      "toTable": "pr_Pracownik",
       "toColumn": "pr_Id"
     },
     {
       "fromTable": "pd_Uzytkownik",
       "fromColumn": "uz_IdKompozycji",
-      "toTable": "dbo.ui__Kompozycja",
+      "toTable": "ui__Kompozycja",
       "toColumn": "komp_Id"
     },
     {
       "fromTable": "pd_Uzytkownik",
       "fromColumn": "uz_IdGrupy",
-      "toTable": "dbo.sl_GrupaUz",
+      "toTable": "sl_GrupaUz",
       "toColumn": "gu_Id"
     },
     {
       "fromTable": "kh_Vies",
       "fromColumn": "khv_IdKh",
-      "toTable": "dbo.kh__Kontrahent",
+      "toTable": "kh__Kontrahent",
       "toColumn": "kh_Id"
     },
     {
       "fromTable": "kh_Vies",
       "fromColumn": "khv_IdUz",
-      "toTable": "dbo.pd_Uzytkownik",
+      "toTable": "pd_Uzytkownik",
       "toColumn": "uz_Id"
     }
   ]

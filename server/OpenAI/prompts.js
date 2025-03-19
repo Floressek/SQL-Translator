@@ -14,6 +14,7 @@ export function promptForSQL(userQuery) {
         3. Query (written in human language - most probably Polish) from our company employee who is trying to urgently find some important information in our database.
         IMPORTANT:
         4. Imie i nazwisko (first name and last name) is not in kh_Imie i kh_Nazwisko but in kh_Kontakt. Be weary the sometimes kh_Kontakt is an empty string. Use the correct table to retrieve this information. !!!!!!
+        IMPORTANT: In the "relationships" section of the database schema, there are references between tables that may use different column names than those directly visible in the table definition. When you want to retrieve data from a related table, always check the relationships to find the proper column for joining, according to the references from the table's DDL definition. For example, the "toColumn" field specifies the exact column name in the target table that you should use in the JOIN query, even if the name seems like it should be different based on naming conventions. !!!!
       
       IMPORTANT: Always include maximum of 100 elements in ur query so include TOP 100 in your SELECT queries to limit the number of returned rows. Our database is very large and we want to avoid performance issues.
       

@@ -889,23 +889,23 @@
       "name": "sl_Rabat",
       "columns": [
         {
-          "name": "sr_Id",
+          "name": "rt_Id",
           "type": "int",
           "isPrimaryKey": true,
           "description": "Identyfikator rabatu"
         },
         {
-          "name": "sr_Nazwa",
+          "name": "rt_Nazwa",
           "type": "varchar",
           "description": "Nazwa rabatu"
         },
         {
-          "name": "sr_Procent",
+          "name": "rt_Procent",
           "type": "decimal",
           "description": "Procentowa wartość rabatu"
         },
         {
-          "name": "sr_Rodzaj",
+          "name": "rt_Rodzaj",
           "type": "bit",
           "description": "Rodzaj rabatu"
         }
@@ -1013,29 +1013,169 @@
           "description": "Identyfikator użytkownika"
         },
         {
-          "name": "uz_Nazwa",
-          "type": "varchar",
-          "description": "Nazwa użytkownika"
+          "name": "uz_Identyfikator",
+          "type": "TIdentyfikator",
+          "description": "Unikalny identyfikator użytkownika"
+        },
+        {
+          "name": "uz_Nazwisko",
+          "type": "TNazwisko",
+          "description": "Nazwisko użytkownika"
+        },
+        {
+          "name": "uz_Imie",
+          "type": "TImie",
+          "description": "Imię użytkownika"
         },
         {
           "name": "uz_Login",
-          "type": "varchar",
+          "type": "TOpis",
           "description": "Login użytkownika"
         },
         {
           "name": "uz_Haslo",
-          "type": "varchar",
+          "type": "THaslo",
           "description": "Hasło użytkownika (zaszyfrowane)"
         },
         {
+          "name": "uz_Status",
+          "type": "bit",
+          "description": "Status użytkownika (aktywny/nieaktywny)"
+        },
+        {
+          "name": "uz_IdKasy",
+          "type": "int",
+          "description": "ID powiązanej kasy"
+        },
+        {
+          "name": "uz_BlokadaKasy",
+          "type": "bit",
+          "description": "Czy użytkownik ma zablokowaną kasę"
+        },
+        {
+          "name": "uz_IdMagazynu",
+          "type": "int",
+          "description": "ID domyślnego magazynu użytkownika"
+        },
+        {
+          "name": "uz_Program",
+          "type": "int",
+          "description": "Typ programu używanego przez użytkownika"
+        },
+        {
+          "name": "uz_PracaZdalna",
+          "type": "bit",
+          "description": "Czy użytkownik pracuje zdalnie"
+        },
+        {
+          "name": "uz_IdPracownika",
+          "type": "int",
+          "description": "ID powiązanego pracownika"
+        },
+        {
+          "name": "uz_IdKompozycji",
+          "type": "int",
+          "description": "ID kompozycji interfejsu"
+        },
+        {
+          "name": "uz_IdGrupy",
+          "type": "int",
+          "description": "ID grupy użytkownika"
+        },
+        {
           "name": "uz_EMail",
-          "type": "varchar",
+          "type": "TEmail",
           "description": "Email użytkownika"
         },
         {
+          "name": "uz_GaduGadu",
+          "type": "TGadu",
+          "description": "Numer GG użytkownika"
+        },
+        {
           "name": "uz_Skype",
-          "type": "varchar",
+          "type": "TSkype",
           "description": "Nazwa Skype użytkownika"
+        },
+        {
+          "name": "uz_RodzajInfoOWierszachListy",
+          "type": "int",
+          "description": "Rodzaj informacji o wierszach listy"
+        },
+        {
+          "name": "uz_UruchomCentralke",
+          "type": "bit",
+          "description": "Czy uruchamiać centralkę"
+        },
+        {
+          "name": "uz_PrefiksOsobisty",
+          "type": "varchar(50)",
+          "description": "Prefiks osobisty użytkownika"
+        },
+        {
+          "name": "uz_LimitStanowisk",
+          "type": "int",
+          "description": "Limit stanowisk użytkownika"
+        },
+        {
+          "name": "uz_StatusPrzypomnieniaZmianyVAT",
+          "type": "int",
+          "description": "Status przypomnienia o zmianie VAT"
+        },
+        {
+          "name": "uz_DataPonownegoPrzypomnienia",
+          "type": "datetime",
+          "description": "Data ponownego przypomnienia"
+        },
+        {
+          "name": "uz_KlientEmail",
+          "type": "int",
+          "description": "Ustawienia klienta email"
+        },
+        {
+          "name": "uz_Domena",
+          "type": "TNazwa",
+          "description": "Domena użytkownika"
+        },
+        {
+          "name": "uz_AlarmyInterwal",
+          "type": "int",
+          "description": "Interwał alarmów"
+        },
+        {
+          "name": "uz_LokalizacjaPokazuj",
+          "type": "bit",
+          "description": "Czy pokazywać lokalizację"
+        },
+        {
+          "name": "uz_Lokalizacja",
+          "type": "nvarchar(256)",
+          "description": "Lokalizacja użytkownika"
+        },
+        {
+          "name": "uz_OstatnieKontoEmail",
+          "type": "int",
+          "description": "ID ostatniego używanego konta email"
+        },
+        {
+          "name": "uz_DataHasla",
+          "type": "datetime",
+          "description": "Data ostatniej zmiany hasła"
+        },
+        {
+          "name": "uz_ZmianaHasla",
+          "type": "bit",
+          "description": "Czy wymagana zmiana hasła"
+        },
+        {
+          "name": "uz_PodnoszenieUprawnienUserId",
+          "type": "int",
+          "description": "ID użytkownika dla podnoszenia uprawnień"
+        },
+        {
+          "name": "uz_ShowTutorialSMS",
+          "type": "bit",
+          "description": "Czy pokazywać tutorial SMS"
         }
       ]
     }
@@ -1100,6 +1240,36 @@
       "fromColumn": "kh_IdNabywca",
       "toTable": "dbo.kh__Kontrahent",
       "toColumn": "kh_Id"
+    },
+    {
+      "fromTable": "pd_Uzytkownik",
+      "fromColumn": "uz_IdKasy",
+      "toTable": "dbo.dks_Kasa",
+      "toColumn": "kasa_Id"
+    },
+    {
+      "fromTable": "pd_Uzytkownik",
+      "fromColumn": "uz_IdMagazynu",
+      "toTable": "dbo.sl_Magazyn",
+      "toColumn": "mag_Id"
+    },
+    {
+      "fromTable": "pd_Uzytkownik",
+      "fromColumn": "uz_IdPracownika",
+      "toTable": "dbo.pr_Pracownik",
+      "toColumn": "pr_Id"
+    },
+    {
+      "fromTable": "pd_Uzytkownik",
+      "fromColumn": "uz_IdKompozycji",
+      "toTable": "dbo.ui__Kompozycja",
+      "toColumn": "komp_Id"
+    },
+    {
+      "fromTable": "pd_Uzytkownik",
+      "fromColumn": "uz_IdGrupy",
+      "toTable": "dbo.sl_GrupaUz",
+      "toColumn": "gu_Id"
     }
   ]
 }

@@ -89,5 +89,110 @@
       "isSelect": true,
       "sqlStatement": "SELECT * FROM kh__Kontrahent WHERE kh_DataDodania >= DATEADD(month, -1, GETDATE())"
     }
+  },
+  {
+    "userQuery": "Pokaż mi podstawowe informacje o kontrahentach posortowane według daty dodania",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT TOP 100 k.kh_Id, k.kh_Symbol, k.kh_Kontakt, k.kh_EMail, k.kh_Osoba, k.kh_CzynnyPodatnikVAT, k.kh_PodVATZarejestrowanyWUE, k.kh_Zablokowany, k.kh_DataDodania FROM kh__Kontrahent k ORDER BY k.kh_DataDodania DESC"
+    }
+  },
+  {
+    "userQuery": "Wyświetl kontrahentów wraz z danymi ich opiekunów",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT TOP 100 k.kh_Id, k.kh_Symbol, k.kh_Kontakt, u.uz_Id, u.uz_Nazwisko AS NazwaOpiekuna, u.uz_EMail AS EmailOpiekuna, k.kh_DataDodania FROM kh__Kontrahent k JOIN pd_Uzytkownik u ON k.kh_IdOpiekun = u.uz_Id WHERE k.kh_IdOpiekun IS NOT NULL AND k.kh_IdOpiekun > 0 ORDER BY u.uz_Nazwisko, k.kh_Symbol"
+    }
+  },
+  {
+    "userQuery": "Znajdź kontrahentów, którzy wyrazili zgodę na marketing lub e-mail",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT TOP 100 k.kh_Id, k.kh_Symbol, k.kh_Kontakt, k.kh_EMail, k.kh_ZgodaMark, k.kh_ZgodaEMail, k.kh_ZgodaNewsletterVendero, k.kh_DataDodania FROM kh__Kontrahent k WHERE (k.kh_ZgodaMark = 1 OR k.kh_ZgodaEMail = 1 OR k.kh_ZgodaNewsletterVendero = 1) AND k.kh_EMail IS NOT NULL AND k.kh_EMail <> '' ORDER BY k.kh_DataDodania DESC"
+    }
+  },
+  {
+    "userQuery": "Pokaż kontrahentów, którzy korzystają z e-faktur",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT TOP 100 k.kh_Id, k.kh_Symbol, k.kh_Kontakt, k.kh_EMail, k.kh_EFakturyZgoda, k.kh_EFakturyData, k.kh_KsefDomyslnyEtapPrzetwarzania, k.kh_RolaOdbiorcyKSeF FROM kh__Kontrahent k WHERE k.kh_EFakturyZgoda = 1 ORDER BY k.kh_EFakturyData DESC"
+    }
+  },
+  {
+    "userQuery": "Wyciągnij listę kontrahentów będących osobami fizycznymi",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT TOP 100 k.kh_Id, k.kh_Symbol, k.kh_Kontakt, k.kh_PESEL, k.kh_NrDowodu, k.kh_DataWyd, k.kh_OrganWyd, k.kh_DataDodania FROM kh__Kontrahent k WHERE k.kh_Osoba = 1 ORDER BY k.kh_DataDodania DESC"
+    }
+  },
+  {
+    "userQuery": "Pokaż firmy z numerami KRS lub REGON",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT TOP 100 k.kh_Id, k.kh_Symbol, k.kh_Kontakt, k.kh_REGON, k.kh_KRS, k.kh_WWW, k.kh_IdGrupa, k.kh_DataDodania FROM kh__Kontrahent k WHERE k.kh_Osoba = 0 AND (k.kh_REGON IS NOT NULL OR k.kh_KRS IS NOT NULL) ORDER BY k.kh_DataDodania DESC"
+    }
+  },
+  {
+    "userQuery": "Wyświetl ostatnio dodanych lub zmodyfikowanych kontrahentów i kto ich dodał",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT TOP 100 k.kh_Id, k.kh_Symbol, k.kh_Kontakt, k.kh_DataDodania, k.kh_DataZmiany, u1.uz_Nazwisko AS DodanyPrzez, u2.uz_Nazwisko AS ZmienionyPrzez FROM kh__Kontrahent k LEFT JOIN pd_Uzytkownik u1 ON k.kh_IdDodal = u1.uz_Id LEFT JOIN pd_Uzytkownik u2 ON k.kh_IdZmienil = u2.uz_Id ORDER BY CASE WHEN k.kh_DataZmiany IS NULL THEN k.kh_DataDodania WHEN k.kh_DataZmiany > k.kh_DataDodania THEN k.kh_DataZmiany ELSE k.kh_DataDodania END DESC"
+    }
+  },
+  {
+    "userQuery": "Pokaż kontrahentów z ustawionymi komunikatami",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT TOP 100 k.kh_Id, k.kh_Symbol, k.kh_Kontakt, k.kh_CzyKomunikat, k.kh_Komunikat, k.kh_KomunikatZawsze, k.kh_KomunikatOd FROM kh__Kontrahent k WHERE k.kh_CzyKomunikat = 1 AND k.kh_Komunikat IS NOT NULL AND k.kh_Komunikat <> '' ORDER BY k.kh_KomunikatOd DESC"
+    }
+  },
+  {
+    "userQuery": "Znajdź kontrahentów z alternatywnymi adresami dostawy lub korespondencji",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT TOP 100 k.kh_Id, k.kh_Symbol, k.kh_Kontakt, k.kh_AdresKoresp, k.kh_AdresDostawy FROM kh__Kontrahent k WHERE k.kh_AdresKoresp = 1 OR k.kh_AdresDostawy = 1 ORDER BY k.kh_Symbol"
+    }
+  },
+  {
+    "userQuery": "Pokaż mi czynnych podatników VAT dodanych w ostatnim miesiącu",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT TOP 100 k.kh_Id, k.kh_Symbol, k.kh_Kontakt, k.kh_EMail, k.kh_DataDodania, k.kh_CzynnyPodatnikVAT FROM kh__Kontrahent k WHERE k.kh_CzynnyPodatnikVAT = 1 AND k.kh_DataDodania >= DATEADD(month, -1, GETDATE()) ORDER BY k.kh_DataDodania DESC"
+    }
+  },
+  {
+    "userQuery": "Wyświetl wszystkich kontrahentów mających zgodę na e-faktury i newsletter",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT TOP 100 k.kh_Id, k.kh_Symbol, k.kh_Kontakt, k.kh_EMail, k.kh_EFakturyZgoda, k.kh_ZgodaNewsletterVendero FROM kh__Kontrahent k WHERE k.kh_EFakturyZgoda = 1 AND k.kh_ZgodaNewsletterVendero = 1 AND k.kh_EMail IS NOT NULL AND k.kh_EMail <> ''"
+    }
+  },
+  {
+    "userQuery": "Jacy kontrahenci zostali dodani przez użytkownika Kowalski?",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT TOP 100 k.kh_Id, k.kh_Symbol, k.kh_Kontakt, k.kh_DataDodania FROM kh__Kontrahent k JOIN pd_Uzytkownik u ON k.kh_IdDodal = u.uz_Id WHERE u.uz_Nazwisko LIKE '%Kowalski%' ORDER BY k.kh_DataDodania DESC"
+    }
+  },
+  {
+    "userQuery": "Wypisz osoby fizyczne, które mają podany numer PESEL",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT TOP 100 k.kh_Id, k.kh_Symbol, k.kh_Kontakt, k.kh_PESEL FROM kh__Kontrahent k WHERE k.kh_Osoba = 1 AND k.kh_PESEL IS NOT NULL AND k.kh_PESEL <> '' ORDER BY k.kh_Symbol"
+    }
+  },
+  {
+    "userQuery": "Pokaż firmy, które mają przypisanego opiekuna",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT TOP 100 k.kh_Id, k.kh_Symbol, k.kh_Kontakt, u.uz_Nazwisko, u.uz_EMail FROM kh__Kontrahent k JOIN pd_Uzytkownik u ON k.kh_IdOpiekun = u.uz_Id WHERE k.kh_Osoba = 0 AND k.kh_IdOpiekun IS NOT NULL AND k.kh_IdOpiekun > 0 ORDER BY u.uz_Nazwisko, k.kh_Symbol"
+    }
+  },
+  {
+    "userQuery": "Znajdź kontrahentów, którzy mają wyświetlać komunikat zawsze",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT TOP 100 k.kh_Id, k.kh_Symbol, k.kh_Kontakt, k.kh_Komunikat FROM kh__Kontrahent k WHERE k.kh_CzyKomunikat = 1 AND k.kh_KomunikatZawsze = 1 AND k.kh_Komunikat IS NOT NULL AND k.kh_Komunikat <> '' ORDER BY k.kh_Symbol"
+    }
   }
 ]

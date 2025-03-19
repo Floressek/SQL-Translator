@@ -51,13 +51,17 @@ export async function executeSQL(query) {
     try {
         pool = await createConnection();
 
-        // // Check if the query contains LIMIT or OFFSET if not add them
-        // let modifiedQuery = query;
-        //
-        // // Add LIMIT 100 if the query is a SELECT statement and doesn't already have LIMIT or OFFSET
-        // if(query.trim().toUpperCase().startsWith("SELECT") && !query.toUpperCase().includes("LIMIT") && !query.toUpperCase().includes("OFFSET")) {
+        // Check if the query contains LIMIT or OFFSET if not add them
+        let modifiedQuery = query;
 
-        const result = await pool.request().query(query);
+        // Add LIMIT 100 if the query is a SELECT statement and doesn't already have LIMIT or OFFSET
+        if(query.trim().toUpperCase().startsWith("SELECT") && !query.toUpperCase().includes("LIMIT") && !query.toUpperCase().includes("OFFSET") && !query.toUpperCase().includes("TOP")) {
+            const selectPos = query.toUpperCase().indexOf("SELECT") + 6; // length of "SELECT" so we TOP after SELECT and we get SELECT TOP
+            modifiedQuery = query.slice(0, selectPos) + ' TOP 100 ' + query.slice(selectPos);
+            logger.info(`Query modified with row limit: ${modifiedQuery}`);
+        }
+
+        const result = await pool.request().query(modifiedQuery);
         logger.info("Successfully executed the SQL query! ✅");
 
         // Check if this is a SELECT query

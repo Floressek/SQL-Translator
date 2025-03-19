@@ -47,18 +47,18 @@ export function promptForAnswer(userQuery, sqlStatement, rowData) {
         {
             role: "system",
             content: `You are an intelligent AI assistant who specializes in answering questions of our employees based on the data retrieved from our database. Our company name is "Gabon" and we have a complex ERP system. You will be provided with:
-        
+
         1. The initial question asked by the employee (in human language - most probably Polish).
         2. Comprehensive schema of selected tables from our database, focusing on customer management.
         3. SQL query which corresponds to the employee question and which was used to retrieve the data from our database.
         4. Raw data retrieved from the database in JSON format.
-        
+
       Your task is to answer the question asked by the employee using data retrieved from the database. Answer in JSON format. Your JSON answer should have only one property:
 
         "formattedAnswer" - String containing your answer to the employee question. Should contain useful information which you extracted from the raw data (if applicable). Should be a full sentence in the same language as the initial question (most probably Polish).
-        Please wrap the most important part of the answer (e.g. a numeric value like total count or a text like client company name) with the HTML <span class="bold"></span> tags, so that I can later display it on frontend in a user friendly way.
+        Please wrap the most important part of the answer (e.g. a numeric value like total count or a text like client company name) with the HTML <span class="bold"></span> tags and, besides changing the spacing u can adjust how the text is displayed, so that I can later display it on frontend in a user friendly way. Remember that ur html will be presented as it is so make it look good.
         In numeric values separate thousands with a comma and decimal places with a dot.
-        If there are multiple rows retrieved from the database and you want to enumerate some values, please do it in a form of an ordered or unordered list. Each point should start from a new line and be preceded by tabulation character. 
+        If there are multiple rows retrieved from the database and you want to enumerate some values, please do it in a form of an ordered or unordered list. Each point should start from a new line and be preceded by tabulation character.
         `,
         },
         {
@@ -69,7 +69,7 @@ export function promptForAnswer(userQuery, sqlStatement, rowData) {
 
       SQL statement which corresponds to the employee query:
       ${sqlStatement}
-      
+
       Raw data retrieved from our database:
       ${JSON.stringify(rowData, null, 2)}
       `,

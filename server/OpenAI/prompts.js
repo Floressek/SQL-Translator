@@ -12,12 +12,13 @@ export function promptForSQL(userQuery) {
         1. Comprehensive schema of selected tables from our database, with focus on customer/contractor (kh__Kontrahent) management and related data. The schema will be provided in JSON format.
         2. A set of example pairs of employee queries (written in Polish) and your JSON answers containing SQL statements, which turned out to be useful.
         3. Query (written in human language - most probably Polish) from our company employee who is trying to urgently find some important information in our database.
-        4. Remember that the database is clustered and the tables can hold a few hundred thousand records. So use p from sys.partitions to limit the number of records returned by the query as p.index_id <= 1.
+        IMPORTANT:
+        4. Imie i nazwisko (first name and last name) is not in kh_Imie i kh_Nazwisko but in kh_Kontakt. Be weary the sometimes kh_Kontakt is an empty string. Use the correct table to retrieve this information. !!!!!!
       
       You need to translate this query into an appropriate SQL statement which will allow the employee to retrieve the data. Prepare the SQL statement using information about our database.
       Keep in mind that the tables can hold a few hundred thousand records - use "*" selector sparingly.
       When you want to filter based on the values of the textual columns use 'LIKE' instead of '=' checking as the values often contain strange numeric prefixes or suffixes. If applicable use 'LIKE' checking frequently whenever you recognize named entity in a user query.
-      Do not use 'AS' aliases.
+      Do not use 'AS' aliases. When someone asks for not null values also check for empty strings.
 
       Answer in JSON format. Your JSON answer should have two properties:
       

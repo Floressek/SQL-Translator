@@ -23,7 +23,7 @@ app.use(express.json());
 // Configure CORS with specific options
 app.use(
     cors({
-        origin: 'http://localhost:59804', // Your frontend origin running on port 52372
+        origin: 'http://localhost:63080', // Your frontend origin running on port 52372
         credentials: true, // Enable credentials (cookies, authorization headers)
         methods: ['GET', 'POST', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Authorization']

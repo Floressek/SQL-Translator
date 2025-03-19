@@ -967,39 +967,54 @@
           "description": "Identyfikator weryfikacji VIES"
         },
         {
-          "name": "khv_NIP",
-          "type": "varchar",
-          "description": "NIP kontrahenta"
+          "name": "khv_IdKh",
+          "type": "int",
+          "description": "ID powiązanego kontrahenta"
         },
         {
-          "name": "khv_DataWeryfikacji",
+          "name": "khv_IdUz",
+          "type": "int",
+          "description": "ID użytkownika wykonującego weryfikację"
+        },
+        {
+          "name": "khv_Aktywnosc",
+          "type": "bit",
+          "description": "Czy weryfikacja jest aktywna"
+        },
+        {
+          "name": "khv_Nazwa",
+          "type": "varchar(255)",
+          "description": "Nazwa podmiotu z rejestru VAT UE"
+        },
+        {
+          "name": "khv_PanstwoCzlonkowskie",
+          "type": "varchar(10)",
+          "description": "Kod państwa członkowskiego UE"
+        },
+        {
+          "name": "khv_NumerVat",
+          "type": "varchar(50)",
+          "description": "Numer VAT w VIES"
+        },
+        {
+          "name": "khv_DataZapytania",
           "type": "datetime",
           "description": "Data weryfikacji VIES"
         },
         {
-          "name": "khv_Aktywny",
-          "type": "bit",
-          "description": "Czy weryfikacja VIES jest aktywna"
-        },
-        {
           "name": "khv_Adres",
-          "type": "varchar",
+          "type": "varchar(255)",
           "description": "Adres zweryfikowany w VIES"
         },
         {
-          "name": "khv_NazwaVat",
-          "type": "varchar",
-          "description": "Nazwa podmiotu z rejestru VAT UE"
+          "name": "khv_IdentyfikatorZapytania",
+          "type": "varchar(50)",
+          "description": "Identyfikator zapytania do systemu VIES"
         },
         {
           "name": "khv_Zapytanie",
-          "type": "varchar",
+          "type": "varchar(50)",
           "description": "Treść zapytania do systemu VIES"
-        },
-        {
-          "name": "khv_Odpowiedz",
-          "type": "varchar",
-          "description": "Pełna odpowiedź z systemu VIES"
         }
       ]
     },
@@ -1270,6 +1285,18 @@
       "fromColumn": "uz_IdGrupy",
       "toTable": "dbo.sl_GrupaUz",
       "toColumn": "gu_Id"
+    },
+    {
+      "fromTable": "kh_Vies",
+      "fromColumn": "khv_IdKh",
+      "toTable": "dbo.kh__Kontrahent",
+      "toColumn": "kh_Id"
+    },
+    {
+      "fromTable": "kh_Vies",
+      "fromColumn": "khv_IdUz",
+      "toTable": "dbo.pd_Uzytkownik",
+      "toColumn": "uz_Id"
     }
   ]
 }

@@ -1,7 +1,7 @@
 import {MongoClient} from "mongodb";
 import {AppError} from "../Utils/AppError.js";
 import {createLogger} from "../Utils/logger.js";
-import { fileURLToPath } from 'url';
+import {fileURLToPath} from 'url';
 
 // Create the equivalent of __filename for ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -16,11 +16,11 @@ const mongoClient = new MongoClient(MONGO_CONNECTION_STRING);
 
 async function retrieveDbSchema() {
     try {
-        const db = mongoClient.db(MONGO_DATABASE || "euvic");
+        const db = mongoClient.db(MONGO_DATABASE || "gabon_db");
         const coll = db.collection(MONGO_COLLECTION_SCHEMAS);
 
         const filter = {
-            schemaVersion: "withExampleDistinctValues",
+            schemaVersion: "gabon_customer_tables",
         };
         const options = {
             // Exclude _id and schemaVersion fields from the returned document
@@ -42,7 +42,7 @@ async function retrieveDbSchema() {
 
 async function retrievePromptExamples() {
     try {
-        const db = mongoClient.db(MONGO_DATABASE || "euvic");
+        const db = mongoClient.db(MONGO_DATABASE || "gabon_db");
         const coll = db.collection(MONGO_COLLECTION_EXAMPLES);
 
         const options = {

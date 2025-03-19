@@ -6,7 +6,7 @@ import {
 } from "../OpenAI/openAI.js";
 import { promptForSQL, promptForAnswer } from "../OpenAI/prompts.js";
 import { asyncWrapper } from "../Utils/asyncWrapper.js";
-import { executeSQL } from "../Database/mysql.js";
+import { executeSQL } from "../Database/mssql.js";
 import {createLogger} from "../Utils/logger.js";
 import { fileURLToPath } from 'url';
 

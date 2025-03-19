@@ -12,11 +12,31 @@ services:
     volumes:
       - mongo_data:/data/db
     networks:
-      - mongo_network
+      - app_network
+
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: gabona_sql
+    environment:
+      - "ACCEPT_EULA=Y"
+      - "MSSQL_SA_PASSWORD=Password123!"
+      - "MSSQL_PID=Developer"
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql/data
+      - mssql_backups:/var/opt/mssql/backup
+      - mssql_logs:/var/opt/mssql/log
+    networks:
+      - app_network
+    restart: unless-stopped
 
 volumes:
   mongo_data:
+  mssql_data:
+  mssql_backups:
+  mssql_logs:
 
 networks:
-  mongo_network:
+  app_network:
     driver: bridge

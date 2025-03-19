@@ -33,7 +33,7 @@
         {
           "name": "kh_Kontakt",
           "type": "varchar(60)",
-          "description": "Dane kontaktowe = IMIE + NAZWISKO"
+          "description": "Dane kontaktowe"
         },
         {
           "name": "kh_PESEL",
@@ -423,12 +423,12 @@
         {
           "name": "kh_Imie",
           "type": "TImie",
-          "description": "Imię osoby kontaktowej/kontrahenta. Przewaznie puste pole, po imie/nazwisko kontrahenta wybierz sie do kh_Kontakt!!!!!!!"
+          "description": "Imię osoby kontaktowej/kontrahenta"
         },
         {
           "name": "kh_Nazwisko",
           "type": "varchar(51)",
-          "description": "Nazwisko osoby kontaktowej/kontrahenta. Przewaznie puste pole, po imie/nazwisko kontrahenta wybierz sie do kh_Kontakt!!!!!!!"
+          "description": "Nazwisko osoby kontaktowej/kontrahenta"
         },
         {
           "name": "kh_CRM",

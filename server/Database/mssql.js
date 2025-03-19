@@ -50,6 +50,13 @@ export async function executeSQL(query) {
     let pool;
     try {
         pool = await createConnection();
+
+        // // Check if the query contains LIMIT or OFFSET if not add them
+        // let modifiedQuery = query;
+        //
+        // // Add LIMIT 100 if the query is a SELECT statement and doesn't already have LIMIT or OFFSET
+        // if(query.trim().toUpperCase().startsWith("SELECT") && !query.toUpperCase().includes("LIMIT") && !query.toUpperCase().includes("OFFSET")) {
+
         const result = await pool.request().query(query);
         logger.info("Successfully executed the SQL query! ✅");
 
@@ -61,7 +68,7 @@ export async function executeSQL(query) {
         // For INSERT, UPDATE, DELETE operations
         else if (result.rowsAffected) {
             logger.info(`Number of rows affected: ${result.rowsAffected[0]}`);
-            return { rowsAffected: result.rowsAffected[0] };
+            return {rowsAffected: result.rowsAffected[0]};
         }
         // For other cases
         return result;
@@ -74,7 +81,6 @@ export async function executeSQL(query) {
         }
     }
 }
-
 
 
 await createTestConnection();

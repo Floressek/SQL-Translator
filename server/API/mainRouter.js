@@ -1,14 +1,14 @@
 import express from "express";
 import {
-  generateGPTAnswer,
-  sqlResponse,
-  finalResponse,
+    generateGPTAnswer,
+    sqlResponse,
+    finalResponse,
 } from "../OpenAI/openAI.js";
-import { promptForSQL, promptForAnswer } from "../OpenAI/prompts.js";
-import { asyncWrapper } from "../Utils/asyncWrapper.js";
-import { executeSQL } from "../Database/mssql.js";
+import {promptForSQL, promptForAnswer} from "../OpenAI/prompts.js";
+import {asyncWrapper} from "../Utils/asyncWrapper.js";
+import {executeSQL} from "../Database/mssql.js";
 import {createLogger} from "../Utils/logger.js";
-import { fileURLToPath } from 'url';
+import {fileURLToPath} from 'url';
 
 // Create the equivalent of __filename for ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -17,54 +17,54 @@ const logger = createLogger(__filename);
 export const mainRouter = express.Router();
 
 mainRouter.post(
-  "/language-to-sql",
-  (async (req, res) => {
-    logger.info("📩 Received a new POST request.");
+    "/language-to-sql",
+    (async (req, res) => {
+        logger.info("📩 Received a new POST request.");
 
-    const userQuery = req.body?.query;
-    // console.log(promptForSQL(userQuery));
+        const userQuery = req.body?.query;
+        // console.log(promptForSQL(userQuery));
 
-    if (!userQuery) {
-      res.status(400).json({ status: "error", errorCode: "NO_QUERY_ERR" });
+        if (!userQuery) {
+            res.status(400).json({status: "error", errorCode: "NO_QUERY_ERR"});
 
-      return;
-    }
+            return;
+        }
 
-    // Call OpenAI to translate natural language to SQL
-    const sqlAnswer = await generateGPTAnswer(
-      promptForSQL(userQuery),
-      sqlResponse,
-      "sql_response"
-    );
-    logger.info(`🤖 Generated SQL: ${sqlAnswer.sqlStatement}`);
+        // Call OpenAI to translate natural language to SQL
+        const sqlAnswer = await generateGPTAnswer(
+            promptForSQL(userQuery),
+            sqlResponse,
+            "sql_response"
+        );
+        logger.info(`🤖 Generated SQL: ${sqlAnswer.sqlStatement}`);
 
-    if (!sqlAnswer.isSelect) {
-      res.status(400).json({
-        status: "error",
-        errorCode: "UNSUPPORTED_QUERY_ERR",
-      });
+        if (!sqlAnswer.isSelect) {
+            res.status(400).json({
+                status: "error",
+                errorCode: "UNSUPPORTED_QUERY_ERR",
+            });
 
-      return;
-    }
+            return;
+        }
 
-    // Execute the generated SQL query
-    const rows = await executeSQL(sqlAnswer.sqlStatement);
+        // Execute the generated SQL query
+        const rows = await executeSQL(sqlAnswer.sqlStatement);
 
-    // Call OpenAI to format the result
-    const formattedAnswer = await generateGPTAnswer(
-      promptForAnswer(userQuery, sqlAnswer.sqlStatement, rows),
-      finalResponse,
-      "final_response"
-    );
+        // Call OpenAI to format the result
+        const formattedAnswer = await generateGPTAnswer(
+            promptForAnswer(userQuery, sqlAnswer.sqlStatement, rows),
+            finalResponse,
+            "final_response"
+        );
 
-    // Send back the response
-    res.status(200).json({
-      status: "success",
-      question: userQuery,
-      sqlStatement: sqlAnswer.sqlStatement,
-      formattedAnswer: formattedAnswer.formattedAnswer,
-      rawData: rows,
-    });
-    logger.info("✅ Successfully processed the request!");
-  })
+        // Send back the response
+        res.status(200).json({
+            status: "success",
+            question: userQuery,
+            sqlStatement: sqlAnswer.sqlStatement,
+            formattedAnswer: formattedAnswer.formattedAnswer,
+            rawData: rows,
+        });
+        logger.info("✅ Successfully processed the request!");
+    })
 );

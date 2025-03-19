@@ -1,0 +1,1105 @@
+{
+  "schemaVersion": "gabon_customer_tables",
+  "tables": [
+    {
+      "name": "kh__Kontrahent",
+      "columns": [
+        {
+          "name": "kh_Id",
+          "type": "int",
+          "isPrimaryKey": true,
+          "description": "Identyfikator kontrahenta"
+        },
+        {
+          "name": "kh_Symbol",
+          "type": "TSymbol",
+          "description": "Symbol kontrahenta"
+        },
+        {
+          "name": "kh_Rodzaj",
+          "type": "int",
+          "description": "Rodzaj kontrahenta (0-3)"
+        },
+        {
+          "name": "kh_REGON",
+          "type": "TRegon",
+          "description": "Numer REGON kontrahenta"
+        },
+        {
+          "name": "kh_IdOdbiorca",
+          "type": "int",
+          "description": "Powiązanie z innym kontrahentem (odbiorcą)"
+        },
+        {
+          "name": "kh_Kontakt",
+          "type": "varchar(60)",
+          "description": "Dane kontaktowe"
+        },
+        {
+          "name": "kh_PESEL",
+          "type": "TPESEL",
+          "description": "PESEL kontrahenta"
+        },
+        {
+          "name": "kh_NrDowodu",
+          "type": "TNrDowodu",
+          "description": "Numer dowodu osobistego"
+        },
+        {
+          "name": "kh_DataWyd",
+          "type": "datetime",
+          "description": "Data wydania dowodu osobistego"
+        },
+        {
+          "name": "kh_OrganWyd",
+          "type": "TOpis",
+          "description": "Organ wydający dowód osobisty"
+        },
+        {
+          "name": "kh_CentrumAut",
+          "type": "bit",
+          "description": "Czy kontrahent jest centrum autoryzacji"
+        },
+        {
+          "name": "kh_InstKredytowa",
+          "type": "bit",
+          "description": "Czy kontrahent jest instytucją kredytową"
+        },
+        {
+          "name": "kh_PrefKontakt",
+          "type": "TNazwa",
+          "description": "Preferowany sposób kontaktu"
+        },
+        {
+          "name": "kh_WWW",
+          "type": "TOpis",
+          "description": "Strona internetowa kontrahenta"
+        },
+        {
+          "name": "kh_EMail",
+          "type": "TOpis",
+          "description": "Adres e-mail kontrahenta"
+        },
+        {
+          "name": "kh_IdGrupa",
+          "type": "int",
+          "description": "Identyfikator grupy kontrahenta"
+        },
+        {
+          "name": "kh_IdFormaP",
+          "type": "int",
+          "description": "Forma płatności (powiązanie z sl_FormaPlatnosci)"
+        },
+        {
+          "name": "kh_Cena",
+          "type": "int",
+          "description": "Identyfikator cennika"
+        },
+        {
+          "name": "kh_PlatOdroczone",
+          "type": "bit",
+          "description": "Czy płatności odroczone"
+        },
+        {
+          "name": "kh_OdbDet",
+          "type": "bit",
+          "description": "Czy odbiorca detaliczny"
+        },
+        {
+          "name": "kh_IdRabat",
+          "type": "int",
+          "description": "Identyfikator rabatu (powiązanie z sl_Rabat)"
+        },
+        {
+          "name": "kh_MaxDokKred",
+          "type": "int",
+          "description": "Maksymalna liczba dokumentów kredytowych"
+        },
+        {
+          "name": "kh_MaxWartDokKred",
+          "type": "money",
+          "description": "Maksymalna wartość dokumentu kredytowego"
+        },
+        {
+          "name": "kh_MaxWartKred",
+          "type": "money",
+          "description": "Maksymalna wartość kredytu"
+        },
+        {
+          "name": "kh_MaxDniSp",
+          "type": "int",
+          "description": "Maksymalna liczba dni spłaty"
+        },
+        {
+          "name": "kh_NrAnalitykaD",
+          "type": "TAnalitykaDluga",
+          "description": "Numer analityki długiej"
+        },
+        {
+          "name": "kh_NrAnalitykaO",
+          "type": "TAnalitykaDluga",
+          "description": "Numer analityki obrotowej"
+        },
+        {
+          "name": "kh_Uwagi",
+          "type": "TOpis",
+          "description": "Uwagi dot. kontrahenta"
+        },
+        {
+          "name": "kh_ZgodaDO",
+          "type": "bit",
+          "description": "Zgoda na przetwarzanie danych osobowych"
+        },
+        {
+          "name": "kh_IdOsobaDO",
+          "type": "int",
+          "description": "ID osoby odpowiedzialnej za dane osobowe"
+        },
+        {
+          "name": "kh_ZgodaMark",
+          "type": "bit",
+          "description": "Zgoda na marketing"
+        },
+        {
+          "name": "kh_ZgodaEMail",
+          "type": "bit",
+          "description": "Zgoda na kontakt e-mail"
+        },
+        {
+          "name": "kh_CzyKomunikat",
+          "type": "bit",
+          "description": "Czy wyświetlać komunikat"
+        },
+        {
+          "name": "kh_Komunikat",
+          "type": "TOpis",
+          "description": "Treść komunikatu"
+        },
+        {
+          "name": "kh_KomunikatZawsze",
+          "type": "bit",
+          "description": "Czy zawsze wyświetlać komunikat"
+        },
+        {
+          "name": "kh_KomunikatOd",
+          "type": "datetime",
+          "description": "Data od kiedy wyświetlać komunikat"
+        },
+        {
+          "name": "kh_Grafika",
+          "type": "image",
+          "description": "Grafika związana z kontrahentem"
+        },
+        {
+          "name": "kh_Pole1",
+          "type": "TWlasne",
+          "description": "Pole własne 1"
+        },
+        {
+          "name": "kh_Pole2",
+          "type": "TWlasne",
+          "description": "Pole własne 2"
+        },
+        {
+          "name": "kh_Pole3",
+          "type": "TWlasne",
+          "description": "Pole własne 3"
+        },
+        {
+          "name": "kh_Pole4",
+          "type": "TWlasne",
+          "description": "Pole własne 4"
+        },
+        {
+          "name": "kh_Pole5",
+          "type": "TWlasne",
+          "description": "Pole własne 5"
+        },
+        {
+          "name": "kh_Pole6",
+          "type": "TWlasne",
+          "description": "Pole własne 6"
+        },
+        {
+          "name": "kh_Pole7",
+          "type": "TWlasne",
+          "description": "Pole własne 7"
+        },
+        {
+          "name": "kh_Pole8",
+          "type": "TWlasne",
+          "description": "Pole własne 8"
+        },
+        {
+          "name": "kh_Jednorazowy",
+          "type": "bit",
+          "description": "Czy kontrahent jednorazowy"
+        },
+        {
+          "name": "kh_Pracownik",
+          "type": "varchar(60)",
+          "description": "Pracownik odpowiedzialny"
+        },
+        {
+          "name": "kh_Zablokowany",
+          "type": "bit",
+          "description": "Czy kontrahent jest zablokowany"
+        },
+        {
+          "name": "kh_AdresKoresp",
+          "type": "bit",
+          "description": "Czy ma inny adres korespondencyjny"
+        },
+        {
+          "name": "kh_UpowaznienieVAT",
+          "type": "bit",
+          "description": "Czy ma upoważnienie VAT"
+        },
+        {
+          "name": "kh_DataVAT",
+          "type": "datetime",
+          "description": "Data upoważnienia VAT"
+        },
+        {
+          "name": "kh_OsobaVAT",
+          "type": "int",
+          "description": "ID osoby związanej z VAT"
+        },
+        {
+          "name": "kh_ProcKarta",
+          "type": "money",
+          "description": "Procent płatności kartą"
+        },
+        {
+          "name": "kh_ProcKredyt",
+          "type": "money",
+          "description": "Procent płatności kredytem"
+        },
+        {
+          "name": "kh_ProcGotowka",
+          "type": "money",
+          "description": "Procent płatności gotówką"
+        },
+        {
+          "name": "kh_ProcPozostalo",
+          "type": "money",
+          "description": "Procent pozostałych płatności"
+        },
+        {
+          "name": "kh_IdKategoriaKH",
+          "type": "int",
+          "description": "ID kategorii kontrahenta"
+        },
+        {
+          "name": "kh_IdEwVATSp",
+          "type": "int",
+          "description": "ID typu ewidencji VAT sprzedaży"
+        },
+        {
+          "name": "kh_EwVATSpMcOdliczenia",
+          "type": "int",
+          "description": "Miesiąc odliczenia VAT sprzedaży"
+        },
+        {
+          "name": "kh_IdEwVATSpKateg",
+          "type": "int",
+          "description": "ID kategorii ewidencji VAT sprzedaży"
+        },
+        {
+          "name": "kh_IdEwVATZak",
+          "type": "int",
+          "description": "ID typu ewidencji VAT zakupu"
+        },
+        {
+          "name": "kh_EwVATZakRodzaj",
+          "type": "int",
+          "description": "Rodzaj ewidencji VAT zakupu"
+        },
+        {
+          "name": "kh_EwVATZakSposobOdliczenia",
+          "type": "int",
+          "description": "Sposób odliczenia VAT zakupu"
+        },
+        {
+          "name": "kh_EwVATZakMcOdliczenia",
+          "type": "int",
+          "description": "Miesiąc odliczenia VAT zakupu"
+        },
+        {
+          "name": "kh_IdEwVATZakKateg",
+          "type": "int",
+          "description": "ID kategorii ewidencji VAT zakupu"
+        },
+        {
+          "name": "kh_IdRachKategPrzychod",
+          "type": "int",
+          "description": "ID kategorii rachunku przychodów"
+        },
+        {
+          "name": "kh_IdRachKategRozchod",
+          "type": "int",
+          "description": "ID kategorii rachunku rozchodów"
+        },
+        {
+          "name": "kh_TransakcjaVATSp",
+          "type": "int",
+          "description": "Typ transakcji VAT sprzedaży"
+        },
+        {
+          "name": "kh_TransakcjaVATZak",
+          "type": "int",
+          "description": "Typ transakcji VAT zakupu"
+        },
+        {
+          "name": "kh_PodVATZarejestrowanyWUE",
+          "type": "bit",
+          "description": "Czy kontrahent jest zarejestrowany jako podatnik VAT w UE"
+        },
+        {
+          "name": "kh_DataWaznosciVAT",
+          "type": "datetime",
+          "description": "Data ważności weryfikacji VAT"
+        },
+        {
+          "name": "kh_OpisOperacji",
+          "type": "TOpis",
+          "description": "Opis operacji"
+        },
+        {
+          "name": "kh_PlatPrzelew",
+          "type": "bit",
+          "description": "Czy płatność przelewem"
+        },
+        {
+          "name": "kh_GaduGadu",
+          "type": "TGadu",
+          "description": "Numer GG"
+        },
+        {
+          "name": "kh_Skype",
+          "type": "TSkype",
+          "description": "Nazwa Skype"
+        },
+        {
+          "name": "kh_Powitanie",
+          "type": "TOpis",
+          "description": "Powitanie"
+        },
+        {
+          "name": "kh_AdresDostawy",
+          "type": "bit",
+          "description": "Czy ma inny adres dostawy"
+        },
+        {
+          "name": "kh_IdRodzajKontaktu",
+          "type": "int",
+          "description": "ID rodzaju kontaktu"
+        },
+        {
+          "name": "kh_IdPozyskany",
+          "type": "int",
+          "description": "ID źródła pozyskania kontrahenta"
+        },
+        {
+          "name": "kh_IdBranza",
+          "type": "int",
+          "description": "ID branży kontrahenta"
+        },
+        {
+          "name": "kh_IdRegion",
+          "type": "int",
+          "description": "ID regionu kontrahenta"
+        },
+        {
+          "name": "kh_LiczbaPrac",
+          "type": "int",
+          "description": "Liczba pracowników"
+        },
+        {
+          "name": "kh_IdOpiekun",
+          "type": "int",
+          "description": "ID opiekuna kontrahenta"
+        },
+        {
+          "name": "kh_Imie",
+          "type": "TImie",
+          "description": "Imię osoby kontaktowej/kontrahenta"
+        },
+        {
+          "name": "kh_Nazwisko",
+          "type": "varchar(51)",
+          "description": "Nazwisko osoby kontaktowej/kontrahenta"
+        },
+        {
+          "name": "kh_CRM",
+          "type": "bit",
+          "description": "Czy kontrahent znajduje się w CRM"
+        },
+        {
+          "name": "kh_Potencjalny",
+          "type": "bit",
+          "description": "Czy kontrahent potencjalny"
+        },
+        {
+          "name": "kh_IdDodal",
+          "type": "int",
+          "description": "ID użytkownika, który dodał kontrahenta"
+        },
+        {
+          "name": "kh_IdZmienil",
+          "type": "int",
+          "description": "ID użytkownika, który zmienił kontrahenta"
+        },
+        {
+          "name": "kh_DataDodania",
+          "type": "datetime",
+          "description": "Data dodania kontrahenta"
+        },
+        {
+          "name": "kh_DataZmiany",
+          "type": "datetime",
+          "description": "Data ostatniej zmiany"
+        },
+        {
+          "name": "kh_ProcPrzelew",
+          "type": "money",
+          "description": "Procent płatności przelewem"
+        },
+        {
+          "name": "kh_DataOkolicznosciowa",
+          "type": "datetime",
+          "description": "Data okolicznościowa"
+        },
+        {
+          "name": "kh_Osoba",
+          "type": "bit",
+          "description": "Czy kontrahent jest osobą fizyczną"
+        },
+        {
+          "name": "kh_IdRachunkuWirtualnego",
+          "type": "int",
+          "description": "ID rachunku wirtualnego"
+        },
+        {
+          "name": "kh_KRS",
+          "type": "TNazwaPelna",
+          "description": "Numer KRS"
+        },
+        {
+          "name": "kh_Domena",
+          "type": "TNazwa",
+          "description": "Domena internetowa"
+        },
+        {
+          "name": "kh_Akcyza",
+          "type": "int",
+          "description": "Status akcyzy"
+        },
+        {
+          "name": "kh_EFakturyZgoda",
+          "type": "bit",
+          "description": "Zgoda na e-faktury"
+        },
+        {
+          "name": "kh_EFakturyData",
+          "type": "datetime",
+          "description": "Data zgody na e-faktury"
+        },
+        {
+          "name": "kh_MetodaKasowa",
+          "type": "bit",
+          "description": "Czy stosuje metodę kasową"
+        },
+        {
+          "name": "kh_Lokalizacja",
+          "type": "nvarchar(256)",
+          "description": "Lokalizacja kontrahenta"
+        },
+        {
+          "name": "kh_StatusAkcyza",
+          "type": "int",
+          "description": "Status akcyzy"
+        },
+        {
+          "name": "kh_CzynnyPodatnikVAT",
+          "type": "bit",
+          "description": "Czy kontrahent jest czynnym podatnikiem VAT"
+        },
+        {
+          "name": "kh_KorygowanieKUP",
+          "type": "bit",
+          "description": "Czy korygowanie KUP"
+        },
+        {
+          "name": "kh_KorygowanieVATSp",
+          "type": "bit",
+          "description": "Czy korygowanie VAT sprzedaży"
+        },
+        {
+          "name": "kh_KorygowanieVATZak",
+          "type": "bit",
+          "description": "Czy korygowanie VAT zakupu"
+        },
+        {
+          "name": "kh_WzwIdFS",
+          "type": "int",
+          "description": "ID wzorca FS"
+        },
+        {
+          "name": "kh_WzwIdWZ",
+          "type": "int",
+          "description": "ID wzorca WZ"
+        },
+        {
+          "name": "kh_WzwIdWZVAT",
+          "type": "int",
+          "description": "ID wzorca WZ VAT"
+        },
+        {
+          "name": "kh_WzwIdZK",
+          "type": "int",
+          "description": "ID wzorca ZK"
+        },
+        {
+          "name": "kh_WzwIdZKZAL",
+          "type": "int",
+          "description": "ID wzorca ZK ZAL"
+        },
+        {
+          "name": "kh_ZgodaNewsletterVendero",
+          "type": "bit",
+          "description": "Zgoda na newsletter Vendero"
+        },
+        {
+          "name": "kh_KlientSklepuInternetowego",
+          "type": "bit",
+          "description": "Czy klient sklepu internetowego"
+        },
+        {
+          "name": "kh_WzwIdZD",
+          "type": "int",
+          "description": "ID wzorca ZD"
+        },
+        {
+          "name": "kh_WzwIdCrmTransakcja",
+          "type": "int",
+          "description": "ID wzorca transakcji CRM"
+        },
+        {
+          "name": "kh_StawkaVATPrzychod",
+          "type": "int",
+          "description": "Stawka VAT dla przychodu"
+        },
+        {
+          "name": "kh_StawkaVATWydatek",
+          "type": "int",
+          "description": "Stawka VAT dla wydatku"
+        },
+        {
+          "name": "kh_MalyPojazd",
+          "type": "int",
+          "description": "Status małego pojazdu"
+        },
+        {
+          "name": "kh_StosujRabatWMultistore",
+          "type": "bit",
+          "description": "Czy stosować rabat w multistore"
+        },
+        {
+          "name": "kh_CelZakupu",
+          "type": "int",
+          "description": "Cel zakupu"
+        },
+        {
+          "name": "kh_StosujIndywidualnyCennikWSklepieInternetowym",
+          "type": "bit",
+          "description": "Czy stosować indywidualny cennik w sklepie internetowym"
+        },
+        {
+          "name": "kh_OdbiorcaCesjaPlatnosci",
+          "type": "bit",
+          "description": "Czy odbiorca cesja płatności"
+        },
+        {
+          "name": "kh_IdNabywca",
+          "type": "int",
+          "description": "ID nabywcy powiązanego z kontrahentem"
+        },
+        {
+          "name": "kh_IdOstatniWpisWeryfikacjiStatusuVAT",
+          "type": "int",
+          "description": "ID ostatniej weryfikacji VAT"
+        },
+        {
+          "name": "kh_BrakPPDlaRozrachunkowAuto",
+          "type": "bit",
+          "description": "Czy brak PP dla rozrachunków auto"
+        },
+        {
+          "name": "kh_DomyslnaWaluta",
+          "type": "TSymbolKrotki",
+          "description": "Domyślna waluta"
+        },
+        {
+          "name": "kh_DomyslnyTypCeny",
+          "type": "int",
+          "description": "Domyślny typ ceny"
+        },
+        {
+          "name": "kh_DomyslnaTransVATSprzedaz",
+          "type": "int",
+          "description": "Domyślna transakcja VAT sprzedaży"
+        },
+        {
+          "name": "kh_DomyslnaTransVATSprzedazFW",
+          "type": "int",
+          "description": "Domyślna transakcja VAT sprzedaży FW"
+        },
+        {
+          "name": "kh_DomyslnaTransVATZakup",
+          "type": "int",
+          "description": "Domyślna transakcja VAT zakupu"
+        },
+        {
+          "name": "kh_DomyslnaTransVATZakupFW",
+          "type": "int",
+          "description": "Domyślna transakcja VAT zakupu FW"
+        },
+        {
+          "name": "kh_DomyslnyRachBankowyId",
+          "type": "int",
+          "description": "ID domyślnego rachunku bankowego"
+        },
+        {
+          "name": "kh_IdOstatniWpisWeryfikacjiStatusuVIES",
+          "type": "int",
+          "description": "ID ostatniej weryfikacji VIES"
+        },
+        {
+          "name": "kh_DomyslnaWalutaMode",
+          "type": "bit",
+          "description": "Tryb domyślnej waluty"
+        },
+        {
+          "name": "kh_DomyslnyRachBankowyIdMode",
+          "type": "bit",
+          "description": "Tryb domyślnego rachunku bankowego"
+        },
+        {
+          "name": "kh_PrzypadekSzczegolnyPIT",
+          "type": "int",
+          "description": "Przypadek szczególny PIT"
+        },
+        {
+          "name": "kh_WartoscNettoCzyBrutto",
+          "type": "int",
+          "description": "Czy wartość netto czy brutto"
+        },
+        {
+          "name": "kh_StosujSzybkaPlatnosc",
+          "type": "bit",
+          "description": "Czy stosować szybką płatność"
+        },
+        {
+          "name": "kh_IdOstatniWpisWeryfikacjiWykazPodatnikowVAT",
+          "type": "int",
+          "description": "ID ostatniego wpisu weryfikacji wykazu podatników VAT"
+        },
+        {
+          "name": "kh_OstrzezenieTerminPlatnosciPrzekroczony",
+          "type": "int",
+          "description": "Ostrzeżenie o przekroczonym terminie płatności"
+        },
+        {
+          "name": "kh_PodatekCukrowyNaliczaj",
+          "type": "int",
+          "description": "Czy naliczać podatek cukrowy"
+        },
+        {
+          "name": "kh_NrAkcyzowy",
+          "type": "varchar(13)",
+          "description": "Numer akcyzowy"
+        },
+        {
+          "name": "kh_WzwIdKFS",
+          "type": "int",
+          "description": "ID wzorca KFS"
+        },
+        {
+          "name": "kh_KsefEksportObslugaPolaDodatkoweInformacje",
+          "type": "int",
+          "description": "KSeF eksport obsługa pola dodatkowe informacje"
+        },
+        {
+          "name": "kh_KsefImportObslugaPolaDodatkoweInformacje",
+          "type": "int",
+          "description": "KSeF import obsługa pola dodatkowe informacje"
+        },
+        {
+          "name": "kh_KsefMagazynDlaEFaktur",
+          "type": "int",
+          "description": "KSeF magazyn dla e-faktur"
+        },
+        {
+          "name": "kh_KsefDodatkoweInfoPoprzedzEtykietaPola",
+          "type": "bit",
+          "description": "KSeF dodatkowe info poprzedź etykietą pola"
+        },
+        {
+          "name": "kh_KsefPoleDodatkoweInformacjeEksportSql",
+          "type": "text",
+          "description": "KSeF pole dodatkowe informacje eksport SQL"
+        },
+        {
+          "name": "kh_KsefPoleDodatkoweInformacjeEksportNaPodstSql",
+          "type": "bit",
+          "description": "KSeF pole dodatkowe informacje eksport na podstawie SQL"
+        },
+        {
+          "name": "kh_DomyslnaFormaDokumentowaniaSprzedaz",
+          "type": "int",
+          "description": "Domyślna forma dokumentowania sprzedaży"
+        },
+        {
+          "name": "kh_KsefDomyslnyEtapPrzetwarzania",
+          "type": "int",
+          "description": "KSeF domyślny etap przetwarzania"
+        },
+        {
+          "name": "kh_VatRozliczanyPrzezUslugobiorce",
+          "type": "bit",
+          "description": "Czy VAT rozliczany przez usługobiorcę"
+        },
+        {
+          "name": "kh_VatRozliczanyPrzezUslugobiorceFW",
+          "type": "bit",
+          "description": "Czy VAT rozliczany przez usługobiorcę FW"
+        },
+        {
+          "name": "kh_ProducentRolny",
+          "type": "bit",
+          "description": "Czy producent rolny"
+        },
+        {
+          "name": "kh_NaliczajOplSpec",
+          "type": "bit",
+          "description": "Czy naliczać opłaty specjalne"
+        },
+        {
+          "name": "kh_RolaOdbiorcyKSeF",
+          "type": "int",
+          "description": "Rola odbiorcy KSeF"
+        }
+      ]
+    },
+    {
+      "name": "sl_RodzajKontaktu",
+      "columns": [
+        {
+          "name": "sl_Id",
+          "type": "int",
+          "isPrimaryKey": true,
+          "description": "Identyfikator rodzaju kontaktu"
+        },
+        {
+          "name": "sl_Nazwa",
+          "type": "varchar",
+          "description": "Nazwa rodzaju kontaktu"
+        },
+        {
+          "name": "sl_Opis",
+          "type": "varchar",
+          "description": "Opis rodzaju kontaktu"
+        }
+      ]
+    },
+    {
+      "name": "sl_FormaPlatnosci",
+      "columns": [
+        {
+          "name": "fp_Id",
+          "type": "int",
+          "isPrimaryKey": true,
+          "description": "Identyfikator formy płatności"
+        },
+        {
+          "name": "fp_Nazwa",
+          "type": "varchar",
+          "description": "Nazwa formy płatności"
+        },
+        {
+          "name": "fp_Termin",
+          "type": "int",
+          "description": "Termin płatności w dniach"
+        },
+        {
+          "name": "fp_Typ",
+          "type": "int",
+          "description": "Typ formy płatności"
+        },
+        {
+          "name": "fp_NazwiOdbiorca",
+          "type": "bit",
+          "description": "Czy forma płatności nalicza odbiorcę"
+        },
+        {
+          "name": "fp_Wolna1",
+          "type": "int",
+          "description": "Pole dodatkowe 1"
+        },
+        {
+          "name": "fp_wolna2",
+          "type": "int",
+          "description": "Pole dodatkowe 2"
+        }
+      ]
+    },
+    {
+      "name": "sl_TypEwidVAT",
+      "columns": [
+        {
+          "name": "te_Id",
+          "type": "int",
+          "isPrimaryKey": true,
+          "description": "Identyfikator typu ewidencji VAT"
+        },
+        {
+          "name": "te_Nazwa",
+          "type": "varchar",
+          "description": "Nazwa typu ewidencji VAT"
+        },
+        {
+          "name": "te_Opis",
+          "type": "varchar",
+          "description": "Opis typu ewidencji VAT"
+        },
+        {
+          "name": "te_CzyRytuanowy",
+          "type": "bit",
+          "description": "Czy ewidencja ryczałtowa"
+        },
+        {
+          "name": "te_Rodzaj",
+          "type": "int",
+          "description": "Rodzaj ewidencji"
+        }
+      ]
+    },
+    {
+      "name": "sl_Rabat",
+      "columns": [
+        {
+          "name": "sr_Id",
+          "type": "int",
+          "isPrimaryKey": true,
+          "description": "Identyfikator rabatu"
+        },
+        {
+          "name": "sr_Nazwa",
+          "type": "varchar",
+          "description": "Nazwa rabatu"
+        },
+        {
+          "name": "sr_Procent",
+          "type": "decimal",
+          "description": "Procentowa wartość rabatu"
+        },
+        {
+          "name": "sr_Rodzaj",
+          "type": "bit",
+          "description": "Rodzaj rabatu"
+        }
+      ]
+    },
+    {
+      "name": "kh_WeryfikacjaNIP",
+      "columns": [
+        {
+          "name": "khwn_Id",
+          "type": "int",
+          "isPrimaryKey": true,
+          "description": "Identyfikator weryfikacji NIP"
+        },
+        {
+          "name": "khwn_NIP",
+          "type": "varchar",
+          "description": "Numer NIP"
+        },
+        {
+          "name": "khwn_DataWeryfikacji",
+          "type": "datetime",
+          "description": "Data przeprowadzenia weryfikacji"
+        },
+        {
+          "name": "khwn_StatusWeryfikacji",
+          "type": "varchar",
+          "description": "Status weryfikacji NIP"
+        },
+        {
+          "name": "khwn_NameNIP",
+          "type": "varchar",
+          "description": "Nazwa podmiotu powiązanego z NIP"
+        },
+        {
+          "name": "khwn_DataZapisuDoBazy",
+          "type": "datetime",
+          "description": "Data zapisu do bazy danych"
+        },
+        {
+          "name": "khwn_ZrodloWeryfikacji",
+          "type": "int",
+          "description": "Źródło weryfikacji NIP"
+        },
+        {
+          "name": "khwn_StatusSprawdzenia",
+          "type": "varchar",
+          "description": "Status sprawdzenia"
+        }
+      ]
+    },
+    {
+      "name": "kh_Vies",
+      "columns": [
+        {
+          "name": "khv_Id",
+          "type": "int",
+          "isPrimaryKey": true,
+          "description": "Identyfikator weryfikacji VIES"
+        },
+        {
+          "name": "khv_NIP",
+          "type": "varchar",
+          "description": "NIP kontrahenta"
+        },
+        {
+          "name": "khv_DataWeryfikacji",
+          "type": "datetime",
+          "description": "Data weryfikacji VIES"
+        },
+        {
+          "name": "khv_Aktywny",
+          "type": "bit",
+          "description": "Czy weryfikacja VIES jest aktywna"
+        },
+        {
+          "name": "khv_Adres",
+          "type": "varchar",
+          "description": "Adres zweryfikowany w VIES"
+        },
+        {
+          "name": "khv_NazwaVat",
+          "type": "varchar",
+          "description": "Nazwa podmiotu z rejestru VAT UE"
+        },
+        {
+          "name": "khv_Zapytanie",
+          "type": "varchar",
+          "description": "Treść zapytania do systemu VIES"
+        },
+        {
+          "name": "khv_Odpowiedz",
+          "type": "varchar",
+          "description": "Pełna odpowiedź z systemu VIES"
+        }
+      ]
+    },
+    {
+      "name": "pd_Uzytkownik",
+      "columns": [
+        {
+          "name": "uz_Id",
+          "type": "int",
+          "isPrimaryKey": true,
+          "description": "Identyfikator użytkownika"
+        },
+        {
+          "name": "uz_Nazwa",
+          "type": "varchar",
+          "description": "Nazwa użytkownika"
+        },
+        {
+          "name": "uz_Login",
+          "type": "varchar",
+          "description": "Login użytkownika"
+        },
+        {
+          "name": "uz_Haslo",
+          "type": "varchar",
+          "description": "Hasło użytkownika (zaszyfrowane)"
+        },
+        {
+          "name": "uz_EMail",
+          "type": "varchar",
+          "description": "Email użytkownika"
+        },
+        {
+          "name": "uz_Skype",
+          "type": "varchar",
+          "description": "Nazwa Skype użytkownika"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "fromTable": "kh__Kontrahent",
+      "fromColumn": "kh_Rodzaj",
+      "toTable": "dbo.sl_RodzajKontaktu",
+      "toColumn": "sl_Id"
+    },
+    {
+      "fromTable": "kh__Kontrahent",
+      "fromColumn": "kh_IdFormaP",
+      "toTable": "dbo.sl_FormaPlatnosci",
+      "toColumn": "fp_Id"
+    },
+    {
+      "fromTable": "kh__Kontrahent",
+      "fromColumn": "kh_IdRabat",
+      "toTable": "dbo.sl_Rabat",
+      "toColumn": "sr_Id"
+    },
+    {
+      "fromTable": "kh__Kontrahent",
+      "fromColumn": "kh_IdEwVATSp",
+      "toTable": "dbo.sl_TypEwidVAT",
+      "toColumn": "te_Id"
+    },
+    {
+      "fromTable": "kh__Kontrahent",
+      "fromColumn": "kh_IdEwVATZak",
+      "toTable": "dbo.sl_TypEwidVAT",
+      "toColumn": "te_Id"
+    },
+    {
+      "fromTable": "kh__Kontrahent",
+      "fromColumn": "kh_IdOpiekun",
+      "toTable": "dbo.pd_Uzytkownik",
+      "toColumn": "uz_Id"
+    },
+    {
+      "fromTable": "kh__Kontrahent",
+      "fromColumn": "kh_IdOstatniWpisWeryfikacjiStatusuVAT",
+      "toTable": "dbo.kh_WeryfikacjaNIP",
+      "toColumn": "khwn_Id"
+    },
+    {
+      "fromTable": "kh__Kontrahent",
+      "fromColumn": "kh_IdOstatniWpisWeryfikacjiStatusuVIES",
+      "toTable": "dbo.kh_Vies",
+      "toColumn": "khv_Id"
+    },
+    {
+      "fromTable": "kh__Kontrahent",
+      "fromColumn": "kh_IdOdbiorca",
+      "toTable": "dbo.kh__Kontrahent",
+      "toColumn": "kh_Id"
+    },
+    {
+      "fromTable": "kh__Kontrahent",
+      "fromColumn": "kh_IdNabywca",
+      "toTable": "dbo.kh__Kontrahent",
+      "toColumn": "kh_Id"
+    }
+  ]
+}

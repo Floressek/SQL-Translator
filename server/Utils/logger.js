@@ -11,7 +11,7 @@ const DEFAULT_LOG_LEVEL = 'debug';
 const TIME_ZONE = 'Europe/Warsaw';
 const DATE_FORMAT = 'en-GB';
 
-// Wymuszenie kolorów
+// Force colors
 chalk.level = 3;
 
 const formatDateInTimeZone = (date, timeZone) => {
@@ -46,7 +46,7 @@ const fileTransport = (filename, level = 'debug') => new winston.transports.File
     format: logFormat
 });
 
-// Helper do spójnego formatowania wartości
+// Helper for consistent value formatting
 const formatValue = (value) => {
     if (value === undefined) return 'undefined';
     if (value === null) return 'null';
@@ -60,7 +60,7 @@ const formatValue = (value) => {
     return value.toString();
 };
 
-// Helper do łączenia wiadomości i argumentów
+// Helper for combining message and args
 const combineMessageAndArgs = (message, args) => {
     if (args.length === 0) return formatValue(message);
 
@@ -71,21 +71,24 @@ const combineMessageAndArgs = (message, args) => {
 };
 
 const consoleFormat = winston.format.printf(({level, message, timestamp, label, filename, splat = []}) => {
+    // Make the level text more visible with appropriate colors and padding
+    const levelPadded = level.padEnd(7);
     const colorizedLevel =
-        level === 'info' ? chalk.green(level) :
-            level === 'warn' ? chalk.yellow(level) :
-                level === 'error' ? chalk.red(level) :
-                    level === 'debug' ? chalk.blue(level) :
-                        level === 'http' ? chalk.cyan(level) :
-                            level === 'verbose' ? chalk.magenta(level) :
-                                level === 'silly' ? chalk.grey(level) :
-                                    chalk.white(level);
+        level === 'info' ? chalk.green.bold(levelPadded) :
+            level === 'warn' ? chalk.yellow.bold(levelPadded) :
+                level === 'error' ? chalk.red.bold.inverse(` ${levelPadded} `) : // Make errors very visible with inverse
+                    level === 'debug' ? chalk.blue(levelPadded) :
+                        level === 'http' ? chalk.cyan(levelPadded) :
+                            level === 'verbose' ? chalk.magenta(levelPadded) :
+                                level === 'silly' ? chalk.grey(levelPadded) :
+                                    chalk.white(levelPadded);
 
     const colorizedTimestamp = chalk.gray(timestamp);
-    const colorizedLabel = chalk.hex('#FFA500')(label);
-    const colorizedFilename = chalk.hex('#00CED1')(filename);
+    const colorizedLabel = chalk.hex('#FFA500')(label || 'unknown');
+    const colorizedFilename = chalk.hex('#00CED1')(filename || 'unknown');
 
-    return `${colorizedTimestamp} [${colorizedLevel}] [${colorizedLabel}] [${colorizedFilename}]: ${message}`;
+    // Format for better readability
+    return `${colorizedTimestamp} ${colorizedLevel} [${colorizedLabel}] [${colorizedFilename}]: ${message}`;
 });
 
 const consoleTransport = new winston.transports.Console({
@@ -125,12 +128,23 @@ export function createLogger(filePath) {
     });
 
     const wrapperLogger = {};
+
+    // Standard log levels
     ['error', 'warn', 'info', 'http', 'verbose', 'debug', 'silly'].forEach(level => {
         wrapperLogger[level] = (message, ...args) => {
             const formattedMessage = combineMessageAndArgs(message, args);
             childLogger[level](formattedMessage);
         };
     });
+
+    // Add a special logWithLabel method for compatibility with old code
+    wrapperLogger.logWithLabel = (level, message, customLabel) => {
+        const tempLogger = logger.child({
+            label: customLabel || folderStructure,
+            filename: filename
+        });
+        tempLogger[level](message);
+    };
 
     return wrapperLogger;
 }

@@ -1,6 +1,6 @@
 import {MongoClient} from "mongodb";
-import {createLogger} from "../Utils/logger.js";
 import {AppError} from "../Utils/AppError.js";
+import {createLogger} from "../Utils/logger.js";
 import { fileURLToPath } from 'url';
 
 // Create the equivalent of __filename for ES modules

@@ -6,23 +6,26 @@ const __filename = fileURLToPath(import.meta.url);
 const logger = createLogger(__filename);
 
 export function errorHandler(err, req, res, next) {
-  logger.error(
-    "error",
-    JSON.stringify(
-      {
+    // Extract the endpoint name from the path
+    const endpoint = `/${req.path.split("/").at(-1)}`;
+
+    // Create error details object
+    const errorDetails = {
         "ERR.NAME": err.name,
         "ERR.MESSAGE": err.message,
         "ERR.STACK": err.stack,
         "APP.ALIVE": true
-      },
-      null,
-      4
-    ),
-    `/${req.path.split("/").at(-1)}`
-  );
+    };
 
-  res.status(500).json({
-    status: "error",
-    errorCode: "INTERNAL_SERVER_ERR",
-  });
+    // Use the logWithLabel method to maintain compatibility with the old approach
+    logger.logWithLabel(
+        "error",
+        JSON.stringify(errorDetails, null, 4),
+        endpoint
+    );
+
+    res.status(500).json({
+        status: "error",
+        errorCode: "INTERNAL_SERVER_ERR",
+    });
 }

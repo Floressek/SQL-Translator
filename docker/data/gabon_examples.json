@@ -1,0 +1,86 @@
+[
+  {
+    "userQuery": "Pokaż mi kontrahentów obsługiwanych przez Jana Kowalskiego",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT k.* FROM kh__Kontrahent k JOIN pd_Uzytkownik u ON k.kh_IdOpiekun = u.uz_Id WHERE u.uz_Nazwa LIKE '%Jan Kowalski%'"
+    }
+  },
+  {
+    "userQuery": "Wyświetl aktywnych kontrahentów, którzy są podatnikami VAT",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT * FROM kh__Kontrahent WHERE kh_CzynnyPodatnikVAT = 1 AND kh_Zablokowany = 0"
+    }
+  },
+  {
+    "userQuery": "Znajdź kontrahentów, którzy mają zgodę na e-faktury",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT * FROM kh__Kontrahent WHERE kh_EFakturyZgoda = 1"
+    }
+  },
+  {
+    "userQuery": "Którzy kontrahenci są zarejestrowani jako podatnicy VAT UE?",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT * FROM kh__Kontrahent WHERE kh_PodVATZarejestrowanyWUE = 1"
+    }
+  },
+  {
+    "userQuery": "Pokaż kontrahentów, którzy płacą z odroczonym terminem",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT k.*, f.fp_Nazwa, f.fp_Termin FROM kh__Kontrahent k JOIN sl_FormaPlatnosci f ON k.kh_IdFormaP = f.fp_Id WHERE k.kh_PlatOdroczone = 1"
+    }
+  },
+  {
+    "userQuery": "Lista kontrahentów, którzy są osobami fizycznymi",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT kh_Id, kh_Symbol, kh_Imie, kh_Nazwisko, kh_PESEL FROM kh__Kontrahent WHERE kh_Osoba = 1"
+    }
+  },
+  {
+    "userQuery": "Znajdź kontrahentów z pozytywną weryfikacją NIP",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT k.* FROM kh__Kontrahent k JOIN kh_WeryfikacjaNIP w ON k.kh_IdOstatniWpisWeryfikacjiStatusuVAT = w.khwn_Id WHERE w.khwn_StatusWeryfikacji = 'pozytywna'"
+    }
+  },
+  {
+    "userQuery": "Pokaż kontrahentów, którzy mogą płacić na kredyt i ich limit kredytowy",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT kh_Id, kh_Symbol, kh_Imie, kh_Nazwisko, kh_MaxWartKred FROM kh__Kontrahent WHERE kh_MaxWartKred > 0 ORDER BY kh_MaxWartKred DESC"
+    }
+  },
+  {
+    "userQuery": "Znajdź kontrahentów, którzy wymagają wyświetlenia komunikatu",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT kh_Id, kh_Symbol, kh_Komunikat FROM kh__Kontrahent WHERE kh_CzyKomunikat = 1"
+    }
+  },
+  {
+    "userQuery": "Pokaż kontrahentów, którzy mają inny adres dostawy niż adres siedziby",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT * FROM kh__Kontrahent WHERE kh_AdresDostawy = 1"
+    }
+  },
+  {
+    "userQuery": "Lista kontrahentów, którzy wyrazili zgodę na marketing",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT kh_Id, kh_Symbol, kh_Imie, kh_Nazwisko, kh_EMail FROM kh__Kontrahent WHERE kh_ZgodaMark = 1"
+    }
+  },
+  {
+    "userQuery": "Znajdź kontrahentów dodanych w ostatnim miesiącu",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT * FROM kh__Kontrahent WHERE kh_DataDodania >= DATEADD(month, -1, GETDATE())"
+    }
+  }
+]

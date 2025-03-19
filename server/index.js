@@ -19,10 +19,23 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-//  Access-Control-Allow-Credentials: true & Access-Control-Allow-Origin: XXX headers need to be configured in order for a browser to send cookies to the server in cross-origin context
+
+// Configure CORS with specific options
 app.use(
-    cors()
+    cors({
+        origin: 'http://localhost:4200', // Your frontend origin running on port 52372
+        credentials: true, // Enable credentials (cookies, authorization headers)
+        methods: ['GET', 'POST', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization']
+    })
 );
+
+// Request logging middleware
+app.use((req, res, next) => {
+    logger.info(`Received ${req.method} request to ${req.originalUrl}`);
+    next();
+});
+
 // Routers
 app.use(mainRouter);
 app.use(clientRouter);

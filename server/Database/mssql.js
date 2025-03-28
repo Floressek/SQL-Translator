@@ -29,7 +29,6 @@ export async function createConnection() {
         if (connection) {
             await connection.end();
         }
-        throw error;
     }
 }
 
@@ -78,7 +77,7 @@ export async function executeSQL(query) {
         return result;
     } catch (error) {
         logger.error("❌ Error executing SQL:", error);
-        throw error;
+        // throw error; // Rethrow the error to handle it in the calling function
     } finally {
         if (pool) {
             await pool.close();

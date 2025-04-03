@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "views_schema_v1",
+  "schemaVersion": "gabon_view_tables",
   "tables": [
     {
       "name": "dbo.vwDokumenty",

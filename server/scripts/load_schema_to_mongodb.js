@@ -3,6 +3,9 @@ import fs from 'fs';
 import path from 'path';
 import {createLogger} from "../Utils/logger.js";
 import {fileURLToPath} from 'url';
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 // Create the equivalent of __filename for ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -12,6 +15,13 @@ const logger = createLogger(__filename);
 async function loadDataToMongoDB() {
     const uri = process.env.MONGO_CONNECTION_STRING || "mongodb://SA:Password123!@localhost:27017";
     const client = new MongoClient(uri);
+
+    // Determine which schema to load (default to money schema)
+    const schemaFile = process.env.SCHEMA_FILE || 'gabon_schema_money.json';
+    // Allow overriding schema version
+    const schemaVersion = process.env.SCHEMA_VERSION || "gabon_view_tables";
+
+    logger.info(`Loading schema from file: ${schemaFile} with version: ${schemaVersion}`);
 
     if (!uri) {
         logger.error("❌ MONGO_CONNECTION_STRING is not set.");
@@ -29,26 +39,31 @@ async function loadDataToMongoDB() {
         const examplesCollection = db.collection("examples");
 
         // Load the schema from the same folder as the script
-        const schemaPath = path.join(__dirname, 'gabon_schema_money.json');
+        const schemaPath = path.join(__dirname, process.env.SCHEMA_FILE);
         const schemaContent = fs.readFileSync(schemaPath, 'utf8');
         const schemaData = JSON.parse(schemaContent);
 
+        // Override schema version if needed
+        if (schemaVersion) {
+            schemaData.schemaVersion = schemaVersion;
+        }
+
         // Load the prompt examples from the same folder as the script
-        const examplesPath = path.join(__dirname, 'gabon_examples.json');
+        const examplesPath = path.join(__dirname, process.env.EXAMPLES_FILE || 'gabon_examples.json');
         const examplesContent = fs.readFileSync(examplesPath, 'utf8');
         const examplesData = JSON.parse(examplesContent);
 
 
         // Insert the schema and examples into MongoDB
-        const existingSchema = await collection.findOne({schemaVersion: "views_schema_v1"});
+        const existingSchema = await collection.findOne({schemaVersion: schemaData.schemaVersion});
         if (existingSchema) {
-            logger.info("Schema already exists in MongoDB. Updating...");
-            await collection.replaceOne({schemaVersion: "views_schema_v1"}, schemaData)
+            logger.info(`Schema with version ${schemaData.schemaVersion} already exists in MongoDB. Updating...`);
+            await collection.replaceOne({schemaVersion: schemaData.schemaVersion}, schemaData);
+            logger.info(`📄 Schema updated in MongoDB.`);
+        } else {
+            logger.info(`Schema with version ${schemaData.schemaVersion} does not exist in MongoDB. Inserting...`);
             const result = await collection.insertOne(schemaData);
             logger.info(`📄 Schema loaded to MongoDB with ID: ${result.insertedId}`);
-        } else {
-            logger.info("Schema does not exist in MongoDB. Inserting...");
-            await collection.insertOne(schemaData);
         }
 
         // Delete existing examples

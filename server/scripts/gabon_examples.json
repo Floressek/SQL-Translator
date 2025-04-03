@@ -194,5 +194,26 @@
       "isSelect": true,
       "sqlStatement": "SELECT TOP 100 k.kh_Id, k.kh_Symbol, k.kh_Kontakt, k.kh_Komunikat FROM kh__Kontrahent k WHERE k.kh_CzyKomunikat = 1 AND k.kh_KomunikatZawsze = 1 AND k.kh_Komunikat IS NOT NULL AND k.kh_Komunikat <> '' ORDER BY k.kh_Symbol"
     }
+  },
+  {
+    "userQuery": "Podaj 2 największych kontrahentów według obrotów",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT TOP 2 kh.kh_Symbol, kh.kh_Kontakt, dsp.sp_sales_net AS Obroty FROM dbo.vwDynamicsSalesAndPurchases dsp JOIN kh__Kontrahent kh ON kh.kh_Id = dsp.sp_id_partner WHERE kh.kh_Symbol <> '' AND kh.kh_Kontakt <> '' AND dsp.sp_sales_net > 0 ORDER BY dsp.sp_sales_net DESC"
+    }
+  },
+  {
+    "userQuery": "Którzy kontrahenci mają największe wartości wypłat bankowych?",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT TOP 5 kh.kh_Symbol, kh.kh_Kontakt, SUM(fbr.wyplata) AS SumaWyplat FROM dbo.vwFinanseBankRazem fbr JOIN kh__Kontrahent kh ON kh.kh_Id = fbr.nzf_IdObiektu WHERE fbr.nzf_TypObiektu = 1 GROUP BY kh.kh_Symbol, kh.kh_Kontakt ORDER BY SumaWyplat DESC"
+    }
+  },
+  {
+    "userQuery": "Którzy kontrahenci najwięcej kupili w styczniu 2025?",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT TOP 5 ds.name, ds.[2025.01_net_revenue] AS PrzychodStyczen FROM dbo.vwDynamicSales2025 ds WHERE ds.[2025.01_net_revenue] > 0 ORDER BY ds.[2025.01_net_revenue] DESC"
+    }
   }
 ]

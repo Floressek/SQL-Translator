@@ -19,21 +19,40 @@ async function retrieveDbSchema() {
         const db = mongoClient.db(MONGO_DATABASE || "gabon_db");
         const coll = db.collection(MONGO_COLLECTION_SCHEMAS);
 
-        const filter = {
-            schemaVersion: "gabon_customer_tables",
-        };
-        const options = {
-            // Exclude _id and schemaVersion fields from the returned document
-            projection: {_id: 0, schemaVersion: 0},
-        };
-        const document = await coll.findOne(filter, options);
+        // Try to get both schemas
+        const tableSchema = await coll.findOne(
+            {schemaVersion: "gabon_customer_tables"},
+            {projection: {_id: 0}}
+        );
 
-        if (!document) {
-            throw new AppError("No db schema found in the database.");
+        const viewSchema = await coll.findOne(
+            {schemaVersion: "gabon_view_tables"},
+            {}
+        );
+
+        let combinedSchema = {
+            tables: [],
+            relationships: [],
+        };
+
+        if (tableSchema) {
+            combinedSchema.tables = [...combinedSchema.tables, ...tableSchema.tables];
+            combinedSchema.relationships = [...combinedSchema.relationships, ...tableSchema.relationships];
+            logger.info(`📄 Added table schema with version: ${tableSchema.schemaVersion}`);
         }
 
-        logger.info(`📄 Retrieved a db schema.`);
-        return document;
+        if (viewSchema) {
+            combinedSchema.tables = [...combinedSchema.tables, ...viewSchema.tables];
+            combinedSchema.relationships = [...combinedSchema.relationships, ...viewSchema.relationships];
+            logger.info(`📄 Added view schema with version: ${viewSchema.schemaVersion}`);
+        }
+
+        if (!tableSchema && !viewSchema) {
+            throw new AppError("No schemas found in the database.");
+        }
+
+        logger.info(`📄 Retrieved and combined schemas.`);
+        return combinedSchema;
     } catch (error) {
         logger.error("❌ Failed to fetch the db schema.");
         throw error;

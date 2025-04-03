@@ -11,7 +11,6 @@ const MONGO_DATABASE = process.env.MONGO_DATABASE;
 const MONGO_CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING;
 const MONGO_COLLECTION_EXAMPLES = process.env.MONGO_COLLECTION_EXAMPLES;
 const MONGO_COLLECTION_SCHEMAS = process.env.MONGO_COLLECTION_SCHEMAS;
-
 const mongoClient = new MongoClient(MONGO_CONNECTION_STRING);
 
 async function retrieveDbSchema() {

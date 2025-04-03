@@ -1,5 +1,5 @@
 ## SQL Translator
-Simple web application created for the management board of BUDMAT company in order to alleviate the retrieval of key information from the internal database.
+Simple web application created for the management board of GABONA company in order to alleviate the retrieval of key information from the internal database.
 
 The app has a simple interface which (after successful authorization) allows the user to enter the query in naturul language and get an accurate answer from AI assitant based on the results retrieved from the database.
 

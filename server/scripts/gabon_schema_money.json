@@ -1,0 +1,468 @@
+{
+  "schemaVersion": "views_schema_v1",
+  "tables": [
+    {
+      "name": "dbo.vwDokumenty",
+      "description": "Widok zawierający informacje o dokumentach sprzedaży wraz z pozycjami",
+      "columns": [
+        {
+          "name": "dok_id",
+          "type": "int",
+          "isPrimaryKey": true,
+          "description": "Identyfikator dokumentu"
+        },
+        {
+          "name": "dok_Typ",
+          "type": "int",
+          "description": "Typ dokumentu (16 - zamówienie od klienta, itp.)"
+        },
+        {
+          "name": "dok_nrpelny",
+          "type": "varchar",
+          "description": "Pełny numer dokumentu w formacie ZK X/MAG/MM/YYYY"
+        },
+        {
+          "name": "dok_PlatnikId",
+          "type": "int",
+          "description": "Identyfikator kontrahenta płatnika"
+        },
+        {
+          "name": "dok_DataWyst",
+          "type": "datetime",
+          "description": "Data wystawienia dokumentu"
+        },
+        {
+          "name": "dok_DoDokId",
+          "type": "int",
+          "description": "Identyfikator dokumentu nadrzędnego (jeśli istnieje)"
+        },
+        {
+          "name": "ob_towid",
+          "type": "int",
+          "description": "Identyfikator towaru w pozycji dokumentu"
+        },
+        {
+          "name": "dok_MagId",
+          "type": "int",
+          "description": "Identyfikator magazynu"
+        },
+        {
+          "name": "ob_IloscMag",
+          "type": "decimal",
+          "description": "Ilość towaru w pozycji dokumentu"
+        },
+        {
+          "name": "ob_jm",
+          "type": "varchar",
+          "description": "Jednostka miary towaru (np. szt.)"
+        },
+        {
+          "name": "ob_CenaBrutto",
+          "type": "decimal",
+          "description": "Cena brutto towaru w pozycji dokumentu"
+        },
+        {
+          "name": "ob_CenaNetto",
+          "type": "decimal",
+          "description": "Cena netto towaru w pozycji dokumentu"
+        },
+        {
+          "name": "ob_WartBrutto",
+          "type": "decimal",
+          "description": "Wartość brutto pozycji dokumentu"
+        },
+        {
+          "name": "ob_WartNetto",
+          "type": "decimal",
+          "description": "Wartość netto pozycji dokumentu"
+        },
+        {
+          "name": "ob_Znak",
+          "type": "int",
+          "description": "Znak operacji (1 - przychód, -1 - rozchód)"
+        },
+        {
+          "name": "dok_Status",
+          "type": "int",
+          "description": "Status dokumentu (8 - zatwierdzony, itp.)"
+        },
+        {
+          "name": "dok_OdbiorcaId",
+          "type": "int",
+          "description": "Identyfikator kontrahenta odbiorcy"
+        }
+      ]
+    },
+    {
+      "name": "dbo.vwDynamicsSales2025",
+      "description": "Widok zawierający informacje o sprzedaży i zyskach klientów w poszczególnych miesiącach 2025 roku",
+      "columns": [
+        {
+          "name": "atteli_accountnumbergabona",
+          "type": "varchar",
+          "isPrimaryKey": true,
+          "description": "Numer konta klienta w systemie Gabona"
+        },
+        {
+          "name": "name",
+          "type": "varchar",
+          "description": "Nazwa kontrahenta/firmy"
+        },
+        {
+          "name": "2025_net_revenue",
+          "type": "decimal",
+          "description": "Łączny przychód netto klienta w całym roku 2025"
+        },
+        {
+          "name": "2025_net_profit",
+          "type": "decimal",
+          "description": "Łączny zysk netto z klienta w całym roku 2025"
+        },
+        {
+          "name": "2025_net_margin",
+          "type": "varchar",
+          "description": "Marża netto z klienta w całym roku 2025 (jako procent)"
+        },
+        {
+          "name": "2025.01_net_revenue",
+          "type": "decimal",
+          "description": "Przychód netto klienta w styczniu 2025"
+        },
+        {
+          "name": "2025.01_net_profit",
+          "type": "decimal",
+          "description": "Zysk netto z klienta w styczniu 2025"
+        },
+        {
+          "name": "2025.01_net_margin",
+          "type": "varchar",
+          "description": "Marża netto z klienta w styczniu 2025 (jako procent)"
+        },
+        {
+          "name": "2025.02_net_revenue",
+          "type": "decimal",
+          "description": "Przychód netto klienta w lutym 2025"
+        },
+        {
+          "name": "2025.02_net_profit",
+          "type": "decimal",
+          "description": "Zysk netto z klienta w lutym 2025"
+        },
+        {
+          "name": "2025.02_net_margin",
+          "type": "varchar",
+          "description": "Marża netto z klienta w lutym 2025 (jako procent)"
+        },
+        {
+          "name": "2025.03_net_revenue",
+          "type": "decimal",
+          "description": "Przychód netto klienta w marcu 2025"
+        },
+        {
+          "name": "2025.03_net_profit",
+          "type": "decimal",
+          "description": "Zysk netto z klienta w marcu 2025"
+        },
+        {
+          "name": "2025.03_net_margin",
+          "type": "varchar",
+          "description": "Marża netto z klienta w marcu 2025 (jako procent)"
+        },
+        {
+          "name": "2025.04_net_revenue",
+          "type": "decimal",
+          "description": "Przychód netto klienta w kwietniu 2025"
+        },
+        {
+          "name": "2025.04_net_profit",
+          "type": "decimal",
+          "description": "Zysk netto z klienta w kwietniu 2025"
+        },
+        {
+          "name": "2025.04_net_margin",
+          "type": "varchar",
+          "description": "Marża netto z klienta w kwietniu 2025 (jako procent)"
+        }
+      ]
+    },
+    {
+      "name": "dbo.vwDynamicsSalesAndPurchases",
+      "description": "Widok zawierający zagregowane dane o zakupach i sprzedaży według partnerów w bieżącym roku",
+      "columns": [
+        {
+          "name": "sp_id_partner",
+          "type": "int",
+          "isPrimaryKey": true,
+          "description": "Identyfikator partnera handlowego"
+        },
+        {
+          "name": "sp_purchases_net",
+          "type": "decimal",
+          "description": "Suma wartości netto zakupów od partnera w bieżącym roku"
+        },
+        {
+          "name": "sp_sales_net",
+          "type": "decimal",
+          "description": "Suma wartości netto sprzedaży do partnera w bieżącym roku"
+        },
+        {
+          "name": "sp_profit",
+          "type": "decimal",
+          "description": "Zysk netto wygenerowany na współpracy z partnerem w bieżącym roku"
+        }
+      ]
+    },
+    {
+      "name": "dbo.vwFinanseBankRazem",
+      "description": "Widok zawierający informacje o operacjach finansowych i bankowych",
+      "columns": [
+        {
+          "name": "nzf_Id",
+          "type": "int",
+          "isPrimaryKey": true,
+          "description": "Unikalny identyfikator operacji finansowej"
+        },
+        {
+          "name": "nzf_IdHistoriiAdresu",
+          "type": "int",
+          "description": "Identyfikator historii adresu kontrahenta"
+        },
+        {
+          "name": "nzf_Data",
+          "type": "datetime",
+          "description": "Data operacji finansowej"
+        },
+        {
+          "name": "nzf_Typ",
+          "type": "int",
+          "description": "Typ operacji finansowej (20 - wypłata bankowa, itp.)"
+        },
+        {
+          "name": "nzf_Tytulem",
+          "type": "varchar",
+          "description": "Tytuł operacji finansowej"
+        },
+        {
+          "name": "nzf_Status",
+          "type": "int",
+          "description": "Status operacji (1 - aktywna, 2 - zrealizowana, itp.)"
+        },
+        {
+          "name": "nzf_WyslanaHB",
+          "type": "bit",
+          "description": "Czy operacja została wysłana do home banking"
+        },
+        {
+          "name": "nzf_Wydrukowana",
+          "type": "bit",
+          "description": "Czy operacja została wydrukowana"
+        },
+        {
+          "name": "nzf_NumerWyciagu",
+          "type": "varchar",
+          "description": "Numer wyciągu bankowego"
+        },
+        {
+          "name": "nzf_Wystawil",
+          "type": "varchar",
+          "description": "Osoba która wystawiła operację finansową"
+        },
+        {
+          "name": "nzf_Kurs",
+          "type": "decimal",
+          "description": "Kurs waluty dla operacji w walucie obcej"
+        },
+        {
+          "name": "nzf_IdWaluty",
+          "type": "varchar",
+          "description": "Kod waluty operacji (np. EUR, USD)"
+        },
+        {
+          "name": "nzf_Import",
+          "type": "int",
+          "description": "Źródło importu operacji"
+        },
+        {
+          "name": "nzf_Opis",
+          "type": "varchar",
+          "description": "Szczegółowy opis operacji finansowej"
+        },
+        {
+          "name": "nzf_IdRachunku",
+          "type": "int",
+          "description": "Identyfikator rachunku bankowego"
+        },
+        {
+          "name": "wplata",
+          "type": "decimal",
+          "description": "Kwota wpłaty w walucie PLN"
+        },
+        {
+          "name": "wyplata",
+          "type": "decimal",
+          "description": "Kwota wypłaty w walucie PLN"
+        },
+        {
+          "name": "nzf_IdObiektu",
+          "type": "int",
+          "description": "Identyfikator obiektu powiązanego z operacją (np. kontrahenta)"
+        },
+        {
+          "name": "nzf_TypObiektu",
+          "type": "int",
+          "description": "Typ obiektu powiązanego z operacją (1 - kontrahent, itp.)"
+        },
+        {
+          "name": "wplataWaluta",
+          "type": "decimal",
+          "description": "Kwota wpłaty w walucie obcej"
+        },
+        {
+          "name": "wyplataWaluta",
+          "type": "decimal",
+          "description": "Kwota wypłaty w walucie obcej"
+        },
+        {
+          "name": "nzf_IdKategorii",
+          "type": "int",
+          "description": "Identyfikator kategorii operacji finansowej"
+        },
+        {
+          "name": "nzf_IdDokumentAuto",
+          "type": "int",
+          "description": "Identyfikator powiązanego dokumentu automatycznego"
+        },
+        {
+          "name": "nzf_IdRachObiektHist",
+          "type": "int",
+          "description": "Identyfikator historii rachunku obiektowego"
+        },
+        {
+          "name": "nzf_Program",
+          "type": "int",
+          "description": "Identyfikator programu, który wygenerował operację"
+        },
+        {
+          "name": "nzf_Zrodlo",
+          "type": "int",
+          "description": "Źródło operacji"
+        },
+        {
+          "name": "nzf_Powiazanie",
+          "type": "bit",
+          "description": "Czy operacja ma powiązania z innymi operacjami"
+        },
+        {
+          "name": "pr_Id",
+          "type": "int",
+          "description": "Identyfikator powiązanego pracownika"
+        },
+        {
+          "name": "nzf_NumerPelny",
+          "type": "varchar",
+          "description": "Pełny numer operacji finansowej"
+        },
+        {
+          "name": "jest_na_wyciagu",
+          "type": "bit",
+          "description": "Czy operacja jest już na wyciągu bankowym"
+        },
+        {
+          "name": "nr_wyciagu",
+          "type": "varchar",
+          "description": "Numer wyciągu, na którym znajduje się operacja"
+        },
+        {
+          "name": "PowiazanieZTransakcja",
+          "type": "int",
+          "description": "Informacja o powiązaniu z transakcją"
+        },
+        {
+          "name": "nzf_Zaliczka",
+          "type": "bit",
+          "description": "Czy operacja jest zaliczką"
+        },
+        {
+          "name": "nzf_PodtypPP",
+          "type": "int",
+          "description": "Podtyp operacji finansowej"
+        },
+        {
+          "name": "nzf_NrFaktury",
+          "type": "varchar",
+          "description": "Numer powiązanej faktury"
+        },
+        {
+          "name": "nzf_VATPierwotny",
+          "type": "decimal",
+          "description": "Kwota VAT na pierwotnym dokumencie"
+        },
+        {
+          "name": "nzf_KwotaRachunkuVAT",
+          "type": "decimal",
+          "description": "Kwota na rachunku VAT"
+        },
+        {
+          "name": "nzf_SplataWaluta",
+          "type": "decimal",
+          "description": "Kwota spłaty w walucie obcej"
+        },
+        {
+          "name": "nzf_IdRachObiekt",
+          "type": "int",
+          "description": "Identyfikator obiektu rachunku"
+        },
+        {
+          "name": "nzf_IdSesjiKasowej",
+          "type": "int",
+          "description": "Identyfikator sesji kasowej"
+        },
+        {
+          "name": "khr_NaBialejLiscie",
+          "type": "bit",
+          "description": "Czy kontrahent jest na białej liście podatników VAT"
+        },
+        {
+          "name": "khr_DataWeryfikacji",
+          "type": "datetime",
+          "description": "Data weryfikacji kontrahenta na białej liście"
+        },
+        {
+          "name": "de_Id",
+          "type": "int",
+          "description": "Identyfikator dokumentu elektronicznego"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "fromTable": "dbo.vwDokumenty",
+      "fromColumn": "dok_PlatnikId",
+      "toTable": "kh__Kontrahent",
+      "toColumn": "kh_Id",
+      "description": "Relacja między dokumentem a kontrahentem-płatnikiem"
+    },
+    {
+      "fromTable": "dbo.vwDokumenty",
+      "fromColumn": "dok_OdbiorcaId",
+      "toTable": "kh__Kontrahent",
+      "toColumn": "kh_Id",
+      "description": "Relacja między dokumentem a kontrahentem-odbiorcą"
+    },
+    {
+      "fromTable": "dbo.vwDynamicsSalesAndPurchases",
+      "fromColumn": "sp_id_partner",
+      "toTable": "kh__Kontrahent",
+      "toColumn": "kh_Id",
+      "description": "Relacja między danymi sprzedaży/zakupu a kontrahentem"
+    },
+    {
+      "fromTable": "dbo.vwFinanseBankRazem",
+      "fromColumn": "nzf_IdObiektu",
+      "toTable": "kh__Kontrahent",
+      "toColumn": "kh_Id",
+      "description": "Relacja między operacją finansową a kontrahentem, gdy nzf_TypObiektu = 1"
+    }
+  ]
+}

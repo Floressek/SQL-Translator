@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const logger = createLogger(__filename);
 
 async function loadDataToMongoDB() {
-    const uri = process.env.MONGO_CONNECTION_STRING || 'mongodb://SA:Password123!@localhost:27017';
+    const uri = process.env.MONGO_CONNECTION_STRING || "mongodb://SA:Password123!@localhost:27017";
     const client = new MongoClient(uri);
 
     if (!uri) {
@@ -29,7 +29,7 @@ async function loadDataToMongoDB() {
         const examplesCollection = db.collection("examples");
 
         // Load the schema from the same folder as the script
-        const schemaPath = path.join(__dirname, 'gabon_schema.json');
+        const schemaPath = path.join(__dirname, 'gabon_schema_money.json');
         const schemaContent = fs.readFileSync(schemaPath, 'utf8');
         const schemaData = JSON.parse(schemaContent);
 
@@ -40,10 +40,10 @@ async function loadDataToMongoDB() {
 
 
         // Insert the schema and examples into MongoDB
-        const existingSchema = await collection.findOne({schemaVersion: "gabon_customer_tables"});
+        const existingSchema = await collection.findOne({schemaVersion: "views_schema_v1"});
         if (existingSchema) {
             logger.info("Schema already exists in MongoDB. Updating...");
-            await collection.replaceOne({schemaVersion: "gabon_customer_tables"}, schemaData)
+            await collection.replaceOne({schemaVersion: "views_schema_v1"}, schemaData)
             const result = await collection.insertOne(schemaData);
             logger.info(`📄 Schema loaded to MongoDB with ID: ${result.insertedId}`);
         } else {
@@ -55,7 +55,7 @@ async function loadDataToMongoDB() {
         await examplesCollection.deleteMany({});
 
         // Delete the _id field from each example
-        const examplesWithoutIds = examplesData.map(({ _id, ...rest }) => rest);
+        const examplesWithoutIds = examplesData.map(({_id, ...rest}) => rest);
 
         // Insert the examples into MongoDB
         if (examplesWithoutIds.length > 0) {

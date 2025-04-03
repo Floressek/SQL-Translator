@@ -33,7 +33,7 @@
         {
           "name": "kh_Kontakt",
           "type": "varchar(60)",
-          "description": "Dane kontaktowe"
+          "description": "Dane kontaktowe => IMIE I NAZIWSKO KONTRAHENTA"
         },
         {
           "name": "kh_PESEL",
@@ -189,46 +189,6 @@
           "name": "kh_Grafika",
           "type": "image",
           "description": "Grafika związana z kontrahentem"
-        },
-        {
-          "name": "kh_Pole1",
-          "type": "TWlasne",
-          "description": "Pole własne 1"
-        },
-        {
-          "name": "kh_Pole2",
-          "type": "TWlasne",
-          "description": "Pole własne 2"
-        },
-        {
-          "name": "kh_Pole3",
-          "type": "TWlasne",
-          "description": "Pole własne 3"
-        },
-        {
-          "name": "kh_Pole4",
-          "type": "TWlasne",
-          "description": "Pole własne 4"
-        },
-        {
-          "name": "kh_Pole5",
-          "type": "TWlasne",
-          "description": "Pole własne 5"
-        },
-        {
-          "name": "kh_Pole6",
-          "type": "TWlasne",
-          "description": "Pole własne 6"
-        },
-        {
-          "name": "kh_Pole7",
-          "type": "TWlasne",
-          "description": "Pole własne 7"
-        },
-        {
-          "name": "kh_Pole8",
-          "type": "TWlasne",
-          "description": "Pole własne 8"
         },
         {
           "name": "kh_Jednorazowy",
@@ -419,16 +379,6 @@
           "name": "kh_IdOpiekun",
           "type": "int",
           "description": "ID opiekuna kontrahenta"
-        },
-        {
-          "name": "kh_Imie",
-          "type": "TImie",
-          "description": "Imię osoby kontaktowej/kontrahenta"
-        },
-        {
-          "name": "kh_Nazwisko",
-          "type": "varchar(51)",
-          "description": "Nazwisko osoby kontaktowej/kontrahenta"
         },
         {
           "name": "kh_CRM",

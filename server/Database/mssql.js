@@ -56,7 +56,7 @@ export async function executeSQL(query) {
         // Add LIMIT 100 if the query is a SELECT statement and doesn't already have LIMIT or OFFSET
         if(query.trim().toUpperCase().startsWith("SELECT") && !query.toUpperCase().includes("LIMIT") && !query.toUpperCase().includes("OFFSET") && !query.toUpperCase().includes("TOP")) {
             const selectPos = query.toUpperCase().indexOf("SELECT") + 6; // length of "SELECT" so we TOP after SELECT and we get SELECT TOP
-            modifiedQuery = query.slice(0, selectPos) + ' TOP 100 ' + query.slice(selectPos);
+            modifiedQuery = query.slice(0, selectPos) + ' TOP 40 ' + query.slice(selectPos);
             logger.info(`Query modified with row limit: ${modifiedQuery}`);
         }
 

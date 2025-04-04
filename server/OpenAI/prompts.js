@@ -31,7 +31,7 @@ export function promptForSQL(userQuery) {
         3. You cannot just add different dbo like "transakcje." to try to go around the problem. You have to use the provided schema and relationships only.
         4. We dont want to see empty strings in the results. Rember to check for empty strings when you are looking for not null values. (example: WHERE kh.kh_Kontakt <> '')
             
-      IMPORTANT: Always include maximum of 100 elements in your query so include TOP 100 in your SELECT queries to limit the number of returned rows. Our database is very large and we want to avoid performance issues.
+      IMPORTANT: Always include maximum of 40 elements in your query so include TOP 40 in your SELECT queries to limit the number of returned rows. Our database is very large and we want to avoid performance issues.
       
       You need to translate this query into an appropriate SQL statement which will allow the employee to retrieve the data. Prepare the SQL statement using information about our database.
       Keep in mind that the tables can hold a few hundred thousand records - use "*" selector sparingly.

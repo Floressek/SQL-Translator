@@ -213,7 +213,7 @@
     "userQuery": "Którzy kontrahenci najwięcej kupili w styczniu 2025?",
     "sqlAnswer": {
       "isSelect": true,
-      "sqlStatement": "SELECT TOP 5 ds.name, ds.[2025.01_net_revenue] AS PrzychodStyczen FROM dbo.vwDynamicSales2025 ds WHERE ds.[2025.01_net_revenue] > 0 ORDER BY ds.[2025.01_net_revenue] DESC"
+      "sqlStatement": "SELECT TOP 5 ds.name, ds.[2025.01_net_revenue] AS PrzychodStyczen FROM dbo.vwDynamicsSales2025 ds WHERE ds.[2025.01_net_revenue] > 0 ORDER BY ds.[2025.01_net_revenue] DESC"
     }
   }
 ]

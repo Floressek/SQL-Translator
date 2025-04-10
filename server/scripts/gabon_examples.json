@@ -215,5 +215,26 @@
       "isSelect": true,
       "sqlStatement": "SELECT TOP 5 ds.name, ds.[2025.01_net_revenue] AS PrzychodStyczen FROM dbo.vwDynamicsSales2025 ds WHERE ds.[2025.01_net_revenue] > 0 ORDER BY ds.[2025.01_net_revenue] DESC"
     }
+  },
+  {
+    "userQuery": "Którzy kontrahenci są najbardziej zadłużeni (ujemne saldo wpłat/wypłat)?",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT TOP 5 kh.kh_Symbol, kh.kh_Kontakt, SUM(COALESCE(fbr.wplata, 0)) AS SumaWplat, SUM(COALESCE(fbr.wyplata, 0)) AS SumaWyplat, SUM(COALESCE(fbr.wplata, 0)) - SUM(COALESCE(fbr.wyplata, 0)) AS Saldo FROM dbo.vwFinanseBankRazem fbr JOIN kh__Kontrahent kh ON kh.kh_Id = fbr.nzf_IdObiektu WHERE fbr.nzf_TypObiektu = 1 GROUP BY kh.kh_Symbol, kh.kh_Kontakt ORDER BY Saldo ASC"
+    }
+  },
+  {
+    "userQuery": "Którzy kontrahenci mają ustawioną odroczoną płatność?",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT kh.kh_Symbol, kh.kh_Kontakt, IIF(kh.kh_PlatOdroczone = 1, 'TAK', 'NIE') AS PlatnoscOdroczona FROM kh__Kontrahent kh WHERE kh.kh_PlatOdroczone = 1 AND kh.kh_Kontakt <> ''"
+    }
+  },
+  {
+    "userQuery": "Jaki procent przychodów pochodzi od naszych 5 największych klientów?",
+    "sqlAnswer": {
+      "isSelect": true,
+      "sqlStatement": "SELECT TOP 5 ds.name, ds.[2025_net_revenue] AS Przychod, ds.[2025_net_revenue] / SUM(ds.[2025_net_revenue]) OVER () * 100 AS ProcentPrzychodu FROM dbo.vwDynamicsSales2025 ds WHERE ds.[2025_net_revenue] > 0 ORDER BY ds.[2025_net_revenue] DESC"
+    }
   }
 ]
